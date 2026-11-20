@@ -35,6 +35,12 @@ class AdminAddCategoryFragment : Fragment() {
     // Kategori bir kampanya tarafından açıldıysa o kampanyanın kimliği
     private var linkedCampaignId: String? = null
 
+    // "Galeriden Seç": yüklenen görselin bağlantısı URL alanına yazılır
+    private val imagePicker = ImagePickerHelper(this, "shingu/categories") { url ->
+        etCategoryImageUrl.setText(url)
+        updateImagePreview()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +55,7 @@ class AdminAddCategoryFragment : Fragment() {
         val btnDelete = view.findViewById<Button>(R.id.btnDeleteCategory)
 
         etCategoryImageUrl.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateImagePreview() }
+        imagePicker.attach(view.findViewById(R.id.btnPickCategoryImage))
 
         if (isEditMode) {
             view.findViewById<TextView>(R.id.tvCategoryFormTitle).text = "Yönetici: Kategoriyi Düzenle"

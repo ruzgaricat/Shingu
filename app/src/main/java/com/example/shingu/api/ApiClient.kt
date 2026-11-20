@@ -1,11 +1,18 @@
 package com.example.shingu.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 // ---------- 1. Web API: Frankfurter (döviz kurları, anahtar gerektirmez) ----------
 // Örnek: https://api.frankfurter.dev/v1/latest?base=TRY&symbols=USD,EUR
@@ -76,6 +83,28 @@ data class ReverseGeocodeResponse(
     }
 }
 
+// ---------- 4. Web API: Cloudinary (görsel yükleme, ücretsiz hesap, kart gerektirmez) ----------
+// "Unsigned upload preset" ile uygulamadan doğrudan yükleme yapılır; gizli API anahtarı uygulamaya konmaz.
+// Örnek: POST https://api.cloudinary.com/v1_1/<bulut-adı>/image/upload  (file + upload_preset)
+interface CloudinaryApi {
+    @Multipart
+    @POST("v1_1/{cloudName}/image/upload")
+    fun upload(
+        @Path("cloudName") cloudName: String,
+        @Part file: MultipartBody.Part,
+        @Part("upload_preset") uploadPreset: RequestBody,
+        @Part("folder") folder: RequestBody
+    ): Call<CloudinaryUploadResponse>
+}
+
+// Yükleme sonucu: secure_url, görselin herkese açık https bağlantısıdır
+data class CloudinaryUploadResponse(
+    val secure_url: String?,
+    val bytes: Long?,
+    val width: Int?,
+    val height: Int?
+)
+
 // Retrofit örnekleri uygulama boyunca bir kez oluşturulur
 object ApiClient {
     val exchangeRateApi: ExchangeRateApi by lazy {
@@ -107,5 +136,20 @@ object ApiClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GeocodingApi::class.java)
+    }
+
+    // Görsel yüklemesi yavaş bağlantıda uzun sürebileceği için zaman aşımları uzatıldı
+    val cloudinaryApi: CloudinaryApi by lazy {
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
+        Retrofit.Builder()
+            .baseUrl("https://api.cloudinary.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CloudinaryApi::class.java)
     }
 }

@@ -46,6 +46,12 @@ class AdminAddProductFragment : Fragment() {
     // Seçilen hava durumu etiketi (null = indirim yok)
     private var selectedWeather: WeatherCondition? = null
 
+    // "Galeriden Seç": yüklenen görselin bağlantısı URL alanına yazılır
+    private val imagePicker = ImagePickerHelper(this, "shingu/products") { url ->
+        etImageUrl.setText(url)
+        updateImagePreview()
+    }
+
     private val productId: String? get() = arguments?.getString(ARG_PRODUCT_ID)
     private val isEditMode get() = productId != null
 
@@ -80,6 +86,7 @@ class AdminAddProductFragment : Fragment() {
 
         // Görsel URL'si girildikçe önizleme güncellenir; "Görseli Kaldır" alanı temizler
         etImageUrl.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateImagePreview() }
+        imagePicker.attach(view.findViewById(R.id.btnPickProductImage))
         btnRemoveImage.setOnClickListener {
             etImageUrl.text?.clear()
             updateImagePreview()

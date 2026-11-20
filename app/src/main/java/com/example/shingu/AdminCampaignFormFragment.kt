@@ -26,6 +26,12 @@ class AdminCampaignFormFragment : Fragment() {
     private val isEditMode get() = campaignId != null
     private var campaign: Campaign? = null
 
+    // "Galeriden Seç": yüklenen fotoğrafın bağlantısı URL alanına yazılır ve önizleme güncellenir
+    private val imagePicker = ImagePickerHelper(this, "shingu/campaigns") { url ->
+        etImageUrl.setText(url)
+        updatePreview()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +51,7 @@ class AdminCampaignFormFragment : Fragment() {
         updatePreview()
         etTitle.doAfterTextChanged { updatePreview() }
         etImageUrl.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updatePreview() }
+        imagePicker.attach(view.findViewById(R.id.btnPickCampaignImage))
 
         if (isEditMode) {
             view.findViewById<TextView>(R.id.tvCampaignFormTitle).text = "Yönetici: Kampanyayı Düzenle"
