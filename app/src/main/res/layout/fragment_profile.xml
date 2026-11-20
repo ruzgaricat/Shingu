@@ -127,6 +127,34 @@
             app:cornerRadius="12dp"
             app:backgroundTint="#222222" />
 
+        <!-- Yönetici: Kuponlar Butonu (Başlangıçta Gizli / GONE) -->
+        <Button
+            android:id="@+id/btnAdminCoupons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:text="Yönetici: Kuponlar"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#222222" />
+
+        <!-- Yönetici: Satış Özeti Butonu (Başlangıçta Gizli / GONE) -->
+        <Button
+            android:id="@+id/btnAdminDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:text="Yönetici: Satış Özeti"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#6750A4" />
+
         <!-- 2. Hızlı Erişim 3'lü Grid -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -260,36 +288,6 @@
                     android:layout_height="1dp"
                     android:background="#F0F0F0" />
 
-                <!-- Özel Gün Hatırlatıcı -->
-                <LinearLayout
-                    android:id="@+id/btnSpecialDays"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Özel Gün Hatırlatıcı"
-                        android:textColor="#333333"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=">"
-                        android:textColor="#999999" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F0F0F0" />
 
                 <!-- Ürün Yorumlarım -->
                 <LinearLayout

@@ -22,6 +22,7 @@ class AdminOrdersFragment : Fragment() {
     private lateinit var tvEmpty: TextView
     private lateinit var chipActive: Chip
     private lateinit var chipDelivered: Chip
+    private lateinit var chipCancelled: Chip
     private var allOrders: List<Order> = emptyList()
 
     override fun onCreateView(
@@ -31,7 +32,11 @@ class AdminOrdersFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_orders, container, false)
 
         tvEmpty = view.findViewById(R.id.tvOrdersEmpty)
-        adapter = OrderAdapter(emptyList()) { order -> showStatusDialog(order) }
+        adapter = OrderAdapter(
+            emptyList(),
+            onOrderClick = { order -> openOrderDetail(order.id) },
+            onChangeStatus = { order -> showStatusDialog(order) }
+        )
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerOrders)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -40,6 +45,7 @@ class AdminOrdersFragment : Fragment() {
         // Teslim edilen siparişler silinmez, ayrı sekmede tutulur; varsayılan olarak sadece aktifler görünür
         chipActive = view.findViewById(R.id.chipActiveOrders)
         chipDelivered = view.findViewById(R.id.chipDeliveredOrders)
+        chipCancelled = view.findViewById(R.id.chipCancelledOrders)
         view.findViewById<ChipGroup>(R.id.chipGroupOrderFilter).apply {
             visibility = View.VISIBLE
             setOnCheckedStateChangeListener { _, _ -> showFilteredOrders() }
@@ -58,21 +64,36 @@ class AdminOrdersFragment : Fragment() {
         return view
     }
 
+    // Aktif / Teslim Edilen / İptal sekmeleri
     private fun showFilteredOrders() {
-        val (delivered, active) = allOrders.partition { it.status == OrderStatus.DELIVERED }
+        val delivered = allOrders.filter { it.status == OrderStatus.DELIVERED }
+        val cancelled = allOrders.filter { it.status == OrderStatus.CANCELLED }
+        val active = allOrders - delivered.toSet() - cancelled.toSet()
         chipActive.text = "Aktif (${active.size})"
         chipDelivered.text = "Teslim Edilen (${delivered.size})"
+        chipCancelled.text = "İptal (${cancelled.size})"
 
-        val showDelivered = chipDelivered.isChecked
-        val orders = if (showDelivered) delivered else active
+        val (orders, emptyText) = when {
+            chipDelivered.isChecked -> delivered to "Teslim edilen sipariş yok"
+            chipCancelled.isChecked -> cancelled to "İptal edilen sipariş yok"
+            else -> active to "Aktif sipariş yok"
+        }
         adapter.submitList(orders)
-        tvEmpty.text = if (showDelivered) "Teslim edilen sipariş yok" else "Aktif sipariş yok"
+        tvEmpty.text = emptyText
         tvEmpty.visibility = if (orders.isEmpty()) View.VISIBLE else View.GONE
     }
 
+    private fun openOrderDetail(orderId: String) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, OrderDetailFragment.newInstance(orderId))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // Durum seçimi; iptal ayrı butonla yapılır çünkü stok iadesi gerektirir
     private fun showStatusDialog(order: Order) {
-        val statuses = OrderStatus.entries
-        AlertDialog.Builder(requireContext())
+        val statuses = OrderStatus.manualStatuses
+        val builder = AlertDialog.Builder(requireContext())
             .setTitle("Sipariş Durumu")
             .setSingleChoiceItems(statuses.map { it.label }.toTypedArray(), statuses.indexOf(order.status)) { dialog, which ->
                 dialog.dismiss()
@@ -88,7 +109,10 @@ class AdminOrdersFragment : Fragment() {
                 )
             }
             .setNegativeButton("Vazgeç", null)
-            .show()
+        if (order.canAdminCancel) {
+            builder.setNeutralButton("Siparişi İptal Et") { _, _ -> confirmCancelOrder(order, byAdmin = true) }
+        }
+        builder.show()
     }
 
     override fun onDestroyView() {

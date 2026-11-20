@@ -6,9 +6,12 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +20,12 @@ import com.example.shingu.api.WeatherCondition
 import com.example.shingu.api.WeatherRepository
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
+import java.util.Locale
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 // Ana sayfa: hava durumu şeridi, kampanya slaytı, kategori kısayolları ve tüm ürünler
@@ -36,6 +42,31 @@ class HomeFragment : Fragment() {
     private var favoritesListener: ListenerRegistration? = null
     private var productAdapter: ProductSliderAdapter? = null
     private var favoriteIds: Set<String> = emptySet()
+
+    // Ürün listesi: tüm ürünler bir kez yüklenir; arama/filtre/sıralama cihazda uygulanır
+    // (Firestore metin içinde arama desteklemediği için)
+    private var allProducts: List<Product> = emptyList()
+    private var ratings: Map<String, RatingSummary> = emptyMap()
+    private var searchQuery = ""
+    private var sortOption = SortOption.NAME
+
+    private enum class SortOption(val label: String) {
+        NAME("Önerilen (A-Z)"),
+        PRICE_ASC("Fiyat: Düşükten yükseğe"),
+        PRICE_DESC("Fiyat: Yüksekten düşüğe"),
+        RATING("En yüksek puan"),
+        NEWEST("En yeni")
+    }
+
+    private lateinit var tvProductsTitle: TextView
+    private lateinit var tvResultCount: TextView
+    private lateinit var tvEmpty: TextView
+    private lateinit var tvPriceRange: TextView
+    private lateinit var sliderPrice: RangeSlider
+    private lateinit var chipInStock: Chip
+    private lateinit var chipDiscounted: Chip
+    private lateinit var chipRated: Chip
+    private lateinit var layoutBrowseSections: View
 
     // Slayt 4 saniyede bir kendiliğinden sonraki kampanyaya geçer
     private val autoScrollHandler = Handler(Looper.getMainLooper())
@@ -58,7 +89,7 @@ class HomeFragment : Fragment() {
 
         setupCampaigns(view)
         loadCategoryShortcuts(view.findViewById(R.id.chipGroupHomeCategories))
-        loadAllProducts(view.findViewById(R.id.rvHomeProducts), view.findViewById(R.id.tvHomeProductsEmpty))
+        setupProductBrowser(view)
 
         return view
     }
@@ -134,34 +165,60 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // ---------- Tüm ürünler ----------
-    private fun loadAllProducts(recyclerView: RecyclerView, tvEmpty: TextView) {
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    // ---------- Tüm ürünler: arama, sıralama, filtre ----------
+    private fun setupProductBrowser(view: View) {
+        tvProductsTitle = view.findViewById(R.id.tvProductsTitle)
+        tvResultCount = view.findViewById(R.id.tvResultCount)
+        tvEmpty = view.findViewById(R.id.tvHomeProductsEmpty)
+        tvPriceRange = view.findViewById(R.id.tvPriceRange)
+        sliderPrice = view.findViewById(R.id.sliderPrice)
+        chipInStock = view.findViewById(R.id.chipFilterInStock)
+        chipDiscounted = view.findViewById(R.id.chipFilterDiscounted)
+        chipRated = view.findViewById(R.id.chipFilterRated)
+        layoutBrowseSections = view.findViewById(R.id.layoutBrowseSections)
 
-        db.collection("products").orderBy("name", Query.Direction.ASCENDING).get()
-            .addOnSuccessListener { result ->
-                if (!isAdded) return@addOnSuccessListener
-                // Satıştan kaldırılan ürünler kullanıcılara gösterilmez (admin hepsini görür)
-                val products = result.documents
-                    .map { Product.fromDocument(it) }
-                    .filter { UserSession.isAdmin || it.onSale }
+        // Ürün listesi: adaptör bir kez oluşturulur, filtre değiştikçe sadece liste yenilenir
+        val adapter = ProductSliderAdapter(
+            emptyList(),
+            onAddToCart = if (UserSession.isAdmin) null else { product -> addToCart(product) },
+            onProductClick = { product -> openProduct(product) },
+            onFavoriteToggle = { product, favorite -> FavoritesRepository.setFavorite(product.id, favorite) }
+        )
+        productAdapter = adapter
+        view.findViewById<RecyclerView>(R.id.rvHomeProducts).apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapter
+        }
 
-                val adapter = ProductSliderAdapter(
-                    products,
-                    onAddToCart = if (UserSession.isAdmin) null else { product -> addToCart(product) },
-                    onProductClick = { product -> openProduct(product) },
-                    onFavoriteToggle = { product, favorite -> FavoritesRepository.setFavorite(product.id, favorite) }
-                )
-                adapter.favoriteIds = favoriteIds
-                productAdapter = adapter
-                recyclerView.adapter = adapter
+        // Arama: yazdıkça sonuçlar süzülür; arama varken kampanya ve kategori bölümleri gizlenir
+        view.findViewById<TextInputEditText>(R.id.etSearch).doAfterTextChanged { text ->
+            searchQuery = text?.toString()?.trim().orEmpty()
+            applyFilters()
+        }
 
-                tvEmpty.text = "Henüz ürün yok"
-                tvEmpty.visibility = if (products.isEmpty()) View.VISIBLE else View.GONE
-            }
-            .addOnFailureListener {
-                if (isAdded) tvEmpty.text = "Ürünler yüklenemedi"
-            }
+        // Sıralama seçenekleri
+        val actvSort = view.findViewById<AutoCompleteTextView>(R.id.actvSort)
+        actvSort.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, SortOption.entries.map { it.label }))
+        actvSort.setText(sortOption.label, false)
+        actvSort.setOnItemClickListener { _, _, position, _ ->
+            sortOption = SortOption.entries[position]
+            applyFilters()
+        }
+
+        listOf(chipInStock, chipDiscounted, chipRated).forEach { chip ->
+            chip.setOnCheckedChangeListener { _, _ -> applyFilters() }
+        }
+        sliderPrice.addOnChangeListener { _, _, _ -> applyFilters() }
+
+        loadProducts()
+
+        // Puanlar: kartlarda gösterilir, "en yüksek puan" sıralaması ve 4★ filtresi için kullanılır
+        ReviewRepository.loadAllRatings { result ->
+            if (!isAdded) return@loadAllRatings
+            ratings = result
+            adapter.ratings = result
+            applyFilters()
+        }
 
         // Favoriler değişince kartlardaki kalpler güncellenir
         favoritesListener = FavoritesRepository.listenFavoriteIds { ids ->
@@ -169,8 +226,77 @@ class HomeFragment : Fragment() {
             productAdapter?.favoriteIds = ids
         }
 
-        // Hava durumu gelince indirimli fiyatlar yenilenir
-        WeatherRepository.getCurrent { if (isAdded) recyclerView.adapter?.notifyDataSetChanged() }
+        // Hava durumu gelince indirimli fiyatlar (ve fiyat sıralaması) yenilenir
+        WeatherRepository.getCurrent { if (isAdded) applyFilters() }
+    }
+
+    private fun loadProducts() {
+        db.collection("products").get()
+            .addOnSuccessListener { result ->
+                if (!isAdded) return@addOnSuccessListener
+                // Satıştan kaldırılan ürünler kullanıcılara gösterilmez (admin hepsini görür)
+                allProducts = result.documents
+                    .map { Product.fromDocument(it) }
+                    .filter { UserSession.isAdmin || it.onSale }
+                setupPriceSlider()
+                applyFilters()
+            }
+            .addOnFailureListener {
+                if (isAdded) tvEmpty.text = "Ürünler yüklenemedi"
+            }
+    }
+
+    // Fiyat kaydırıcısı ürünlerin en düşük ve en yüksek fiyatına göre ayarlanır
+    private fun setupPriceSlider() {
+        val maxPrice = allProducts.maxOfOrNull { it.price }?.let { ceil(it).toFloat() } ?: 0f
+        if (maxPrice <= 0f) {
+            sliderPrice.visibility = View.GONE
+            tvPriceRange.visibility = View.GONE
+            return
+        }
+        sliderPrice.valueFrom = 0f
+        sliderPrice.valueTo = maxPrice
+        sliderPrice.values = listOf(0f, maxPrice)
+        sliderPrice.setLabelFormatter { value -> "${value.toInt()} TL" }
+    }
+
+    // Arama + filtreler + sıralama uygulanır ve liste güncellenir
+    private fun applyFilters() {
+        if (!isAdded) return
+        val locale = Locale("tr", "TR")
+        val query = searchQuery.lowercase(locale)
+        val (minPrice, maxPrice) = sliderPrice.values.let { it[0].toDouble() to it[1].toDouble() }
+        val priceFilterActive = sliderPrice.visibility == View.VISIBLE && (minPrice > 0.0 || maxPrice < sliderPrice.valueTo)
+
+        val filtered = allProducts.filter { p ->
+            (query.isEmpty() || p.name.lowercase(locale).contains(query) ||
+                p.description.lowercase(locale).contains(query) ||
+                p.categories.any { it.lowercase(locale).contains(query) }) &&
+                (!chipInStock.isChecked || !p.isOutOfStock) &&
+                (!chipDiscounted.isChecked || p.effectivePrice < p.price) &&
+                (!chipRated.isChecked || (ratings[p.id]?.average ?: 0.0) >= 4.0) &&
+                (!priceFilterActive || p.effectivePrice in minPrice..maxPrice)
+        }
+        val sorted = when (sortOption) {
+            SortOption.NAME -> filtered.sortedBy { it.name.lowercase(locale) }
+            SortOption.PRICE_ASC -> filtered.sortedBy { it.effectivePrice }
+            SortOption.PRICE_DESC -> filtered.sortedByDescending { it.effectivePrice }
+            SortOption.RATING -> filtered.sortedWith(
+                compareByDescending<Product> { ratings[it.id]?.average ?: 0.0 }.thenByDescending { ratings[it.id]?.count ?: 0 }
+            )
+            SortOption.NEWEST -> filtered.sortedByDescending { it.createdAt }
+        }
+
+        productAdapter?.submitList(sorted)
+        val searching = query.isNotEmpty()
+        layoutBrowseSections.visibility = if (searching) View.GONE else View.VISIBLE
+        tvProductsTitle.text = if (searching) "\"$searchQuery\" için sonuçlar" else "Tüm Ürünler"
+        tvResultCount.text = "${sorted.size} ürün"
+        if (priceFilterActive || sliderPrice.visibility == View.VISIBLE) {
+            tvPriceRange.text = "Fiyat aralığı: ${minPrice.toInt()} – ${maxPrice.toInt()} TL"
+        }
+        tvEmpty.text = if (allProducts.isEmpty()) "Henüz ürün yok" else "Aramanıza uygun ürün bulunamadı"
+        tvEmpty.visibility = if (sorted.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun addToCart(product: Product) {

@@ -21,6 +21,21 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
+    // İptal stok iadesi: ürüne yazılan lastRestockOrderId'deki sipariş
+    //  - işlemden önce bu kullanıcıya ait ve "Beklemede" (get), işlemden sonra "İptal edildi" (getAfter) olmalı
+    //  - stok tam olarak o siparişteki adet kadar artmalı
+    // Sipariş işlemden önce zaten iptal edilmiş olsaydı get() "Beklemede" dönmezdi; aynı iptalle iki kez iade yapılamaz.
+    function isRestockByOwnCancellation(productId) {
+      let orderPath = /databases/$(database)/documents/orders/$(request.resource.data.lastRestockOrderId);
+      let before = get(orderPath).data;
+      return isSignedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stock', 'lastRestockOrderId'])
+        && before.userId == request.auth.uid
+        && before.status == 'pending'
+        && getAfter(orderPath).data.status == 'cancelled'
+        && request.resource.data.stock == resource.data.stock + before.itemQuantities[productId];
+    }
+
     // ---------- Kullanıcılar ----------
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
@@ -74,13 +89,16 @@ service cloud.firestore {
     match /products/{productId} {
       allow read: if isSignedIn();
       allow create, delete: if isAdmin();
-      // Admin her alanı günceller; kullanıcı sadece sipariş verirken stoğu azaltabilir (0'ın altına inemez)
+      // Admin her alanı günceller. Kullanıcı:
+      //  - sipariş verirken stoğu azaltabilir (0'ın altına inemez)
+      //  - kendi "Beklemede" siparişini iptal ederken, o siparişteki adet kadar stoğu geri ekleyebilir
       allow update: if isAdmin()
         || (isSignedIn()
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stock'])
             && request.resource.data.stock is int
             && request.resource.data.stock >= 0
-            && request.resource.data.stock < resource.data.stock);
+            && request.resource.data.stock < resource.data.stock)
+        || isRestockByOwnCancellation(productId);
 
       // Yorumlar: belge kimliği yazanın uid'i, puan 1-5, yorum en fazla 500 karakter
       match /reviews/{userId} {
@@ -107,8 +125,41 @@ service cloud.firestore {
         && request.resource.data.payment.status == 'paid'
         && request.resource.data.payment.keys().hasOnly(['method', 'cardBrand', 'cardLast4', 'status', 'testMode', 'paidAt'])
         && request.resource.data.payment.cardLast4.size() == 4;
-      // Durum değişikliği (işleme alındı, kargoda, teslim) ve silme sadece admin
-      allow update, delete: if isAdmin();
+      // Durum değişikliği (işleme alındı, kargoda, teslim) ve silme admin.
+      // Kullanıcı sadece kendi "Beklemede" siparişini "İptal edildi" yapabilir, başka alana dokunamaz.
+      allow update: if isAdmin()
+        || (isSignedIn()
+            && resource.data.userId == request.auth.uid
+            && resource.data.status == 'pending'
+            && request.resource.data.status == 'cancelled'
+            && request.resource.data.cancelledBy == 'user'
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['status', 'statusUpdatedAt', 'cancelledBy', 'statusHistory']));
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Kuponlar ----------
+    // Kullanıcılar kupon kodunu doğrulamak ve "Kuponlarım"da listelemek için okuyabilir; sadece admin yönetir
+    match /coupons/{code} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ---------- Geri bildirimler ----------
+    // Kullanıcı kendi adına geri bildirim gönderebilir; okuma, "okundu" işareti ve silme admin'de
+    match /feedback/{feedbackId} {
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 1000;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ---------- Puan özetleri (collection group) ----------
+    // Ana sayfadaki puan ortalamaları tüm "reviews" koleksiyonlarını tek sorguyla okur.
+    // users/{uid}/reviews kopyaları da aynı (herkese açık) yorumların kopyası olduğu için okunabilir.
+    match /{path=**}/reviews/{reviewId} {
+      allow read: if isSignedIn();
     }
   }
 }

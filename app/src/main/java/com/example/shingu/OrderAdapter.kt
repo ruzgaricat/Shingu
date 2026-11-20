@@ -11,10 +11,23 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// Sipariş durumunun rengi (liste ve detay ekranı ortak kullanır)
+fun OrderStatus.color(): Int = Color.parseColor(
+    when (this) {
+        OrderStatus.PENDING -> "#F57C00"
+        OrderStatus.PROCESSING -> "#1976D2"
+        OrderStatus.SHIPPED -> "#7B1FA2"
+        OrderStatus.DELIVERED -> "#388E3C"
+        OrderStatus.CANCELLED -> "#757575"
+    }
+)
+
 // Hem admin sipariş yönetiminde hem kullanıcının Siparişlerim ekranında kullanılır.
 // onChangeStatus null ise (kullanıcı görünümü) durum değiştirme butonu gizlenir.
+// Karta dokununca sipariş detay ekranı açılır (onOrderClick).
 class OrderAdapter(
     private var orders: List<Order>,
+    private val onOrderClick: ((Order) -> Unit)? = null,
     private val onChangeStatus: ((Order) -> Unit)? = null
 ) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
@@ -58,21 +71,16 @@ class OrderAdapter(
         holder.tvTotal.text = String.format(locale, "Toplam: %.2f TL", order.totalPrice)
 
         holder.tvStatus.text = order.status.label
-        holder.tvStatus.setTextColor(statusColor(order.status))
+        holder.tvStatus.setTextColor(order.status.color())
+        holder.itemView.setOnClickListener { onOrderClick?.invoke(order) }
 
-        if (onChangeStatus != null) {
+        // İptal edilmiş siparişin durumu değiştirilemez
+        if (onChangeStatus != null && order.status != OrderStatus.CANCELLED) {
             holder.btnChangeStatus.visibility = View.VISIBLE
             holder.btnChangeStatus.setOnClickListener { onChangeStatus.invoke(order) }
         } else {
             holder.btnChangeStatus.visibility = View.GONE
         }
-    }
-
-    private fun statusColor(status: OrderStatus) = when (status) {
-        OrderStatus.PENDING -> Color.parseColor("#F57C00")
-        OrderStatus.PROCESSING -> Color.parseColor("#1976D2")
-        OrderStatus.SHIPPED -> Color.parseColor("#7B1FA2")
-        OrderStatus.DELIVERED -> Color.parseColor("#388E3C")
     }
 
     override fun getItemCount() = orders.size

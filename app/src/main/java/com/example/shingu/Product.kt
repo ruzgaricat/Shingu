@@ -30,8 +30,13 @@ data class Product(
     val weatherDiscount: Int = 0,     // Yüzde indirim oranı
     val description: String = "",
     val stock: Long? = null,          // null = stok girilmemiş (eski ürünler), sınırsız sayılır
-    val onSale: Boolean = true        // false ise kullanıcılara gösterilmez
+    val onSale: Boolean = true,       // false ise kullanıcılara gösterilmez
+    val categories: List<String> = emptyList(),
+    val createdAt: Long = 0L
 ) {
+    // Hava durumu indirimi dahil satış fiyatı (sıralama ve fiyat filtresi için)
+    val effectivePrice: Double get() = WeatherDiscount.effectivePrice(price, weatherTag, weatherDiscount)
+
     val isOutOfStock: Boolean get() = stock != null && stock <= 0
 
     companion object {
@@ -40,13 +45,22 @@ data class Product(
             id = doc.id,
             name = doc.getString("name") ?: "",
             price = doc.getDouble("price") ?: 0.0,
-            imageUrls = listOf(doc.getString("imageUrl") ?: "").filter { it.isNotEmpty() },
+            imageUrls = readImageUrls(doc),
             weatherTag = doc.getString("weatherTag"),
             weatherDiscount = doc.getLong("weatherDiscount")?.toInt() ?: 0,
             description = doc.getString("description") ?: "",
             stock = doc.getLong("stock"),
-            onSale = doc.getBoolean("onSale") ?: true
+            onSale = doc.getBoolean("onSale") ?: true,
+            categories = (doc.get("categories") as? List<*>).orEmpty().filterIsInstance<String>(),
+            createdAt = doc.getLong("createdAt") ?: 0L
         )
+
+        // Çoklu görsel: "imageUrls" listesi; eski ürünlerde sadece tek "imageUrl" alanı vardır
+        private fun readImageUrls(doc: DocumentSnapshot): List<String> {
+            @Suppress("UNCHECKED_CAST")
+            val list = (doc.get("imageUrls") as? List<String>).orEmpty().filter { it.isNotBlank() }
+            return list.ifEmpty { listOfNotNull(doc.getString("imageUrl")?.takeIf { it.isNotBlank() }) }
+        }
 
         // Verilen kimliklerdeki ürünleri getirir; silinmiş ürünler atlanır
         fun loadByIds(ids: Collection<String>, onResult: (List<Product>) -> Unit) {
@@ -85,7 +99,7 @@ fun bindProductPrice(product: Product, tvPrice: TextView, tvOldPrice: TextView, 
 }
 
 class ProductSliderAdapter(
-    private val productList: List<Product>,
+    private var productList: List<Product>,
     // Sepete ekle butonuna basıldığında çalışır; null ise buton gizlenir
     private val onAddToCart: ((Product) -> Unit)? = null,
     // Karta dokunulunca (ürün sayfasını açmak için)
@@ -101,6 +115,13 @@ class ProductSliderAdapter(
             notifyDataSetChanged()
         }
 
+    // Ürün puanları (ürün kimliği -> ortalama ve değerlendirme sayısı)
+    var ratings: Map<String, RatingSummary> = emptyMap()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivProduct: ImageView = view.findViewById(R.id.ivItemProductImage)
         val tvName: TextView = view.findViewById(R.id.tvItemProductName)
@@ -109,6 +130,7 @@ class ProductSliderAdapter(
         val tvWeatherBadge: TextView = view.findViewById(R.id.tvItemWeatherBadge)
         val btnAddToCart: Button = view.findViewById(R.id.btnItemAddToCart)
         val btnFavorite: ImageButton = view.findViewById(R.id.btnItemFavorite)
+        val tvRating: TextView = view.findViewById(R.id.tvItemRating)
 
         var handler: Handler? = null
         var runnable: Runnable? = null
@@ -126,6 +148,10 @@ class ProductSliderAdapter(
         bindProductPrice(product, holder.tvPrice, holder.tvOldPrice, holder.tvWeatherBadge)
 
         holder.itemView.setOnClickListener { onProductClick?.invoke(product) }
+
+        val rating = ratings[product.id]
+        holder.tvRating.visibility = if (rating != null) View.VISIBLE else View.GONE
+        rating?.let { holder.tvRating.text = String.format(Locale("tr", "TR"), "★ %.1f (%d)", it.average, it.count) }
 
         if (onFavoriteToggle != null) {
             val isFavorite = product.id in favoriteIds
@@ -175,6 +201,12 @@ class ProductSliderAdapter(
     override fun onViewRecycled(holder: ProductViewHolder) {
         super.onViewRecycled(holder)
         holder.runnable?.let { holder.handler?.removeCallbacks(it) }
+    }
+
+    // Arama/filtre sonucu değişince liste yenilenir
+    fun submitList(products: List<Product>) {
+        productList = products
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = productList.size

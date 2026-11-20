@@ -1,6 +1,7 @@
 package com.example.shingu
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shingu.api.ApiClient
 import com.example.shingu.api.ExchangeRateResponse
 import com.example.shingu.api.WeatherRepository
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.ListenerRegistration
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,6 +36,15 @@ class CartFragment : Fragment() {
     private lateinit var tvAddressTitle: TextView
     private lateinit var tvAddress: TextView
     private lateinit var btnChangeAddress: Button
+    private lateinit var etCouponCode: TextInputEditText
+    private lateinit var btnApplyCoupon: Button
+    private lateinit var tvCouponStatus: TextView
+    private lateinit var tvBreakdown: TextView
+    private lateinit var tvFreeShippingHint: TextView
+
+    // Sepete uygulanan kupon (doğrulanmış); ödeme ekranına kodu taşınır ve orada tekrar doğrulanır
+    private var appliedCoupon: Coupon? = null
+    private var pricing: OrderPricing = OrderPricing.calculate(0.0, null)
 
     // Kayıtlı adresler ve seçili teslimat adresi (harita ekranından dönünce de korunur)
     private var addressesListener: ListenerRegistration? = null
@@ -61,10 +72,21 @@ class CartFragment : Fragment() {
         tvAddress = view.findViewById(R.id.tvCartAddress)
         btnChangeAddress = view.findViewById(R.id.btnChangeAddress)
         btnChangeAddress.setOnClickListener { showAddressChooser() }
+        etCouponCode = view.findViewById(R.id.etCouponCode)
+        btnApplyCoupon = view.findViewById(R.id.btnApplyCoupon)
+        tvCouponStatus = view.findViewById(R.id.tvCouponStatus)
+        tvBreakdown = view.findViewById(R.id.tvCartBreakdown)
+        tvFreeShippingHint = view.findViewById(R.id.tvFreeShippingHint)
+        btnApplyCoupon.setOnClickListener { if (appliedCoupon == null) applyCoupon() else removeCoupon(null) }
+        appliedCoupon?.let { showCouponApplied(it) }
 
         adapter = CartAdapter(
             emptyList(),
-            onIncrease = { CartRepository.changeQuantity(it, 1) },
+            onIncrease = { item ->
+                CartRepository.changeQuantity(item, 1) { e ->
+                    if (isAdded) Toast.makeText(requireContext(), e.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+            },
             onDecrease = { CartRepository.changeQuantity(it, -1) },
             onRemove = { CartRepository.removeFromCart(it) }
         )
@@ -74,10 +96,12 @@ class CartFragment : Fragment() {
 
         btnPlaceOrder.setOnClickListener { showOrderDialog() }
 
-        // Sepet Firestore'dan canlı dinlenir; ekleme/silme anında ekrana yansır
-        cartListener = CartRepository.listenCart(
-            onChange = { items -> showItems(items) },
-            onFailure = { e -> Toast.makeText(requireContext(), "Sepet yüklenemedi: ${e.localizedMessage}", Toast.LENGTH_SHORT).show() }
+        // Sepet, ürünlerin güncel fiyat/stok bilgileriyle birlikte canlı dinlenir
+        cartListener = CartRepository.listenCartLive(
+            onChange = { items -> if (isAdded) showItems(items) },
+            onFailure = { e ->
+                if (isAdded) Toast.makeText(requireContext(), "Sepet yüklenemedi: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
         )
         if (cartListener == null) showItems(emptyList())
 
@@ -116,7 +140,7 @@ class CartFragment : Fragment() {
 
     private fun updateForeignTotal() {
         val rates = tryRates ?: return
-        val total = currentItems.sumOf { it.lineTotal }
+        val total = pricing.total
         val usd = rates["USD"]?.let { total * it }
         val eur = rates["EUR"]?.let { total * it }
         tvTotalForeign.text = listOfNotNull(
@@ -132,8 +156,78 @@ class CartFragment : Fragment() {
         val isEmpty = items.isEmpty()
         tvEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
         layoutSummary.visibility = if (isEmpty) View.GONE else View.VISIBLE
-        tvTotal.text = formatPrice(items.sumOf { it.lineTotal })
+
+        // Sepet değişince kupon artık geçerli değilse (örn. tutar alt sınırın altına düştü) kaldırılır
+        val subtotal = items.sumOf { it.lineTotal }
+        appliedCoupon?.validationError(subtotal)?.let { reason -> removeCoupon(reason) }
+        updatePricing()
+    }
+
+    // Ara toplam, kupon, kargo ve toplamı yeniden hesaplayıp gösterir
+    private fun updatePricing() {
+        pricing = OrderPricing.calculate(currentItems.sumOf { it.lineTotal }, appliedCoupon)
+        val lines = mutableListOf("Ara toplam: ${formatPrice(pricing.subtotal)}")
+        if (pricing.couponCode != null) lines += "Kupon (${pricing.couponCode}): -${formatPrice(pricing.couponDiscount)}"
+        lines += "Kargo: " + if (pricing.shippingFee == 0.0) "Bedava" else formatPrice(pricing.shippingFee)
+        tvBreakdown.text = lines.joinToString("\n")
+
+        if (pricing.amountToFreeShipping > 0) {
+            tvFreeShippingHint.text = "🚚 Bedava kargo için ${formatPrice(pricing.amountToFreeShipping)} daha ekleyin"
+            tvFreeShippingHint.visibility = View.VISIBLE
+        } else {
+            tvFreeShippingHint.visibility = View.GONE
+        }
+        tvTotal.text = formatPrice(pricing.total)
         updateForeignTotal()
+    }
+
+    private fun applyCoupon() {
+        val code = etCouponCode.text.toString().trim()
+        if (code.isEmpty()) {
+            etCouponCode.error = "Kupon kodunu girin"
+            return
+        }
+        btnApplyCoupon.isEnabled = false
+        CartRepository.validateCoupon(code, currentItems.sumOf { it.lineTotal })
+            .addOnSuccessListener { coupon ->
+                if (!isAdded) return@addOnSuccessListener
+                btnApplyCoupon.isEnabled = true
+                appliedCoupon = coupon
+                showCouponApplied(coupon)
+                updatePricing()
+            }
+            .addOnFailureListener { e ->
+                if (!isAdded) return@addOnFailureListener
+                btnApplyCoupon.isEnabled = true
+                showCouponMessage(e.localizedMessage ?: "Kupon uygulanamadı", isError = true)
+            }
+    }
+
+    private fun showCouponApplied(coupon: Coupon) {
+        etCouponCode.setText(coupon.code)
+        etCouponCode.isEnabled = false
+        btnApplyCoupon.text = "Kaldır"
+        showCouponMessage("✓ ${coupon.code} uygulandı: ${coupon.label}", isError = false)
+    }
+
+    // reason null ise kullanıcı kendisi kaldırdı; değilse kuponun neden kaldırıldığı gösterilir
+    private fun removeCoupon(reason: String?) {
+        appliedCoupon = null
+        etCouponCode.isEnabled = true
+        btnApplyCoupon.text = "Uygula"
+        if (reason == null) {
+            etCouponCode.text?.clear()
+            tvCouponStatus.visibility = View.GONE
+        } else {
+            showCouponMessage("Kupon kaldırıldı: $reason", isError = true)
+        }
+        updatePricing()
+    }
+
+    private fun showCouponMessage(message: String, isError: Boolean) {
+        tvCouponStatus.text = message
+        tvCouponStatus.setTextColor(Color.parseColor(if (isError) "#C62828" else "#388E3C"))
+        tvCouponStatus.visibility = View.VISIBLE
     }
 
     private fun listenAddresses() {
@@ -197,6 +291,15 @@ class CartFragment : Fragment() {
     // Sipariş, ödeme ekranında kart onayı alındıktan sonra verilir
     private fun showOrderDialog() {
         if (currentItems.isEmpty()) return
+        // Satıştan kalkmış veya stoğu yetmeyen ürün varsa ödemeye geçilmez
+        currentItems.firstOrNull { !it.available }?.let {
+            Toast.makeText(requireContext(), "${it.name} artık satışta değil, lütfen sepetten çıkarın.", Toast.LENGTH_LONG).show()
+            return
+        }
+        currentItems.firstOrNull { it.exceedsStock }?.let {
+            Toast.makeText(requireContext(), "${it.name} için stokta sadece ${it.stock} adet var, lütfen adedi azaltın.", Toast.LENGTH_LONG).show()
+            return
+        }
         val address = selectedAddress
         if (address == null) {
             Toast.makeText(requireContext(), "Sipariş için önce bir teslimat adresi ekleyin", Toast.LENGTH_SHORT).show()
@@ -214,7 +317,7 @@ class CartFragment : Fragment() {
             return
         }
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, PaymentFragment.newInstance(address))
+            .replace(R.id.fragmentContainer, PaymentFragment.newInstance(address, appliedCoupon?.code))
             .addToBackStack(null)
             .commit()
     }

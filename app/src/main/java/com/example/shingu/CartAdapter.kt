@@ -40,8 +40,14 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = items[position]
         holder.tvName.text = item.name
-        holder.tvPrice.text = String.format(Locale("tr", "TR"), "%.2f TL", item.lineTotal) +
-            if (item.hasWeatherDiscount) "  (hava indirimi %${item.weatherDiscount})" else ""
+        // Fiyat ürünün güncel halinden gelir; satıştan kalkan veya stoğu aşan ürünler uyarıyla gösterilir
+        holder.tvPrice.text = when {
+            !item.available -> "Satışta değil, lütfen sepetten çıkarın"
+            item.exceedsStock -> "Stokta sadece ${item.stock} adet var"
+            else -> String.format(Locale("tr", "TR"), "%.2f TL", item.lineTotal) +
+                if (item.hasWeatherDiscount) "  (hava indirimi %${item.weatherDiscount})" else ""
+        }
+        holder.btnIncrease.isEnabled = item.available
         holder.tvQuantity.text = item.quantity.toString()
 
         Glide.with(holder.itemView.context)

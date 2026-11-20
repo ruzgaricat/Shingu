@@ -24,6 +24,8 @@ class ProfileFragment : Fragment() {
     private lateinit var btnAddCategory: Button
     private lateinit var btnAdminUsers: Button
     private lateinit var btnAdminCampaigns: Button
+    private lateinit var btnAdminCoupons: Button
+    private lateinit var btnAdminDashboard: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +42,8 @@ class ProfileFragment : Fragment() {
         btnAdminUsers = view.findViewById(R.id.btnAdminUsers)
         btnAdminCampaigns = view.findViewById(R.id.btnAdminCampaigns)
 
-        val btnSpecialDays = view.findViewById<LinearLayout>(R.id.btnSpecialDays)
+        btnAdminCoupons = view.findViewById(R.id.btnAdminCoupons)
+        btnAdminDashboard = view.findViewById(R.id.btnAdminDashboard)
         val btnSuspendAccount = view.findViewById<LinearLayout>(R.id.btnSuspendAccount)
         val btnLogout = view.findViewById<LinearLayout>(R.id.btnLogout)
 
@@ -111,9 +114,18 @@ class ProfileFragment : Fragment() {
                 .commit()
         }
 
-        btnSpecialDays.setOnClickListener {
-            Toast.makeText(requireContext(), "Özel Gün Hatırlatıcı Yakında!", Toast.LENGTH_SHORT).show()
-        }
+        // Listelerim: favori ürünler listesi
+        view.findViewById<LinearLayout>(R.id.btnLists).setOnClickListener { open(FavoritesFragment()) }
+        // Kuponlarım: kullanılabilir kuponlar (dokununca kod kopyalanır)
+        view.findViewById<LinearLayout>(R.id.btnCoupons).setOnClickListener { open(UserCouponsFragment()) }
+        // Yardım & Destek: sık sorulan sorular, oradan geri bildirim formuna geçilebilir
+        view.findViewById<LinearLayout>(R.id.btnHelp).setOnClickListener { FeedbackFragment.showHelpDialog(this) }
+        // Geri Bildirim Formu: mesaj admin'e iletilir
+        view.findViewById<LinearLayout>(R.id.btnFeedback).setOnClickListener { open(FeedbackFragment()) }
+
+        // Yönetici: Kuponlar ve Satış Özeti
+        btnAdminCoupons.setOnClickListener { open(AdminCouponsFragment()) }
+        btnAdminDashboard.setOnClickListener { open(AdminDashboardFragment()) }
 
         btnSuspendAccount.setOnClickListener {
             showSuspendDialog()
@@ -124,6 +136,13 @@ class ProfileFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun open(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun loadUserProfile() {
@@ -142,6 +161,8 @@ class ProfileFragment : Fragment() {
                         btnAddCategory.visibility = adminVisibility
                         btnAdminUsers.visibility = adminVisibility
                         btnAdminCampaigns.visibility = adminVisibility
+                        btnAdminCoupons.visibility = adminVisibility
+                        btnAdminDashboard.visibility = adminVisibility
                     }
                 }
                 .addOnFailureListener {

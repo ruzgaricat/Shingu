@@ -27,8 +27,13 @@ class MyOrdersFragment : Fragment() {
         val tvEmpty = view.findViewById<TextView>(R.id.tvOrdersEmpty)
         tvEmpty.text = "Henüz siparişiniz yok"
 
-        // Durum değiştirme callback'i verilmediği için buton gizli kalır
-        val adapter = OrderAdapter(emptyList())
+        // Durum değiştirme callback'i verilmediği için buton gizli kalır; karta dokununca sipariş detayı açılır
+        val adapter = OrderAdapter(emptyList(), onOrderClick = { order ->
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, OrderDetailFragment.newInstance(order.id))
+                .addToBackStack(null)
+                .commit()
+        })
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerOrders)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

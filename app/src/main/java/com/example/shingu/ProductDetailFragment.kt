@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.shingu.api.WeatherRepository
 import com.google.android.material.textfield.TextInputEditText
@@ -38,7 +39,9 @@ class ProductDetailFragment : Fragment() {
     private var product: Product? = null
     private var isFavorite = false
 
-    private lateinit var ivImage: ImageView
+    private lateinit var vpImages: ViewPager2
+    private lateinit var tvImageCounter: TextView
+    private val galleryAdapter = ImageGalleryAdapter()
     private lateinit var btnFavorite: ImageButton
     private lateinit var tvName: TextView
     private lateinit var tvRatingSummary: TextView
@@ -62,7 +65,12 @@ class ProductDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_product_detail, container, false)
 
-        ivImage = view.findViewById(R.id.ivDetailImage)
+        vpImages = view.findViewById(R.id.vpDetailImages)
+        tvImageCounter = view.findViewById(R.id.tvDetailImageCounter)
+        vpImages.adapter = galleryAdapter
+        vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) = updateImageCounter(position)
+        })
         btnFavorite = view.findViewById(R.id.btnDetailFavorite)
         tvName = view.findViewById(R.id.tvDetailName)
         tvRatingSummary = view.findViewById(R.id.tvDetailRatingSummary)
@@ -145,10 +153,11 @@ class ProductDetailFragment : Fragment() {
         tvDescription.text = product.description.ifEmpty { "Bu ürün için açıklama girilmemiş." }
         bindProductPrice(product, tvPrice, tvOldPrice, tvWeatherBadge)
 
-        Glide.with(this)
-            .load(product.imageUrls.firstOrNull() ?: R.drawable.ic_launcher_foreground)
-            .placeholder(R.drawable.ic_launcher_foreground)
-            .into(ivImage)
+        // Görsel listesi değiştiyse galeri güncellenir (canlı dinlemede her güncellemede başa sarmasın)
+        if (galleryAdapter.urls != product.imageUrls) {
+            galleryAdapter.urls = product.imageUrls
+            updateImageCounter(vpImages.currentItem)
+        }
 
         val (stockText, stockColor) = when {
             !product.onSale -> "Satışta değil" to "#757575"
@@ -162,6 +171,13 @@ class ProductDetailFragment : Fragment() {
         val canBuy = product.onSale && !product.isOutOfStock
         btnAddToCart.isEnabled = canBuy
         btnAddToCart.text = if (canBuy) "Sepete Ekle" else stockText
+    }
+
+    // Birden fazla görsel varsa "2 / 4" sayacı gösterilir
+    private fun updateImageCounter(position: Int) {
+        val count = galleryAdapter.urls.size
+        tvImageCounter.visibility = if (count > 1) View.VISIBLE else View.GONE
+        tvImageCounter.text = "${position + 1} / $count"
     }
 
     private fun addToCart() {
@@ -313,4 +329,34 @@ class ReviewAdapter(
     }
 
     override fun getItemCount() = reviews.size
+}
+
+// Ürün sayfasındaki görsel galerisi (ViewPager2): her sayfa tam boy bir görsel
+class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>() {
+
+    // Görsel yoksa yer tutucu gösterilsin diye tek boş eleman kullanılır
+    var urls: List<String> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    class ViewHolder(val imageView: ImageView) : RecyclerView.ViewHolder(imageView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val imageView = ImageView(parent.context).apply {
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            scaleType = ImageView.ScaleType.CENTER_CROP
+        }
+        return ViewHolder(imageView)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Glide.with(holder.imageView)
+            .load(urls.getOrNull(position) ?: R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .into(holder.imageView)
+    }
+
+    override fun getItemCount() = urls.size.coerceAtLeast(1)
 }

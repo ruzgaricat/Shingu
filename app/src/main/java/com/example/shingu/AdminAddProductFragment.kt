@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -35,8 +36,10 @@ class AdminAddProductFragment : Fragment() {
     private lateinit var etPrice: TextInputEditText
     private lateinit var etStock: TextInputEditText
     private lateinit var etImageUrl: TextInputEditText
-    private lateinit var ivPreview: ImageView
-    private lateinit var btnRemoveImage: Button
+    private lateinit var layoutImages: LinearLayout
+
+    // Ürün görselleri (sıralı); ilki kapak görselidir ve eski sürümle uyum için "imageUrl" alanına da yazılır
+    private val imageUrls = mutableListOf<String>()
     private lateinit var switchOnSale: MaterialSwitch
     private lateinit var actvWeatherTag: AutoCompleteTextView
     private lateinit var layoutWeatherDiscount: TextInputLayout
@@ -46,11 +49,8 @@ class AdminAddProductFragment : Fragment() {
     // Seçilen hava durumu etiketi (null = indirim yok)
     private var selectedWeather: WeatherCondition? = null
 
-    // "Galeriden Seç": yüklenen görselin bağlantısı URL alanına yazılır
-    private val imagePicker = ImagePickerHelper(this, "shingu/products") { url ->
-        etImageUrl.setText(url)
-        updateImagePreview()
-    }
+    // "Galeriden Seç": yüklenen görsel listeye eklenir
+    private val imagePicker = ImagePickerHelper(this, "shingu/products") { url -> addImage(url) }
 
     private val productId: String? get() = arguments?.getString(ARG_PRODUCT_ID)
     private val isEditMode get() = productId != null
@@ -67,8 +67,7 @@ class AdminAddProductFragment : Fragment() {
         etPrice = view.findViewById(R.id.etProductPrice)
         etStock = view.findViewById(R.id.etProductStock)
         etImageUrl = view.findViewById(R.id.etProductImageUrl)
-        ivPreview = view.findViewById(R.id.ivProductPreview)
-        btnRemoveImage = view.findViewById(R.id.btnRemoveProductImage)
+        layoutImages = view.findViewById(R.id.layoutProductImages)
         switchOnSale = view.findViewById(R.id.switchProductOnSale)
         btnSave = view.findViewById(R.id.btnAddProduct)
         val btnDelete = view.findViewById<Button>(R.id.btnDeleteProduct)
@@ -84,13 +83,18 @@ class AdminAddProductFragment : Fragment() {
         etWeatherDiscount = view.findViewById(R.id.etWeatherDiscount)
         setupWeatherTag()
 
-        // Görsel URL'si girildikçe önizleme güncellenir; "Görseli Kaldır" alanı temizler
-        etImageUrl.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateImagePreview() }
+        // Görseller: URL ile "Ekle" veya galeriden yükleme; küçük resme dokununca kapak yap/sil seçenekleri
         imagePicker.attach(view.findViewById(R.id.btnPickProductImage))
-        btnRemoveImage.setOnClickListener {
+        view.findViewById<Button>(R.id.btnAddImageUrl).setOnClickListener {
+            val url = etImageUrl.text.toString().trim()
+            if (!url.startsWith("http")) {
+                etImageUrl.error = "Geçerli bir görsel bağlantısı girin (http ile başlamalı)"
+                return@setOnClickListener
+            }
+            addImage(url)
             etImageUrl.text?.clear()
-            updateImagePreview()
         }
+        renderImages()
 
         if (isEditMode) {
             view.findViewById<TextView>(R.id.tvProductFormTitle).text = "Yönetici: Ürünü Düzenle"
@@ -111,7 +115,11 @@ class AdminAddProductFragment : Fragment() {
         // Türkçe klavyede ondalık ayırıcı virgül olabilir ("12,5" -> 12.5)
         val price = etPrice.text.toString().trim().replace(',', '.').toDoubleOrNull()
         val stock = etStock.text.toString().trim().toLongOrNull()
-        val imageUrl = etImageUrl.text.toString().trim()
+        // URL alanına yazılıp "Ekle"ye basılmamış bir bağlantı varsa o da eklenir
+        etImageUrl.text.toString().trim().takeIf { it.startsWith("http") }?.let {
+            addImage(it)
+            etImageUrl.text?.clear()
+        }
 
         if (name.isEmpty()) {
             etName.error = "Ürün adı boş olamaz"
@@ -145,7 +153,8 @@ class AdminAddProductFragment : Fragment() {
             "stock" to stock,
             "onSale" to switchOnSale.isChecked, // Satışta değilse kullanıcılar ürünü görmez
             "categories" to selectedCategories.toList(), // Seçilen mevcut kategoriler listesi
-            "imageUrl" to imageUrl,
+            "imageUrls" to imageUrls.toList(),
+            "imageUrl" to (imageUrls.firstOrNull() ?: ""), // Kapak görseli (sepet, kampanya vb. tek görsel kullanan yerler için)
             "weatherTag" to weather?.code,
             "weatherDiscount" to if (weather != null) discount else 0,
             "updatedAt" to System.currentTimeMillis()
@@ -195,9 +204,10 @@ class AdminAddProductFragment : Fragment() {
         etDescription.setText(doc.getString("description"))
         etPrice.setText(doc.getDouble("price")?.toString())
         etStock.setText(doc.getLong("stock")?.toString())
-        etImageUrl.setText(doc.getString("imageUrl"))
         switchOnSale.isChecked = doc.getBoolean("onSale") ?: true
-        updateImagePreview()
+        imageUrls.clear()
+        imageUrls.addAll(Product.fromDocument(doc).imageUrls)
+        renderImages()
 
         @Suppress("UNCHECKED_CAST")
         (doc.get("categories") as? List<String>)?.forEach { category ->
@@ -237,7 +247,8 @@ class AdminAddProductFragment : Fragment() {
         etPrice.text?.clear()
         etStock.text?.clear()
         etImageUrl.text?.clear()
-        updateImagePreview()
+        imageUrls.clear()
+        renderImages()
         switchOnSale.isChecked = true
         actvCategory.text?.clear()
         selectedCategories.clear()
@@ -246,16 +257,60 @@ class AdminAddProductFragment : Fragment() {
         selectWeather(null)
     }
 
-    private fun updateImagePreview() {
-        val url = etImageUrl.text.toString().trim()
-        if (url.isEmpty()) {
-            ivPreview.visibility = View.GONE
-            btnRemoveImage.visibility = View.GONE
-        } else {
-            ivPreview.visibility = View.VISIBLE
-            btnRemoveImage.visibility = View.VISIBLE
-            Glide.with(this).load(url).placeholder(R.drawable.ic_launcher_foreground).into(ivPreview)
+    private fun addImage(url: String) {
+        if (url in imageUrls) return
+        if (imageUrls.size >= MAX_IMAGES) {
+            Toast.makeText(requireContext(), "En fazla $MAX_IMAGES görsel eklenebilir", Toast.LENGTH_SHORT).show()
+            return
         }
+        imageUrls.add(url)
+        renderImages()
+    }
+
+    // Küçük resimler: ilkinin altında "Kapak" yazar; dokununca kapak yap / sil seçenekleri çıkar
+    private fun renderImages() {
+        layoutImages.removeAllViews()
+        val density = resources.displayMetrics.density
+        val size = (88 * density).toInt()
+        imageUrls.forEachIndexed { index, url ->
+            val cell = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = LinearLayout.LayoutParams(size, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                    marginEnd = (8 * density).toInt()
+                }
+                setOnClickListener { showImageOptions(index) }
+            }
+            val image = ImageView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(size, size)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+            }
+            Glide.with(this).load(url).placeholder(R.drawable.ic_launcher_foreground).into(image)
+            val label = TextView(requireContext()).apply {
+                text = if (index == 0) "Kapak" else "${index + 1}. görsel"
+                textSize = 11f
+                gravity = android.view.Gravity.CENTER
+            }
+            cell.addView(image)
+            cell.addView(label)
+            layoutImages.addView(cell)
+        }
+        view?.findViewById<TextView>(R.id.tvProductImagesTitle)?.text =
+            if (imageUrls.isEmpty()) "Ürün Fotoğrafları (henüz eklenmedi)" else "Ürün Fotoğrafları (${imageUrls.size}/$MAX_IMAGES, ilki kapak)"
+    }
+
+    private fun showImageOptions(index: Int) {
+        val options = if (index == 0) arrayOf("Görseli Sil") else arrayOf("Kapak Görseli Yap", "Görseli Sil")
+        AlertDialog.Builder(requireContext())
+            .setTitle("${index + 1}. görsel")
+            .setItems(options) { _, which ->
+                when (options[which]) {
+                    "Kapak Görseli Yap" -> imageUrls.add(0, imageUrls.removeAt(index))
+                    "Görseli Sil" -> imageUrls.removeAt(index)
+                }
+                renderImages()
+            }
+            .setNegativeButton("Vazgeç", null)
+            .show()
     }
 
     private fun setupWeatherTag() {
@@ -320,6 +375,7 @@ class AdminAddProductFragment : Fragment() {
 
     companion object {
         private const val NO_WEATHER = "Yok (indirim uygulanmaz)"
+        private const val MAX_IMAGES = 6
         private const val ARG_PRODUCT_ID = "productId"
 
         // Düzenleme modu için: AdminAddProductFragment.newInstance(urunId)

@@ -22,6 +22,7 @@
         android:textSize="14sp" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollHome"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -32,68 +33,183 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <!-- Kampanya slaytı: admin'in oluşturduğu kampanyalar; kampanya yoksa gizlenir -->
-            <LinearLayout
-                android:id="@+id/layoutCampaigns"
+            <!-- Ürün arama: ad, açıklama ve kategoride arar -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutSearch"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@android:drawable/ic_menu_search">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/vpCampaigns"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:layout_marginTop="12dp" />
+                    android:layout_height="wrap_content"
+                    android:hint="Ürün, kategori ara..."
+                    android:imeOptions="actionSearch"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Sayfa göstergesi: aktif sayfa altın sarısı ve daha uzun -->
+            <!-- Arama yapılırken gizlenen bölümler: kampanya slaytı ve kategori kısayolları -->
+            <LinearLayout
+                android:id="@+id/layoutBrowseSections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Kampanya slaytı: admin'in oluşturduğu kampanyalar; kampanya yoksa gizlenir -->
                 <LinearLayout
-                    android:id="@+id/layoutIndicators"
+                    android:id="@+id/layoutCampaigns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/vpCampaigns"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:layout_marginTop="12dp" />
+
+                    <!-- Sayfa göstergesi: aktif sayfa altın sarısı ve daha uzun -->
+                    <LinearLayout
+                        android:id="@+id/layoutIndicators"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+
+                <!-- Kategori kısayolları -->
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:orientation="horizontal" />
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Kategoriler"
+                    android:textColor="#222222"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="16dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupHomeCategories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+                </HorizontalScrollView>
             </LinearLayout>
 
-            <!-- Kategori kısayolları -->
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Ürün listesi başlığı ve sonuç sayısı -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Kategoriler"
-                android:textColor="#222222"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tvProductsTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tüm Ürünler"
+                    android:textColor="#222222"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvResultCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Sıralama -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actvSort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Sırala"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Filtreler -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
                 android:scrollbars="none">
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupHomeCategories"
+                    android:id="@+id/chipGroupFilters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:singleLine="true" />
+                    app:singleLine="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFilterInStock"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stokta olanlar" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFilterDiscounted"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="İndirimli" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFilterRated"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4★ ve üzeri" />
+                </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
-            <!-- Tüm ürünler -->
+            <!-- Fiyat aralığı -->
             <TextView
+                android:id="@+id/tvPriceRange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="Tüm Ürünler"
-                android:textColor="#222222"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="Fiyat aralığı"
+                android:textColor="#555555"
+                android:textSize="13sp" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/sliderPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:stepSize="0"
+                android:valueFrom="0"
+                android:valueTo="1" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHomeProducts"

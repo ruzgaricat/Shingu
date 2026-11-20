@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yönetici: Satış Özeti"
+            android:textColor="#222222"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="İptal edilen siparişler ciroya dahil edilmez."
+            android:textColor="#777777"
+            android:textSize="12sp" />
+
+        <!-- Özet kartları (2x2) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvStatToday"
+                style="@style/DashboardStatCard"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvStatWeek"
+                style="@style/DashboardStatCard"
+                android:layout_marginStart="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvStatPending"
+                style="@style/DashboardStatCard"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvStatCustomers"
+                style="@style/DashboardStatCard"
+                android:layout_marginStart="6dp" />
+        </LinearLayout>
+
+        <!-- Son 7 günün cirosu (yatay çubuk grafik) -->
+        <TextView
+            style="@style/OrderDetailSection"
+            android:text="Son 7 Gün Ciro" />
+
+        <LinearLayout
+            android:id="@+id/layoutDailyBars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_card"
+            android:orientation="vertical"
+            android:padding="12dp" />
+
+        <TextView
+            style="@style/OrderDetailSection"
+            android:text="Durumlara Göre Siparişler" />
+
+        <TextView
+            android:id="@+id/tvStatusCounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_card"
+            android:lineSpacingExtra="3dp"
+            android:padding="12dp"
+            android:textColor="#444444"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/OrderDetailSection"
+            android:text="En Çok Satan Ürünler" />
+
+        <TextView
+            android:id="@+id/tvTopProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_card"
+            android:lineSpacingExtra="3dp"
+            android:padding="12dp"
+            android:textColor="#444444"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpenFeedback"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:text="Kullanıcı Geri Bildirimleri" />
+    </LinearLayout>
+</ScrollView>

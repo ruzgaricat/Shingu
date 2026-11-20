@@ -17,9 +17,25 @@ data class Review(
     val productId: String = ""
 )
 
+// Bir ürünün puan özeti (ürün kartları ve sıralama için)
+data class RatingSummary(val average: Double, val count: Int)
+
 object ReviewRepository {
 
     private val db get() = FirebaseFirestore.getInstance()
+
+    // Tüm ürünlerin puan ortalamalarını tek sorguyla hesaplar (collection group: tüm "reviews" koleksiyonları).
+    // users/{uid}/reviews altındaki kopyalar da aynı adı taşıdığı için sadece products/... altındakiler sayılır.
+    fun loadAllRatings(onResult: (Map<String, RatingSummary>) -> Unit) {
+        db.collectionGroup("reviews").get()
+            .addOnSuccessListener { result ->
+                val ratingsByProduct = result.documents
+                    .filter { it.reference.parent.parent?.parent?.id == "products" }
+                    .groupBy({ it.reference.parent.parent!!.id }, { it.getLong("rating")?.toInt() ?: 0 })
+                onResult(ratingsByProduct.mapValues { (_, ratings) -> RatingSummary(ratings.average(), ratings.size) })
+            }
+            .addOnFailureListener { onResult(emptyMap()) }
+    }
 
     private fun reviewsRef(productId: String) =
         db.collection("products").document(productId).collection("reviews")

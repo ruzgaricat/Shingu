@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -39,6 +40,12 @@ class PaymentFragment : Fragment() {
     private lateinit var etCvv: TextInputEditText
     private lateinit var btnPay: Button
     private lateinit var progress: ProgressBar
+    private lateinit var cbAgreement: CheckBox
+
+    // Sepetten gelen kupon kodu; kupon burada tekrar okunur, sipariş verilirken bir kez daha doğrulanır
+    private val couponCode: String? get() = arguments?.getString("couponCode")
+    private var coupon: Coupon? = null
+    private var pricing: OrderPricing = OrderPricing.calculate(0.0, null)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,15 +70,25 @@ class PaymentFragment : Fragment() {
         setupExpiryFormatting()
         btnPay.setOnClickListener { pay() }
 
-        // Sepet canlı dinlenir: tutar her zaman güncel sepetten hesaplanır
-        cartListener = CartRepository.listenCart(
+        cbAgreement = view.findViewById(R.id.cbAgreement)
+        view.findViewById<Button>(R.id.btnShowContract).setOnClickListener { showContract() }
+        view.findViewById<Button>(R.id.btnShowKvkk).setOnClickListener { showText("KVKK Aydınlatma Metni", LegalTexts.kvkk) }
+
+        // Sepette uygulanan kupon burada tekrar okunur (bu arada pasif yapılmış olabilir)
+        couponCode?.let { code ->
+            CouponRepository.getCoupon(code).addOnSuccessListener { loaded ->
+                if (!isAdded) return@addOnSuccessListener
+                coupon = loaded
+                updateSummary()
+            }
+        }
+
+        // Sepet, ürünlerin güncel fiyatlarıyla canlı dinlenir: tutar her zaman güncel sepetten hesaplanır
+        cartListener = CartRepository.listenCartLive(
             onChange = { cartItems ->
-                if (!isAdded) return@listenCart
+                if (!isAdded) return@listenCartLive
                 items = cartItems
-                val total = cartItems.sumOf { it.lineTotal }
-                tvItems.text = "🛒 ${cartItems.size} çeşit ürün, ${cartItems.sumOf { it.quantity }} adet"
-                tvTotal.text = "Toplam: ${formatPrice(total)}"
-                btnPay.text = "${formatPrice(total)} Öde"
+                updateSummary()
             },
             onFailure = { e ->
                 if (isAdded) Toast.makeText(requireContext(), "Sepet yüklenemedi: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
@@ -79,6 +96,34 @@ class PaymentFragment : Fragment() {
         )
 
         return view
+    }
+
+    // Ara toplam, kupon, kargo ve toplamı gösterir. Kupon artık geçerli değilse hesaba katılmaz.
+    private fun updateSummary() {
+        val subtotal = items.sumOf { it.lineTotal }
+        val validCoupon = coupon?.takeIf { it.validationError(subtotal) == null }
+        pricing = OrderPricing.calculate(subtotal, validCoupon)
+
+        tvItems.text = "🛒 ${items.size} çeşit ürün, ${items.sumOf { it.quantity }} adet\n" +
+            "Ara toplam: ${formatPrice(pricing.subtotal)}" +
+            (pricing.couponCode?.let { "\nKupon ($it): -${formatPrice(pricing.couponDiscount)}" } ?: "") +
+            (if (couponCode != null && validCoupon == null) "\nKupon ($couponCode) bu sepete artık uygulanamıyor" else "") +
+            "\nKargo: " + (if (pricing.shippingFee == 0.0) "Bedava" else formatPrice(pricing.shippingFee))
+        tvTotal.text = "Toplam: ${formatPrice(pricing.total)}"
+        if (btnPay.isEnabled) btnPay.text = "${formatPrice(pricing.total)} Öde"
+    }
+
+    private fun showContract() {
+        val summary = items.joinToString { "${it.name} x${it.quantity}" }
+        showText("Mesafeli Satış Sözleşmesi", LegalTexts.distanceSalesContract(summary, formatPrice(pricing.total), "${address.title} - ${address.oneLine}"))
+    }
+
+    private fun showText(title: String, text: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(text)
+            .setPositiveButton("Kapat", null)
+            .show()
     }
 
     // Kart numarası yazılırken 4'erli gruplanır ve kart türü (Visa, Mastercard, Troy, Amex) gösterilir
@@ -137,6 +182,18 @@ class PaymentFragment : Fragment() {
         check(etCvv, CardValidator.cvvError(cvv, brand))
         if (!valid) return
 
+        if (items.any { !it.available || it.exceedsStock }) {
+            Toast.makeText(requireContext(), "Sepetinizde satışta olmayan veya stoğu yetmeyen ürün var. Lütfen sepeti düzenleyin.", Toast.LENGTH_LONG).show()
+            return
+        }
+        // Mesafeli satış sözleşmesi onayı zorunlu
+        if (!cbAgreement.isChecked) {
+            cbAgreement.error = "Devam etmek için sözleşmeyi onaylayın"
+            Toast.makeText(requireContext(), "Lütfen Mesafeli Satış Sözleşmesi'ni onaylayın", Toast.LENGTH_SHORT).show()
+            return
+        }
+        cbAgreement.error = null
+
         // 2) Banka onayı taklidi (test modu): kısa bir bekleme, belirli test kartı reddedilir
         setProcessing(true)
         handler.postDelayed({
@@ -160,7 +217,7 @@ class PaymentFragment : Fragment() {
                 "testMode" to true,
                 "paidAt" to System.currentTimeMillis()
             )
-            CartRepository.placeOrder(items, address, payment,
+            CartRepository.placeOrder(items, address, payment, pricing.couponCode, System.currentTimeMillis(),
                 onSuccess = {
                     if (!isAdded) return@placeOrder
                     setProcessing(false)
@@ -185,7 +242,7 @@ class PaymentFragment : Fragment() {
         btnPay.isEnabled = !processing
         progress.visibility = if (processing) View.VISIBLE else View.GONE
         if (processing) btnPay.text = "Banka onayı bekleniyor..."
-        else btnPay.text = "${formatPrice(items.sumOf { it.lineTotal })} Öde"
+        else btnPay.text = "${formatPrice(pricing.total)} Öde"
     }
 
     private fun formatPrice(value: Double) = String.format(Locale("tr", "TR"), "%.2f TL", value)
@@ -208,8 +265,9 @@ class PaymentFragment : Fragment() {
         private const val DECLINED_TEST_CARD = "4000000000000002"
 
         // Teslimat adresi ekrana argüman olarak taşınır
-        fun newInstance(address: Address) = PaymentFragment().apply {
+        fun newInstance(address: Address, couponCode: String?) = PaymentFragment().apply {
             arguments = Bundle().apply {
+                putString("couponCode", couponCode)
                 putString("addressId", address.id)
                 putString("title", address.title)
                 putString("fullAddress", address.fullAddress)

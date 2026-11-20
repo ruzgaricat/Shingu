@@ -49,6 +49,16 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <!-- Puan özeti, örn: "★ 4,3 (12)" (değerlendirme yoksa gizli) -->
+        <TextView
+            android:id="@+id/tvItemRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#F57C00"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
         <!-- Hava durumu indirimi rozeti (indirim yoksa gizli) -->
         <TextView
             android:id="@+id/tvItemWeatherBadge"
