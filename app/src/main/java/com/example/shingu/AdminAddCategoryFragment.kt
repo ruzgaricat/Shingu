@@ -11,10 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 // Admin kategori formu: argüman olarak kategori kimliği verilirse "düzenle", verilmezse "yeni ekle" modunda açılır
@@ -35,6 +32,8 @@ class AdminAddCategoryFragment : Fragment() {
 
     // Düzenleme modunda kategorinin eski adı; ürünlerdeki kategori listelerini güncellemek için gerekir
     private var originalName = ""
+    // Kategori bir kampanya tarafından açıldıysa o kampanyanın kimliği
+    private var linkedCampaignId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +73,7 @@ class AdminAddCategoryFragment : Fragment() {
                     return@addOnSuccessListener
                 }
                 originalName = doc.getString("name") ?: ""
+                linkedCampaignId = doc.getString("campaignId")
                 etCategoryName.setText(originalName)
                 etCategoryImageUrl.setText(doc.getString("imageUrl"))
                 updateImagePreview()
@@ -93,13 +93,20 @@ class AdminAddCategoryFragment : Fragment() {
         btnSave.isEnabled = false
 
         // Aynı isimde başka bir kategori varsa kaydetme
-        db.collection("categories").whereEqualTo("name", categoryName).get()
+        CategoryRepository.nameExists(categoryName, exceptId = categoryId)
             .continueWithTask { task ->
-                val duplicate = task.result.documents.any { it.id != categoryId }
-                if (duplicate) throw IllegalStateException("\"$categoryName\" adında bir kategori zaten var.")
+                if (task.result) throw IllegalStateException("\"$categoryName\" adında bir kategori zaten var.")
 
                 if (isEditMode) {
-                    updateCategory(categoryName, finalImageUrl)
+                    // Kampanyaya bağlı kategori yeniden adlandırılırsa kampanya başlığı da aynı kalsın
+                    CategoryRepository.update(categoryId!!, originalName, categoryName, finalImageUrl) { batch ->
+                        linkedCampaignId?.let { campaignId ->
+                            batch.update(
+                                db.collection("campaigns").document(campaignId),
+                                mapOf("title" to categoryName, "categoryName" to categoryName)
+                            )
+                        }
+                    }
                 } else {
                     db.collection("categories").add(
                         hashMapOf(
@@ -130,52 +137,28 @@ class AdminAddCategoryFragment : Fragment() {
             }
     }
 
-    // Kategori adı değiştiyse bu kategorideki ürünlerin kategori listesindeki eski ad da yenisiyle değiştirilir
-    private fun updateCategory(newName: String, imageUrl: String): Task<Void> {
-        val categoryRef = db.collection("categories").document(categoryId!!)
-        val updates = mapOf("name" to newName, "imageUrl" to imageUrl)
-        if (newName == originalName) return categoryRef.update(updates)
-
-        return db.collection("products").whereArrayContains("categories", originalName).get()
-            .continueWithTask { task ->
-                val batch = db.batch()
-                batch.update(categoryRef, updates)
-                for (doc in task.result.documents) {
-                    @Suppress("UNCHECKED_CAST")
-                    val categories = (doc.get("categories") as? List<String>).orEmpty()
-                        .map { if (it == originalName) newName else it }
-                        .distinct()
-                    batch.update(doc.reference, "categories", categories)
-                }
-                batch.commit()
-            }
-    }
-
     private fun confirmDelete() {
         // Önce bu kategorideki ürün sayısını göster, onay alınca sil
-        db.collection("products").whereArrayContains("categories", originalName).get()
-            .addOnSuccessListener { result ->
+        CategoryRepository.productCount(originalName)
+            .addOnSuccessListener { count ->
                 if (!isAdded) return@addOnSuccessListener
-                val count = result.size()
-                val message = if (count > 0) {
+                var message = if (count > 0) {
                     "\"$originalName\" silinecek. Bu kategorideki $count ürün silinmez, sadece bu kategoriden çıkarılır."
                 } else {
                     "\"$originalName\" kalıcı olarak silinecek."
                 }
+                if (linkedCampaignId != null) message += "\n\nBu kategori bir kampanyaya bağlı; ana sayfadaki kampanya da silinecek."
                 AlertDialog.Builder(requireContext())
                     .setTitle("Kategoriyi Sil")
                     .setMessage(message)
-                    .setPositiveButton("Sil") { _, _ -> deleteCategory(result.documents.map { it.reference }) }
+                    .setPositiveButton("Sil") { _, _ -> deleteCategory() }
                     .setNegativeButton("Vazgeç", null)
                     .show()
             }
     }
 
-    private fun deleteCategory(productRefs: List<com.google.firebase.firestore.DocumentReference>) {
-        val batch = db.batch()
-        batch.delete(db.collection("categories").document(categoryId!!))
-        productRefs.forEach { batch.update(it, "categories", FieldValue.arrayRemove(originalName)) }
-        batch.commit()
+    private fun deleteCategory() {
+        CategoryRepository.delete(categoryId!!, originalName)
             .addOnSuccessListener {
                 if (!isAdded) return@addOnSuccessListener
                 Toast.makeText(requireContext(), "Kategori silindi", Toast.LENGTH_SHORT).show()

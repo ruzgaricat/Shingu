@@ -8,7 +8,9 @@
     "seed:dry": "node seed.js --dry-run",
     "backup": "node backup.js",
     "fix-status": "node fix-user-status.js",
-    "fix-status:dry": "node fix-user-status.js --dry-run"
+    "fix-status:dry": "node fix-user-status.js --dry-run",
+    "purge-deleted": "node purge-deleted-users.js",
+    "purge-deleted:dry": "node purge-deleted-users.js --dry-run"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0"

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kampanya banner'ı: yazının okunabilmesi için görselin sağ tarafı koyulaştırılır -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="0"
+        android:centerColor="#660D1117"
+        android:endColor="#F00D1117"
+        android:startColor="#000D1117" />
+</shape>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -27,6 +28,8 @@ class LoginActivity : BaseActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var cbRememberMe: CheckBox
+    private val prefs by lazy { getSharedPreferences(PREFS_NAME, MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,23 @@ class LoginActivity : BaseActivity() {
         val btnGoogleLogin = findViewById<Button>(R.id.btnGoogleLogin)
         val tvForgotPassword = findViewById<TextView>(R.id.tvForgotPassword)
         val tvGoToRegister = findViewById<TextView>(R.id.tvGoToRegister)
+        cbRememberMe = findViewById(R.id.cbRememberMe)
+
+        // Beni Hatırla: önceki tercih ve e-posta geri yüklenir
+        val rememberMe = prefs.getBoolean(KEY_REMEMBER_ME, false)
+        cbRememberMe.isChecked = rememberMe
+        if (rememberMe) etEmail.setText(prefs.getString(KEY_REMEMBERED_EMAIL, ""))
+
+        // Firebase oturumu cihazda saklanır; "beni hatırla" seçiliyse doğrudan ana ekrana geçilir,
+        // seçili değilse uygulama her açılışta oturumu kapatır
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            if (rememberMe) {
+                checkUserStatusAndNavigate(currentUser.uid)
+            } else {
+                auth.signOut()
+            }
+        }
 
         // 1. E-posta ve Şifre ile Giriş Mantığı
         btnLogin.setOnClickListener {
@@ -50,6 +70,7 @@ class LoginActivity : BaseActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener { result ->
+                        saveRememberMe(email)
                         val uid = result.user?.uid ?: ""
                         checkUserStatusAndNavigate(uid)
                     }
@@ -160,6 +181,7 @@ class LoginActivity : BaseActivity() {
             .addOnSuccessListener { authResult ->
                 val firebaseUser = authResult.user
                 val uid = firebaseUser?.uid ?: ""
+                saveRememberMe(firebaseUser?.email ?: "")
                 checkAndSaveGoogleUser(uid, firebaseUser?.displayName ?: "Kullanıcı", firebaseUser?.email ?: "")
             }
             .addOnFailureListener { e ->
@@ -184,10 +206,10 @@ class LoginActivity : BaseActivity() {
                     navigateToMain()
                 }
             } else {
-                // Zaten kayıtlı: Hesap askıda (suspended) mı kontrol et
-                val status = document.getString("status")
-                if (status == "suspended") {
-                    Toast.makeText(this, "Bu hesap askıya alınmıştır.", Toast.LENGTH_LONG).show()
+                // Zaten kayıtlı: Hesap dondurulmuş veya silinmiş mi kontrol et
+                val blockedMessage = blockedMessage(document.getString("status"))
+                if (blockedMessage != null) {
+                    Toast.makeText(this, blockedMessage, Toast.LENGTH_LONG).show()
                     auth.signOut()
                 } else {
                     navigateToMain()
@@ -198,13 +220,20 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    // Dondurulmuş veya silinmiş hesap giriş yapamaz; engel yoksa null döner
+    private fun blockedMessage(status: String?): String? = when (AccountStatus.fromCode(status)) {
+        AccountStatus.SUSPENDED -> "Bu hesap dondurulmuştur."
+        AccountStatus.DELETED -> "Bu hesap silinmiştir."
+        AccountStatus.ACTIVE -> null
+    }
+
     private fun checkUserStatusAndNavigate(uid: String) {
         val userRef = db.collection("users").document(uid)
         userRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
-                val status = document.getString("status")
-                if (status == "suspended") {
-                    Toast.makeText(this, "Bu hesap askıya alınmıştır.", Toast.LENGTH_LONG).show()
+                val blockedMessage = blockedMessage(document.getString("status"))
+                if (blockedMessage != null) {
+                    Toast.makeText(this, blockedMessage, Toast.LENGTH_LONG).show()
                     auth.signOut()
                 } else {
                     // Profilden değiştirilip doğrulanan e-posta Firestore'a da yansıtılır
@@ -225,5 +254,19 @@ class LoginActivity : BaseActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    // Başarılı girişte "beni hatırla" tercihi kaydedilir; seçili değilse kayıtlı e-posta silinir
+    private fun saveRememberMe(email: String) {
+        prefs.edit()
+            .putBoolean(KEY_REMEMBER_ME, cbRememberMe.isChecked)
+            .putString(KEY_REMEMBERED_EMAIL, if (cbRememberMe.isChecked) email else "")
+            .apply()
+    }
+
+    companion object {
+        private const val PREFS_NAME = "shingu_login"
+        private const val KEY_REMEMBER_ME = "remember_me"
+        private const val KEY_REMEMBERED_EMAIL = "remembered_email"
     }
 }

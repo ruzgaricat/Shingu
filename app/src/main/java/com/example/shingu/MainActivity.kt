@@ -1,12 +1,17 @@
 package com.example.shingu
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class MainActivity : BaseActivity() {
+
+    private var userListener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +60,17 @@ class MainActivity : BaseActivity() {
 
     private fun loadUserRole(bottomNavigationView: BottomNavigationView) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        FirebaseFirestore.getInstance().collection("users").document(uid).get()
-            .addOnSuccessListener { document ->
-                if (document.getString("role") != "admin") return@addOnSuccessListener
+        // Kullanıcı belgesi canlı dinlenir: admin hesabı dondurur/silerse açık oturum hemen kapatılır
+        userListener = FirebaseFirestore.getInstance().collection("users").document(uid)
+            .addSnapshotListener { document, _ ->
+                if (document == null || isFinishing) return@addSnapshotListener
+                val status = AccountStatus.fromCode(document.getString("status"))
+                if (status != AccountStatus.ACTIVE) {
+                    signOutBlockedUser(status)
+                    return@addSnapshotListener
+                }
+
+                if (document.getString("role") != "admin" || UserSession.isAdmin) return@addSnapshotListener
                 UserSession.isAdmin = true
 
                 // Sepet sekmesinin ikonunu sipariş ikonuyla değiştir
@@ -68,6 +81,22 @@ class MainActivity : BaseActivity() {
                     loadFragment(AdminOrdersFragment())
                 }
             }
+    }
+
+    private fun signOutBlockedUser(status: AccountStatus) {
+        val message = if (status == AccountStatus.DELETED) "Hesabınız silinmiştir." else "Hesabınız dondurulmuştur."
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        userListener?.remove()
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userListener?.remove()
     }
 
     private fun loadFragment(fragment: Fragment) {

@@ -24,29 +24,44 @@ service cloud.firestore {
     // ---------- Kullanıcılar ----------
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
-      // Kayıtta kullanıcı kendine admin rolü veremez
-      allow create: if isOwner(uid) && request.resource.data.role == 'user';
-      // Kullanıcı kendi bilgilerini (ad, e-posta, askıya alma) güncelleyebilir ama rolünü değiştiremez
+      // Kayıtta kullanıcı kendine admin rolü veremez ve hesap aktif başlar
+      allow create: if isOwner(uid)
+        && request.resource.data.role == 'user'
+        && request.resource.data.get('status', 'active') == 'active';
+      // Kullanıcı kendi bilgilerini (ad, e-posta) güncelleyebilir ama rolünü değiştiremez.
+      // Durumu sadece "dondur" yönünde değiştirebilir; dondurulmuş/silinmiş hesabını kendisi açamaz.
       allow update: if isAdmin()
-        || (isOwner(uid) && request.resource.data.get('role', 'user') == resource.data.get('role', 'user'));
+        || (isOwner(uid)
+            && request.resource.data.get('role', 'user') == resource.data.get('role', 'user')
+            && (request.resource.data.get('status', 'active') == resource.data.get('status', 'active')
+                || request.resource.data.status == 'suspended'));
       allow delete: if isAdmin();
 
-      // Sepet, favoriler ve adresler: sadece sahibi
+      // Sepet, favoriler ve adresler: sahibi yönetir; admin hesap silerken okuyup temizleyebilir
       match /cart/{productId} {
         allow read, write: if isOwner(uid);
+        allow read, delete: if isAdmin();
       }
       match /favorites/{productId} {
         allow read, write: if isOwner(uid);
+        allow read, delete: if isAdmin();
       }
       match /addresses/{addressId} {
         allow read, write: if isOwner(uid);
+        allow read, delete: if isAdmin();
       }
 
-      // "Ürün Yorumlarım" için yorum kopyası; admin bir yorumu silerken kopyasını da siler
+      // "Ürün Yorumlarım" için yorum kopyası; admin bir yorumu ya da hesabı silerken kopyayı da siler
       match /reviews/{productId} {
         allow read, write: if isOwner(uid);
-        allow delete: if isAdmin();
+        allow read, delete: if isAdmin();
       }
+    }
+
+    // ---------- Kampanyalar (ana sayfa slaytı) ----------
+    match /campaigns/{campaignId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
     }
 
     // ---------- Kategoriler ----------

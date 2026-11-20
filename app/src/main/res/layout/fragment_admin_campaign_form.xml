@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="20dp">
+
+        <TextView
+            android:id="@+id/tvCampaignFormTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="20dp"
+            android:text="Yönetici: Yeni Kampanya"
+            android:textColor="#222222"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Kampanya adıyla aynı isimde bir kategori otomatik açılır. Ana sayfadaki banner'a dokunan kullanıcı bu kategoriye gider; kampanya silinirse kategori de silinir."
+            android:textColor="#777777"
+            android:textSize="13sp" />
+
+        <!-- Canlı önizleme: banner'ın ana sayfada nasıl görüneceği -->
+        <FrameLayout
+            android:id="@+id/layoutBannerPreview"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginBottom="20dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="12dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="30">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCampaignTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Kampanya Adı (Örn: Kış Fırsatları)"
+                android:inputType="textCapWords"
+                android:maxLength="30" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCampaignImageUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fotoğraf Bağlantısı (URL)"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSaveCampaign"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="#6750A4"
+            android:text="Kampanyayı Oluştur"
+            android:textSize="16sp" />
+
+        <!-- Sadece düzenleme modunda görünür -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteCampaign"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:text="Kampanyayı Sil"
+            android:textColor="#E53935"
+            android:visibility="gone"
+            app:strokeColor="#E53935" />
+
+    </LinearLayout>
+</ScrollView>

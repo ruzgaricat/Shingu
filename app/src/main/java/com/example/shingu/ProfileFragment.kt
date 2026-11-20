@@ -22,6 +22,8 @@ class ProfileFragment : Fragment() {
     private lateinit var tvProfileName: TextView
     private lateinit var btnAdminPanel: Button
     private lateinit var btnAddCategory: Button
+    private lateinit var btnAdminUsers: Button
+    private lateinit var btnAdminCampaigns: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,8 @@ class ProfileFragment : Fragment() {
         tvProfileName = view.findViewById(R.id.tvProfileName)
         btnAdminPanel = view.findViewById(R.id.btnAdminPanel)
         btnAddCategory = view.findViewById(R.id.btnAdminAddCategory)
+        btnAdminUsers = view.findViewById(R.id.btnAdminUsers)
+        btnAdminCampaigns = view.findViewById(R.id.btnAdminCampaigns)
 
         val btnSpecialDays = view.findViewById<LinearLayout>(R.id.btnSpecialDays)
         val btnSuspendAccount = view.findViewById<LinearLayout>(R.id.btnSuspendAccount)
@@ -47,6 +51,22 @@ class ProfileFragment : Fragment() {
         btnAdminPanel.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, AdminProductsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Kullanıcı Yönetimi Paneline Git (listele, düzenle, dondur, sil)
+        btnAdminUsers.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AdminUsersFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Kampanya Yönetimi Paneline Git (ana sayfa slaytı)
+        btnAdminCampaigns.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AdminCampaignsFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -117,13 +137,11 @@ class ProfileFragment : Fragment() {
 
                         // Rol kontrolü: Admin ise admin butonlarını görünür yap, değilse gizle
                         val role = document.getString("role")
-                        if (role == "admin") {
-                            btnAdminPanel.visibility = View.VISIBLE
-                            btnAddCategory.visibility = View.VISIBLE
-                        } else {
-                            btnAdminPanel.visibility = View.GONE
-                            btnAddCategory.visibility = View.GONE
-                        }
+                        val adminVisibility = if (role == "admin") View.VISIBLE else View.GONE
+                        btnAdminPanel.visibility = adminVisibility
+                        btnAddCategory.visibility = adminVisibility
+                        btnAdminUsers.visibility = adminVisibility
+                        btnAdminCampaigns.visibility = adminVisibility
                     }
                 }
                 .addOnFailureListener {
@@ -155,7 +173,8 @@ class ProfileFragment : Fragment() {
         if (uid != null) {
             db.collection("users").document(uid)
                 .update("status", "suspended")
-                .addOnSuccessListener { performLogout() }
+                // MainActivity durumu canlı dinlediği için genelde oturumu o kapatır; ekran hâlâ açıksa burada kapatılır
+                .addOnSuccessListener { if (isAdded) performLogout() }
         }
     }
 

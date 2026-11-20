@@ -99,6 +99,34 @@
             app:cornerRadius="12dp"
             app:backgroundTint="#222222" />
 
+        <!-- Yönetici: Kullanıcı Yönetimi Butonu (Başlangıçta Gizli / GONE) -->
+        <Button
+            android:id="@+id/btnAdminUsers"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:text="Yönetici: Kullanıcı Yönetimi"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#222222" />
+
+        <!-- Yönetici: Kampanyalar (ana sayfa slaytı) Butonu (Başlangıçta Gizli / GONE) -->
+        <Button
+            android:id="@+id/btnAdminCampaigns"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:text="Yönetici: Kampanyalar"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#222222" />
+
         <!-- 2. Hızlı Erişim 3'lü Grid -->
         <LinearLayout
             android:layout_width="match_parent"

@@ -34,7 +34,8 @@ class CategoriesFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerCategoryView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val category = selectedCategory
+        // Ana sayfadaki kampanya banner'ı veya kategori kısayolundan gelindiyse doğrudan o kategori açılır
+        val category = selectedCategory ?: arguments?.getString(ARG_CATEGORY_NAME)
         if (category != null) loadProductsForCategory(category) else loadCategories()
 
         // Favoriler değişince kartlardaki kalpler güncellenir
@@ -117,5 +118,14 @@ class CategoriesFragment : Fragment() {
         favoritesListener?.remove()
         favoritesListener = null
         productAdapter = null
+    }
+
+    companion object {
+        private const val ARG_CATEGORY_NAME = "categoryName"
+
+        // Belirli bir kategorinin ürünleriyle açılır (ana sayfa slaytı ve kısayollar için)
+        fun newInstance(categoryName: String) = CategoriesFragment().apply {
+            arguments = Bundle().apply { putString(ARG_CATEGORY_NAME, categoryName) }
+        }
     }
 }
