@@ -172,6 +172,8 @@ class HomeFragment : Fragment() {
         tvEmpty = view.findViewById(R.id.tvHomeProductsEmpty)
         tvPriceRange = view.findViewById(R.id.tvPriceRange)
         sliderPrice = view.findViewById(R.id.sliderPrice)
+        // Aralık kaydırıcısı iki uçla (alt/üst sınır) başlamalı; XML'de değer verilmezse tek değerle başlıyor
+        sliderPrice.values = listOf(sliderPrice.valueFrom, sliderPrice.valueTo)
         chipInStock = view.findViewById(R.id.chipFilterInStock)
         chipDiscounted = view.findViewById(R.id.chipFilterDiscounted)
         chipRated = view.findViewById(R.id.chipFilterRated)
@@ -265,8 +267,12 @@ class HomeFragment : Fragment() {
         if (!isAdded) return
         val locale = Locale("tr", "TR")
         val query = searchQuery.lowercase(locale)
-        val (minPrice, maxPrice) = sliderPrice.values.let { it[0].toDouble() to it[1].toDouble() }
-        val priceFilterActive = sliderPrice.visibility == View.VISIBLE && (minPrice > 0.0 || maxPrice < sliderPrice.valueTo)
+        // Ürünler (ve dolayısıyla fiyat aralığı) henüz yüklenmeden de çağrılabilir (örn. hava durumu önce gelirse)
+        val values = sliderPrice.values
+        val minPrice = values.getOrNull(0)?.toDouble() ?: 0.0
+        val maxPrice = values.getOrNull(1)?.toDouble() ?: Double.MAX_VALUE
+        val priceFilterActive = sliderPrice.visibility == View.VISIBLE && values.size == 2 &&
+            (minPrice > 0.0 || maxPrice < sliderPrice.valueTo)
 
         val filtered = allProducts.filter { p ->
             (query.isEmpty() || p.name.lowercase(locale).contains(query) ||
@@ -292,7 +298,8 @@ class HomeFragment : Fragment() {
         layoutBrowseSections.visibility = if (searching) View.GONE else View.VISIBLE
         tvProductsTitle.text = if (searching) "\"$searchQuery\" için sonuçlar" else "Tüm Ürünler"
         tvResultCount.text = "${sorted.size} ürün"
-        if (priceFilterActive || sliderPrice.visibility == View.VISIBLE) {
+        // Fiyat aralığı yazısı ürünler yüklenip kaydırıcı gerçek aralığa ayarlandıktan sonra gösterilir
+        if (sliderPrice.visibility == View.VISIBLE && values.size == 2 && allProducts.isNotEmpty()) {
             tvPriceRange.text = "Fiyat aralığı: ${minPrice.toInt()} – ${maxPrice.toInt()} TL"
         }
         tvEmpty.text = if (allProducts.isEmpty()) "Henüz ürün yok" else "Aramanıza uygun ürün bulunamadı"
