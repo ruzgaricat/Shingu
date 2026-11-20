@@ -4,13 +4,15 @@
   "private": true,
   "description": "Shingu Firestore yönetim scriptleri: test verisi, yedek alma, veri düzeltme",
   "scripts": {
-    "seed": "node seed.js",
-    "seed:dry": "node seed.js --dry-run",
     "backup": "node backup.js",
     "fix-status": "node fix-user-status.js",
     "fix-status:dry": "node fix-user-status.js --dry-run",
     "purge-deleted": "node purge-deleted-users.js",
-    "purge-deleted:dry": "node purge-deleted-users.js --dry-run"
+    "purge-deleted:dry": "node purge-deleted-users.js --dry-run",
+    "seed-home-categories": "node seed-home-categories.js",
+    "seed-home-categories:dry": "node seed-home-categories.js --dry-run",
+    "seed-home-products": "node seed-home-products.js",
+    "seed-home-products:dry": "node seed-home-products.js --dry-run"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0"
