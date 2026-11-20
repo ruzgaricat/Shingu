@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -76,9 +77,16 @@ class MainActivity : BaseActivity() {
                 // Sepet sekmesinin ikonunu sipariş ikonuyla değiştir
                 bottomNavigationView.menu.findItem(R.id.nav_cart)?.setIcon(R.drawable.ic_receipt_24)
 
-                // Rol yüklenmeden önce sepet sekmesi açıldıysa sipariş ekranına geç
-                if (bottomNavigationView.selectedItemId == R.id.nav_cart) {
-                    loadFragment(AdminOrdersFragment())
+                // Rol yüklenmeden önce açılmış sekme kullanıcı görünümüyle çizilmişti (Sepete Ekle butonları,
+                // satışta olmayan ürünlerin gizlenmesi); kullanıcı alt sayfalara girmediyse admin görünümüyle yenilenir
+                // (isStateSaved: uygulama arka plandaysa ekran değişikliği yapılamaz, çökme olmasın)
+                if (supportFragmentManager.backStackEntryCount == 0 && !supportFragmentManager.isStateSaved) {
+                    when (bottomNavigationView.selectedItemId) {
+                        R.id.nav_home -> loadFragment(HomeFragment())
+                        R.id.nav_categories -> loadFragment(CategoriesFragment())
+                        R.id.nav_favorites -> loadFragment(FavoritesFragment())
+                        R.id.nav_cart -> loadFragment(AdminOrdersFragment())
+                    }
                 }
             }
     }
@@ -100,6 +108,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
+        // Sekme değişince önceki sekmenin alt sayfa geçmişi temizlenir; aksi halde geri tuşu
+        // başka bir sekmenin eski ekranına dönüyordu
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()

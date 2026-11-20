@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class RegisterActivity : BaseActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var btnRegister: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class RegisterActivity : BaseActivity() {
         val etName = findViewById<EditText>(R.id.etRegisterName)
         val etEmail = findViewById<EditText>(R.id.etRegisterEmail)
         val etPassword = findViewById<EditText>(R.id.etRegisterPassword)
-        val btnRegister = findViewById<Button>(R.id.btnRegister)
+        btnRegister = findViewById(R.id.btnRegister)
         val tvGoToLogin = findViewById<TextView>(R.id.tvGoToLogin)
 
         btnRegister.setOnClickListener {
@@ -70,6 +71,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun registerUser(name: String, email: String, pass: String) {
+        btnRegister.isEnabled = false
         auth.createUserWithEmailAndPassword(email, pass)
             .addOnSuccessListener { authResult ->
                 val uid = authResult.user?.uid ?: ""
@@ -80,18 +82,26 @@ class RegisterActivity : BaseActivity() {
                     role = "user"
                 )
 
-                // Firestore'a kaydı arka planda başlatıyoruz
+                // Kullanıcı belgesi Firestore'a yazılmadan giriş ekranına geçilmez: giriş ekranı açılışta
+                // oturumu kapatabildiği için (beni hatırla kapalıysa) yazma yarıda kalabiliyordu
                 db.collection("users").document(uid).set(newUser)
+                    .addOnSuccessListener {
+                        // Kayıt sonrası Firebase otomatik giriş yapar; kullanıcı giriş ekranından kendisi girsin
+                        auth.signOut()
+                        Toast.makeText(this, "Kayıt başarılı! Giriş yapabilirsiniz.", Toast.LENGTH_LONG).show()
 
-                // Auth başarılı olduğu an doğrudan giriş ekranına yönlendiriyoruz
-                Toast.makeText(this, "Kayıt başarılı! Giriş yapabilirsiniz.", Toast.LENGTH_LONG).show()
-
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        btnRegister.isEnabled = true
+                        Toast.makeText(this, "Hesap oluşturuldu ama profil kaydedilemedi: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    }
             }
             .addOnFailureListener { e ->
+                btnRegister.isEnabled = true
                 val errorMessage = when (e) {
                     is FirebaseAuthWeakPasswordException -> "Şifre çok zayıf. Lütfen daha güçlü bir şifre girin."
                     is FirebaseAuthUserCollisionException -> "Bu e-posta adresi zaten kullanımda."

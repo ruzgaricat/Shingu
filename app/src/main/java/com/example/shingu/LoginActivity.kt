@@ -13,7 +13,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -167,9 +169,16 @@ class LoginActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     firebaseAuthWithGoogle(googleIdToken)
                 }
+            } catch (e: NoCredentialException) {
+                // Cihazda kayıtlı Google hesabı yok
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginActivity, "Cihazda Google hesabı bulunamadı. Ayarlar > Hesaplar'dan bir Google hesabı ekleyin.", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: GetCredentialCancellationException) {
+                // Kullanıcı hesap seçim penceresini kapattı; hata mesajı gösterilmez
             } catch (e: GetCredentialException) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@LoginActivity, "Google Giriş İptal Edildi veya Hata Oluştu", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Google ile giriş yapılamadı: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

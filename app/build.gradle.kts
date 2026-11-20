@@ -59,4 +59,6 @@ dependencies {
     // Adres seçimi: OpenStreetMap haritası (API anahtarı gerektirmez) ve GPS konumu
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+    // Yüklenen fotoğrafın yönünü (EXIF) tüm Android sürümlerinde doğru okumak için
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 }

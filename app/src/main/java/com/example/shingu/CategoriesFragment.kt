@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,14 @@ class CategoriesFragment : Fragment() {
     // Seçili kategori; ürün sayfasından geri dönülünce aynı ürün listesi yeniden açılır
     private var selectedCategory: String? = null
 
+    private val backToListCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            selectedCategory = null
+            isEnabled = false
+            loadCategories()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +46,11 @@ class CategoriesFragment : Fragment() {
         // Ana sayfadaki kampanya banner'ı veya kategori kısayolundan gelindiyse doğrudan o kategori açılır
         val category = selectedCategory ?: arguments?.getString(ARG_CATEGORY_NAME)
         if (category != null) loadProductsForCategory(category) else loadCategories()
+
+        // Kategori listesinden bir kategoriye girildiyse geri tuşu uygulamayı kapatmak yerine listeye döner
+        // (ana sayfadan doğrudan kategoriyle açıldıysa normal geri davranışı ana sayfaya döndürür)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backToListCallback)
+        backToListCallback.isEnabled = selectedCategory != null && arguments?.getString(ARG_CATEGORY_NAME) == null
 
         // Favoriler değişince kartlardaki kalpler güncellenir
         favoritesListener = FavoritesRepository.listenFavoriteIds { ids ->
@@ -55,6 +69,7 @@ class CategoriesFragment : Fragment() {
     private fun loadCategories() {
         // Artık ürünlerden değil, doğrudan 'categories' koleksiyonundan çekiyoruz
         db.collection("categories").get().addOnSuccessListener { result ->
+            if (!isAdded) return@addOnSuccessListener
             val categoryList = mutableListOf<CategoryModel>() // Kategori veri modeli (aşağıda tanımı var)
 
             for (doc in result.documents) {
@@ -69,6 +84,7 @@ class CategoriesFragment : Fragment() {
             // Kategori adapter'ına hem ismi hem görseli gönderiyoruz
             val adapter = CategoryAdapter(categoryList) { categoryName ->
                 loadProductsForCategory(categoryName)
+                backToListCallback.isEnabled = true
             }
             recyclerView.adapter = adapter
         }

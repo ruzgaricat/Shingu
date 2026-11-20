@@ -108,7 +108,8 @@ class AdminAddProductFragment : Fragment() {
     private fun saveProduct() {
         val name = etName.text.toString().trim()
         val description = etDescription.text.toString().trim()
-        val price = etPrice.text.toString().trim().toDoubleOrNull()
+        // Türkçe klavyede ondalık ayırıcı virgül olabilir ("12,5" -> 12.5)
+        val price = etPrice.text.toString().trim().replace(',', '.').toDoubleOrNull()
         val stock = etStock.text.toString().trim().toLongOrNull()
         val imageUrl = etImageUrl.text.toString().trim()
 
