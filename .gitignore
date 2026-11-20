@@ -1,0 +1,32 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Firebase scriptleri: servis hesabı anahtarı veritabanına tam erişim verir, ASLA paylaşılmamalı
+firebase-scripts/serviceAccountKey.json
+firebase-scripts/node_modules/
+*-firebase-adminsdk-*.json
+
+# IDE ve derleme çıktıları
+.idea/
+.kotlin/
+
+# Firebase CLI geçici dosyaları
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Veritabanı yedekleri gerçek kullanıcı verisi (e-posta, adres) içerir; herkese açık depoya konmaz
+firebase-scripts/backups/*.json

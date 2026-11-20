@@ -1,0 +1,16 @@
+{
+  "name": "shingu-firebase-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shingu Firestore yönetim scriptleri: test verisi, yedek alma, veri düzeltme",
+  "scripts": {
+    "seed": "node seed.js",
+    "seed:dry": "node seed.js --dry-run",
+    "backup": "node backup.js",
+    "fix-status": "node fix-user-status.js",
+    "fix-status:dry": "node fix-user-status.js --dry-run"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}

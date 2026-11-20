@@ -1,0 +1,4 @@
+# gradlew Linux/Mac ortamında çalışabilsin diye LF satır sonuyla kalmalı
+gradlew text eol=lf
+*.bat text eol=crlf
+*.jar binary

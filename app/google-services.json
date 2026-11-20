@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "889950376243",
+    "project_id": "shingu-a7fbf",
+    "storage_bucket": "shingu-a7fbf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889950376243:android:aea95eb5cc2c0d84f06e46",
+        "android_client_info": {
+          "package_name": "com.example.shingu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889950376243-aevdk1svp0gap00409krv1dtffih9h0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shingu",
+            "certificate_hash": "34f1bbdb4d854211227f0909b9ec1acf0053d3bd"
+          }
+        },
+        {
+          "client_id": "889950376243-7at4vuh4q06plmvqs4m60nr4j512f8f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAosD4mKYZA7s7nVyCBhWM91cymJbApjG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889950376243-7at4vuh4q06plmvqs4m60nr4j512f8f3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

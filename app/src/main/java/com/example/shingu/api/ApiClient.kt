@@ -1,0 +1,111 @@
+package com.example.shingu.api
+
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+// ---------- 1. Web API: Frankfurter (döviz kurları, anahtar gerektirmez) ----------
+// Örnek: https://api.frankfurter.dev/v1/latest?base=TRY&symbols=USD,EUR
+interface ExchangeRateApi {
+    @GET("v1/latest")
+    fun getLatestRates(
+        @Query("base") base: String,
+        @Query("symbols") symbols: String
+    ): Call<ExchangeRateResponse>
+}
+
+data class ExchangeRateResponse(
+    val base: String,
+    val date: String,
+    val rates: Map<String, Double>
+)
+
+// ---------- 2. Web API: Open-Meteo (hava durumu, anahtar gerektirmez) ----------
+// Örnek: https://api.open-meteo.com/v1/forecast?latitude=40.77&longitude=29.94&current=temperature_2m,weather_code,wind_speed_10m
+interface WeatherApi {
+    @GET("v1/forecast")
+    fun getCurrentWeather(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("current") current: String = "temperature_2m,weather_code,wind_speed_10m",
+        @Query("timezone") timezone: String = "auto"
+    ): Call<WeatherResponse>
+}
+
+data class WeatherResponse(val current: CurrentWeather)
+
+data class CurrentWeather(
+    val time: String,
+    val temperature_2m: Double,
+    val weather_code: Int,
+    val wind_speed_10m: Double
+)
+
+// ---------- 3. Web API: Nominatim / OpenStreetMap (koordinattan adres bulma, anahtar gerektirmez) ----------
+// Örnek: https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=40.76&lon=29.94&accept-language=tr
+interface GeocodingApi {
+    @GET("reverse")
+    fun reverse(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("format") format: String = "jsonv2",
+        @Query("addressdetails") addressDetails: Int = 1,
+        @Query("accept-language") language: String = "tr"
+    ): Call<ReverseGeocodeResponse>
+}
+
+data class ReverseGeocodeResponse(
+    val display_name: String?,
+    val address: Map<String, String>?
+) {
+    // Türkiye adres düzenine uygun kısa adres: "Cadde No, Mahalle, İlçe/İl"
+    fun shortAddress(): String? {
+        val a = address ?: return display_name
+        val street = listOfNotNull(a["road"] ?: a["pedestrian"] ?: a["footway"], a["house_number"]).joinToString(" ")
+        val neighbourhood = a["suburb"] ?: a["neighbourhood"] ?: a["quarter"] ?: a["village"]
+        val district = a["town"] ?: a["county"] ?: a["district"]
+        val province = a["province"] ?: a["state"] ?: a["city"]
+        val region = listOfNotNull(district, province).distinct().joinToString("/")
+        return listOf(street, neighbourhood ?: "", region)
+            .filter { it.isNotBlank() }
+            .joinToString(", ")
+            .ifEmpty { display_name }
+    }
+}
+
+// Retrofit örnekleri uygulama boyunca bir kez oluşturulur
+object ApiClient {
+    val exchangeRateApi: ExchangeRateApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.frankfurter.dev/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ExchangeRateApi::class.java)
+    }
+
+    val weatherApi: WeatherApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.open-meteo.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(WeatherApi::class.java)
+    }
+
+    // Nominatim kullanım kuralı gereği her istekte uygulamayı tanıtan bir User-Agent gönderilir
+    val geocodingApi: GeocodingApi by lazy {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                chain.proceed(chain.request().newBuilder().header("User-Agent", "Shingu-Android/1.0 (ders projesi)").build())
+            }
+            .build()
+        Retrofit.Builder()
+            .baseUrl("https://nominatim.openstreetmap.org/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GeocodingApi::class.java)
+    }
+}
