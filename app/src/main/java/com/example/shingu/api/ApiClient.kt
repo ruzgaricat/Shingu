@@ -68,6 +68,9 @@ data class ReverseGeocodeResponse(
     val display_name: String?,
     val address: Map<String, String>?
 ) {
+    // Ülke kodu (örn. "tr"); dağıtım alanı kontrolünde kullanılır
+    fun countryCode(): String? = address?.get("country_code")
+
     // Türkiye adres düzenine uygun kısa adres: "Cadde No, Mahalle, İlçe/İl"
     fun shortAddress(): String? {
         val a = address ?: return display_name

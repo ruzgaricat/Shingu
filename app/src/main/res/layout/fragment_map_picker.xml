@@ -73,6 +73,19 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
+        <!-- Seçilen konum Türkiye dışındaysa görünür; bu durumda adres kaydedilemez -->
+        <TextView
+            android:id="@+id/tvOutOfArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#FDECEA"
+            android:padding="10dp"
+            android:textColor="#C62828"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

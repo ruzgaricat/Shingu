@@ -49,7 +49,8 @@ class OrderAdapter(
             "Sipariş #${order.id.take(6).uppercase(locale)}"
         }
         holder.tvDate.text = dateFormat.format(Date(order.createdAt)) +
-            (order.address?.let { "\n📍 $it" } ?: "")
+            (order.address?.let { "\n📍 $it" } ?: "") +
+            (order.payment?.let { "\n💳 $it" } ?: "")
         holder.tvItems.text = order.items.joinToString("\n") { item ->
             val discount = (item["weatherDiscount"] as? Number)?.toInt() ?: 0
             "• ${item["name"]} x${item["quantity"]}" + if (discount > 0) "  (hava indirimi %$discount)" else ""

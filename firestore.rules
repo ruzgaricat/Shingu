@@ -99,10 +99,14 @@ service cloud.firestore {
     match /orders/{orderId} {
       // Kullanıcı sadece kendi siparişlerini görür, admin hepsini
       allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
-      // Sipariş kendi adına ve "Beklemede" durumunda oluşturulabilir
+      // Sipariş kendi adına, "Beklemede" durumunda ve ödemesi alınmış (test) olarak oluşturulabilir.
+      // Ödeme alanı sadece özet içerebilir: kart numarasının tamamı veya CVV veritabanına yazılamaz.
       allow create: if isSignedIn()
         && request.resource.data.userId == request.auth.uid
-        && request.resource.data.status == 'pending';
+        && request.resource.data.status == 'pending'
+        && request.resource.data.payment.status == 'paid'
+        && request.resource.data.payment.keys().hasOnly(['method', 'cardBrand', 'cardLast4', 'status', 'testMode', 'paidAt'])
+        && request.resource.data.payment.cardLast4.size() == 4;
       // Durum değişikliği (işleme alındı, kargoda, teslim) ve silme sadece admin
       allow update, delete: if isAdmin();
     }

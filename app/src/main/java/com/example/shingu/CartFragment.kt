@@ -194,6 +194,7 @@ class CartFragment : Fragment() {
             .show()
     }
 
+    // Sipariş, ödeme ekranında kart onayı alındıktan sonra verilir
     private fun showOrderDialog() {
         if (currentItems.isEmpty()) return
         val address = selectedAddress
@@ -202,34 +203,20 @@ class CartFragment : Fragment() {
             AddressesFragment.openMapPicker(parentFragmentManager)
             return
         }
-        val total = currentItems.sumOf { it.lineTotal }
-        AlertDialog.Builder(requireContext())
-            .setTitle("Siparişi Onayla")
-            .setMessage("${currentItems.size} çeşit ürün, toplam ${formatPrice(total)}.\n\nTeslimat: ${address.title} - ${address.oneLine}\n\nSiparişi vermek istiyor musunuz?")
-            .setPositiveButton("Sipariş Ver") { _, _ -> placeOrder(address) }
-            .setNegativeButton("Vazgeç", null)
-            .show()
-    }
-
-    private fun placeOrder(address: Address) {
-        btnPlaceOrder.isEnabled = false
-        CartRepository.placeOrder(
-            currentItems,
-            address,
-            onSuccess = {
-                // Fragment bu arada kapanmışsa (context null) mesaj gösterilmez
-                if (isAdded) {
-                    btnPlaceOrder.isEnabled = true
-                    Toast.makeText(requireContext(), "Siparişiniz alındı!", Toast.LENGTH_LONG).show()
-                }
-            },
-            onFailure = { e ->
-                if (isAdded) {
-                    btnPlaceOrder.isEnabled = true
-                    Toast.makeText(requireContext(), "Sipariş verilemedi: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        )
+        // Bu kontrolden önce kaydedilmiş adresler Türkiye dışında olabilir; ödemeye geçmeden engellenir
+        if (!DeliveryArea.isInsideTurkeyBounds(address.latitude, address.longitude)) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Dağıtım Alanı Dışında")
+                .setMessage("\"${address.title}\" adresi dağıtım alanımız içinde değil. Şu an sadece Türkiye içine teslimat yapıyoruz. Lütfen başka bir adres seçin.")
+                .setPositiveButton("Adres Seç") { _, _ -> showAddressChooser() }
+                .setNegativeButton("Vazgeç", null)
+                .show()
+            return
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, PaymentFragment.newInstance(address))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun formatPrice(value: Double) = String.format(Locale("tr", "TR"), "%.2f TL", value)

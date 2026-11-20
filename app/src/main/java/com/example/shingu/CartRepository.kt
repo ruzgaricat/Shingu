@@ -85,7 +85,8 @@ object CartRepository {
     // 1) Her ürünün güncel halini okur (satışta mı, stok yeterli mi, güncel fiyat/indirim)
     // 2) Stokları düşer, siparişi 'orders'a yazar ve sepeti temizler
     // Herhangi bir ürün uygun değilse hiçbir şey yazılmaz.
-    fun placeOrder(items: List<CartItem>, address: Address, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    // payment: ödeme özeti (yöntem, kart türü, son 4 hane, durum); kart numarasının tamamı ve CVV asla gelmez
+    fun placeOrder(items: List<CartItem>, address: Address, payment: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         val user = FirebaseAuth.getInstance().currentUser
             ?: return onFailure(IllegalStateException("Giriş yapılmamış"))
         if (items.isEmpty()) return onFailure(IllegalStateException("Sepet boş"))
@@ -131,6 +132,7 @@ object CartRepository {
                     "items" to orderItems,
                     "totalPrice" to total,
                     "address" to address.toMap(), // Teslimat adresinin o anki kopyası
+                    "payment" to payment,
                     "status" to OrderStatus.PENDING.code,
                     "createdAt" to System.currentTimeMillis()
                 )

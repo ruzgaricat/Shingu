@@ -25,7 +25,8 @@ data class Order(
     val totalPrice: Double,
     val status: OrderStatus,
     val createdAt: Long,
-    val address: String? = null // Teslimat adresi (adres özelliğinden önceki siparişlerde yok)
+    val address: String? = null, // Teslimat adresi (adres özelliğinden önceki siparişlerde yok)
+    val payment: String? = null  // Örn: "Visa •••• 4242 (test)"; ödeme özelliğinden önceki siparişlerde yok
 )
 
 object OrderRepository {
@@ -72,6 +73,9 @@ object OrderRepository {
             val detail = (a["detail"] as? String).orEmpty()
             val full = (a["fullAddress"] as? String).orEmpty()
             "${a["title"]}: " + if (detail.isBlank()) full else "$full - $detail"
+        },
+        payment = (doc.get("payment") as? Map<*, *>)?.let { p ->
+            "${p["cardBrand"]} •••• ${p["cardLast4"]}" + if (p["testMode"] == true) " (test)" else ""
         }
     )
 

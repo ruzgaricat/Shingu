@@ -42,6 +42,7 @@ class MapPickerFragment : Fragment() {
 
     private lateinit var mapView: MapView
     private lateinit var tvPickedAddress: TextView
+    private lateinit var tvOutOfArea: TextView
     private lateinit var etTitle: TextInputEditText
     private lateinit var etDetail: TextInputEditText
     private lateinit var btnSave: Button
@@ -79,6 +80,8 @@ class MapPickerFragment : Fragment() {
 
         mapView = view.findViewById(R.id.mapView)
         tvPickedAddress = view.findViewById(R.id.tvPickedAddress)
+        tvOutOfArea = view.findViewById(R.id.tvOutOfArea)
+        tvOutOfArea.text = DeliveryArea.OUT_OF_AREA_MESSAGE
         etTitle = view.findViewById(R.id.etAddressTitle)
         etDetail = view.findViewById(R.id.etAddressDetail)
         btnSave = view.findViewById(R.id.btnSaveAddress)
@@ -126,27 +129,35 @@ class MapPickerFragment : Fragment() {
         geocodeCall?.enqueue(object : Callback<ReverseGeocodeResponse> {
             override fun onResponse(call: Call<ReverseGeocodeResponse>, response: Response<ReverseGeocodeResponse>) {
                 if (!isAdded) return
-                val address = response.body()?.shortAddress()
+                val body = response.body()
+                val address = body?.shortAddress()
                 if (response.isSuccessful && !address.isNullOrBlank()) {
-                    showPicked(point, address)
+                    showPicked(point, address, body.countryCode())
                 } else {
-                    showPicked(point, null)
+                    showPicked(point, null, null)
                 }
             }
 
             override fun onFailure(call: Call<ReverseGeocodeResponse>, t: Throwable) {
                 if (!isAdded || call.isCanceled) return
-                showPicked(point, null)
+                showPicked(point, null, null)
             }
         })
     }
 
-    // Adres bulunamazsa koordinatla kaydetmeye izin verilir; kullanıcı detay alanına tarif yazabilir
-    private fun showPicked(point: GeoPoint, address: String?) {
+    // Adres bulunamazsa koordinatla kaydetmeye izin verilir; kullanıcı detay alanına tarif yazabilir.
+    // Konum Türkiye dışındaysa uyarı gösterilir ve adres kaydedilemez.
+    private fun showPicked(point: GeoPoint, address: String?, countryCode: String?) {
         pickedPoint = point
         pickedAddress = address ?: String.format(Locale.US, "Konum: %.5f, %.5f", point.latitude, point.longitude)
         tvPickedAddress.text = pickedAddress
-        btnSave.isEnabled = true
+
+        // Ülke kodu biliniyorsa ona, bilinmiyorsa (servis yanıt vermediyse) Türkiye sınır kutusuna bakılır
+        val inServiceArea = if (countryCode != null) DeliveryArea.isServedCountry(countryCode)
+        else DeliveryArea.isInsideTurkeyBounds(point.latitude, point.longitude)
+
+        tvOutOfArea.visibility = if (inServiceArea) View.GONE else View.VISIBLE
+        btnSave.isEnabled = inServiceArea
     }
 
     private fun requestLocation(byUser: Boolean) {
