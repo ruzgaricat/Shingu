@@ -65,6 +65,8 @@ class RegisterActivity : BaseActivity() {
             registerUser(name, email, password)
         }
 
+        findViewById<TextView>(R.id.tvRegisterPrivacy).setOnClickListener { LegalTexts.openPrivacyPolicy(this) }
+
         tvGoToLogin.setOnClickListener {
             finish()
         }

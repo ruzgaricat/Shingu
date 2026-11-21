@@ -36,6 +36,14 @@ service cloud.firestore {
         && request.resource.data.stock == resource.data.stock + before.itemQuantities[productId];
     }
 
+    // Uygulamadaki DeliveryArea.isServed ile aynı kural
+    function isInDeliveryArea(address) {
+      return address.get('countryCode', null) != null
+        ? address.countryCode.lower() == 'tr'
+        : (address.latitude >= 35.8 && address.latitude <= 42.2
+           && address.longitude >= 25.6 && address.longitude <= 44.9);
+    }
+
     // ---------- Kullanıcılar ----------
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
@@ -50,7 +58,8 @@ service cloud.firestore {
             && request.resource.data.get('role', 'user') == resource.data.get('role', 'user')
             && (request.resource.data.get('status', 'active') == resource.data.get('status', 'active')
                 || request.resource.data.status == 'suspended'));
-      allow delete: if isAdmin();
+      // Admin herkesi silebilir; kullanıcı kendi profilini "Hesabımı Sil" ile silebilir (KVKK / Google Play)
+      allow delete: if isAdmin() || isOwner(uid);
 
       // Sepet, favoriler ve adresler: sahibi yönetir; admin hesap silerken okuyup temizleyebilir
       match /cart/{productId} {
@@ -124,7 +133,10 @@ service cloud.firestore {
         && request.resource.data.status == 'pending'
         && request.resource.data.payment.status == 'paid'
         && request.resource.data.payment.keys().hasOnly(['method', 'cardBrand', 'cardLast4', 'status', 'testMode', 'paidAt'])
-        && request.resource.data.payment.cardLast4.size() == 4;
+        && request.resource.data.payment.cardLast4.size() == 4
+        // Kargo alanı: Türkiye. Ülke kodu olan adreste "tr" olmalı; ülke kodu olmayan (eski) adreste
+        // koordinatlar Türkiye'nin yaklaşık sınırları içinde olmalı
+        && isInDeliveryArea(request.resource.data.address);
       // Durum değişikliği (işleme alındı, kargoda, teslim) ve silme admin.
       // Kullanıcı sadece kendi "Beklemede" siparişini "İptal edildi" yapabilir, başka alana dokunamaz.
       allow update: if isAdmin()

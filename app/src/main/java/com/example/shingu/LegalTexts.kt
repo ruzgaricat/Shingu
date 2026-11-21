@@ -1,7 +1,25 @@
 package com.example.shingu
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+
 // Ödeme ekranında gösterilen yasal metinler (örnek/şablon metinlerdir; ders projesi kapsamında hazırlanmıştır).
 object LegalTexts {
+
+    // Uygulama dışında (tarayıcıda) açılabilen gizlilik politikası; GitHub Pages ile depodaki docs/ klasöründen yayınlanır.
+    // Google Play, konum izni isteyen uygulamalardan böyle herkese açık bir bağlantı ister.
+    const val PRIVACY_POLICY_URL = "https://ruzgaricat.github.io/Shingu/gizlilik-politikasi.html"
+
+    fun openPrivacyPolicy(context: Context) {
+        try {
+            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL)))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "Tarayıcı bulunamadı: $PRIVACY_POLICY_URL", Toast.LENGTH_LONG).show()
+        }
+    }
 
     fun distanceSalesContract(itemsSummary: String, total: String, address: String) = """
         MESAFELİ SATIŞ SÖZLEŞMESİ VE ÖN BİLGİLENDİRME FORMU

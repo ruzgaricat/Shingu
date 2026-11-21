@@ -2,16 +2,22 @@ package com.example.shingu
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileFragment : Fragment() {
@@ -131,6 +137,12 @@ class ProfileFragment : Fragment() {
             showSuspendDialog()
         }
 
+        // Hesabımı Sil: hesap ve kişisel veriler kalıcı olarak silinir
+        view.findViewById<LinearLayout>(R.id.btnDeleteAccount).setOnClickListener { showDeleteAccountDialog() }
+
+        // Gizlilik Politikası: uygulama dışındaki web sayfası tarayıcıda açılır
+        view.findViewById<LinearLayout>(R.id.btnPrivacyPolicy).setOnClickListener { LegalTexts.openPrivacyPolicy(requireContext()) }
+
         btnLogout.setOnClickListener {
             showLogoutDialog()
         }
@@ -178,6 +190,65 @@ class ProfileFragment : Fragment() {
             .setPositiveButton("Evet, Askıya Al") { _, _ -> suspendUserAccount() }
             .setNegativeButton("Vazgeç", null)
             .show()
+    }
+
+    // Hesap silme onayı. E-posta/şifre ile giren kullanıcıdan güvenlik için şifresi istenir.
+    private fun showDeleteAccountDialog() {
+        if (UserSession.isAdmin) {
+            Toast.makeText(requireContext(), "Yönetici hesabı uygulama içinden silinemez.", Toast.LENGTH_LONG).show()
+            return
+        }
+        val user = auth.currentUser ?: return
+        val needsPassword = user.providerData.any { it.providerId == EmailAuthProvider.PROVIDER_ID }
+
+        val padding = (20 * resources.displayMetrics.density).toInt()
+        val etPassword = EditText(requireContext()).apply {
+            hint = "Şifreniz"
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        val container = FrameLayout(requireContext()).apply {
+            setPadding(padding, padding / 2, padding, 0)
+            if (needsPassword) addView(etPassword)
+        }
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Hesabımı Sil")
+            .setMessage(
+                "Hesabınız ve kişisel verileriniz (profil, sepet, favoriler, adresler, yorumlar) kalıcı olarak silinecek. " +
+                    "Verdiğiniz siparişler yasal kayıt amacıyla saklanır.\n\nBu işlem geri alınamaz." +
+                    if (needsPassword) "\n\nOnaylamak için şifrenizi girin:" else ""
+            )
+            .setView(container)
+            .setPositiveButton("Kalıcı Olarak Sil", null) // Hatalı şifrede pencere kapanmasın diye aşağıda bağlanıyor
+            .setNegativeButton("Vazgeç", null)
+            .create()
+
+        dialog.setOnShowListener {
+            val btnDelete = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            btnDelete.setTextColor(Color.parseColor("#C62828"))
+            btnDelete.setOnClickListener {
+                val password = etPassword.text.toString()
+                if (needsPassword && password.isEmpty()) {
+                    etPassword.error = "Şifrenizi girin"
+                    return@setOnClickListener
+                }
+                btnDelete.isEnabled = false
+                UserRepository.deleteOwnAccount(if (needsPassword) password else null,
+                    onSuccess = {
+                        dialog.dismiss()
+                        if (!isAdded) return@deleteOwnAccount
+                        Toast.makeText(requireContext(), "Hesabınız silindi.", Toast.LENGTH_LONG).show()
+                        performLogout()
+                    },
+                    onFailure = { e ->
+                        btnDelete.isEnabled = true
+                        val message = if (e is FirebaseAuthInvalidCredentialsException) "Şifre hatalı." else e.localizedMessage
+                        if (isAdded) Toast.makeText(requireContext(), "Hesap silinemedi: $message", Toast.LENGTH_LONG).show()
+                    }
+                )
+            }
+        }
+        dialog.show()
     }
 
     private fun showLogoutDialog() {

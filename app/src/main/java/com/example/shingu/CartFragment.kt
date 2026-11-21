@@ -35,6 +35,7 @@ class CartFragment : Fragment() {
     private lateinit var btnPlaceOrder: Button
     private lateinit var tvAddressTitle: TextView
     private lateinit var tvAddress: TextView
+    private lateinit var tvDeliveryWarning: TextView
     private lateinit var btnChangeAddress: Button
     private lateinit var etCouponCode: TextInputEditText
     private lateinit var btnApplyCoupon: Button
@@ -70,6 +71,7 @@ class CartFragment : Fragment() {
         btnPlaceOrder = view.findViewById(R.id.btnPlaceOrder)
         tvAddressTitle = view.findViewById(R.id.tvCartAddressTitle)
         tvAddress = view.findViewById(R.id.tvCartAddress)
+        tvDeliveryWarning = view.findViewById(R.id.tvDeliveryWarning)
         btnChangeAddress = view.findViewById(R.id.btnChangeAddress)
         btnChangeAddress.setOnClickListener { showAddressChooser() }
         etCouponCode = view.findViewById(R.id.etCouponCode)
@@ -263,6 +265,17 @@ class CartFragment : Fragment() {
             tvAddress.text = address.oneLine
             btnChangeAddress.text = "Değiştir"
         }
+        updateDeliveryState()
+    }
+
+    // Seçili adres kargo alanı dışındaysa uyarı gösterilir ve sepet onaylanamaz ("Ödemeye Geç" kapanır)
+    private fun updateDeliveryState() {
+        val outOfArea = selectedAddress?.isInDeliveryArea == false
+        tvDeliveryWarning.visibility = if (outOfArea) View.VISIBLE else View.GONE
+        tvDeliveryWarning.text = DeliveryArea.CART_BLOCKED_MESSAGE
+        tvAddress.setTextColor(Color.parseColor(if (outOfArea) "#C62828" else "#555555"))
+        btnPlaceOrder.isEnabled = !outOfArea
+        btnPlaceOrder.text = if (outOfArea) "Kargo alanı dışında" else "Ödemeye Geç"
     }
 
     // Kayıtlı adresler arasından seçim; son seçenek haritadan yeni adres ekler
@@ -306,8 +319,8 @@ class CartFragment : Fragment() {
             AddressesFragment.openMapPicker(parentFragmentManager)
             return
         }
-        // Bu kontrolden önce kaydedilmiş adresler Türkiye dışında olabilir; ödemeye geçmeden engellenir
-        if (!DeliveryArea.isInsideTurkeyBounds(address.latitude, address.longitude)) {
+        // Kargo alanı dışındaki adresle sepet onaylanamaz (buton zaten kapalı; ikinci güvenlik kontrolü)
+        if (!address.isInDeliveryArea) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Dağıtım Alanı Dışında")
                 .setMessage("\"${address.title}\" adresi dağıtım alanımız içinde değil. Şu an sadece Türkiye içine teslimat yapıyoruz. Lütfen başka bir adres seçin.")

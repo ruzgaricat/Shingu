@@ -57,6 +57,37 @@ async function exportCollection(collectionRef) {
   return result;
 }
 
+// ---------- Anonimleştirme (--anonymize) ----------
+// GitHub'a konulabilecek yedek için gerçek e-posta, isim ve adresler örnek değerlerle değiştirilir.
+// Test hesapları zaten "example.com" adreslidir ve kurgusal isimlidir; onlar olduğu gibi kalır.
+const anonymize = process.argv.includes("--anonymize");
+const emailMap = new Map();
+
+function anonEmail(email) {
+  if (typeof email !== "string" || email === "" || email.endsWith("@example.com")) return email;
+  if (!emailMap.has(email)) emailMap.set(email, `gizli-kullanici${emailMap.size + 1}@example.com`);
+  return emailMap.get(email);
+}
+
+// Belge verisini özyinelemeli gezip kişisel alanları değiştirir
+function anonymizeValue(value, ownerEmail) {
+  if (Array.isArray(value)) return value.map((v) => anonymizeValue(v, ownerEmail));
+  if (!value || typeof value !== "object") return value;
+
+  const out = {};
+  const email = value.email || value.userEmail || ownerEmail;
+  const isReal = typeof email === "string" && email !== "" && !email.endsWith("@example.com");
+  for (const [key, v] of Object.entries(value)) {
+    if (key === "email" || key === "userEmail") out[key] = anonEmail(v);
+    else if ((key === "fullName" || key === "userName") && isReal) out[key] = `Gizli Kullanıcı ${anonEmail(email).match(/\d+/)[0]}`;
+    else if (key === "fullAddress") out[key] = "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli";
+    else if (key === "detail" && "fullAddress" in value) out[key] = "";
+    else if ((key === "latitude" || key === "longitude") && "fullAddress" in value) out[key] = key === "latitude" ? 40.7654 : 29.9408;
+    else out[key] = anonymizeValue(v, email);
+  }
+  return out;
+}
+
 (async () => {
   const backup = {};
   // Kök koleksiyonlar: users, products, categories, orders ...
@@ -66,6 +97,15 @@ async function exportCollection(collectionRef) {
   }
 
   const stamp = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-");
+  if (anonymize) {
+    // Anonim yedek depoya konabilir: docs/ klasörüne yazılır
+    const outFile = path.join(__dirname, "..", "docs", "veritabani-yedegi-anonim.json");
+    const result = { _bilgi: `Shingu Firestore yedeği (${stamp}). Kişisel veriler gizlenmiştir.`, ...anonymizeValue(backup) };
+    fs.writeFileSync(outFile, JSON.stringify(result, null, 2), "utf8");
+    console.log(`\nAnonim yedek alındı: ${outFile}`);
+    console.log(`${Object.keys(backup).length} kök koleksiyon, toplam ${documentCount} belge, ${emailMap.size} gerçek e-posta gizlendi.`);
+    process.exit(0);
+  }
   const outFile = path.join(__dirname, "backups", `shingu-backup-${stamp}.json`);
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
   fs.writeFileSync(outFile, JSON.stringify(backup, null, 2), "utf8");

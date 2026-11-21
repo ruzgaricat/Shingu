@@ -50,6 +50,7 @@ class MapPickerFragment : Fragment() {
     // Haritanın ortasındaki noktanın bulunan adresi
     private var pickedAddress: String? = null
     private var pickedPoint: GeoPoint? = null
+    private var pickedCountryCode: String? = null // Adresle birlikte kaydedilir; sepetteki kargo alanı kontrolünde kullanılır
 
     private var geocodeCall: Call<ReverseGeocodeResponse>? = null
     private var locationRequestedByUser = false
@@ -149,12 +150,12 @@ class MapPickerFragment : Fragment() {
     // Konum Türkiye dışındaysa uyarı gösterilir ve adres kaydedilemez.
     private fun showPicked(point: GeoPoint, address: String?, countryCode: String?) {
         pickedPoint = point
+        pickedCountryCode = countryCode
         pickedAddress = address ?: String.format(Locale.US, "Konum: %.5f, %.5f", point.latitude, point.longitude)
         tvPickedAddress.text = pickedAddress
 
         // Ülke kodu biliniyorsa ona, bilinmiyorsa (servis yanıt vermediyse) Türkiye sınır kutusuna bakılır
-        val inServiceArea = if (countryCode != null) DeliveryArea.isServedCountry(countryCode)
-        else DeliveryArea.isInsideTurkeyBounds(point.latitude, point.longitude)
+        val inServiceArea = DeliveryArea.isServed(countryCode, point.latitude, point.longitude)
 
         tvOutOfArea.visibility = if (inServiceArea) View.GONE else View.VISIBLE
         btnSave.isEnabled = inServiceArea
@@ -207,7 +208,8 @@ class MapPickerFragment : Fragment() {
             fullAddress = fullAddress,
             detail = etDetail.text.toString().trim(),
             latitude = point.latitude,
-            longitude = point.longitude
+            longitude = point.longitude,
+            countryCode = pickedCountryCode
         )
         AddressRepository.addAddress(address,
             onSuccess = {

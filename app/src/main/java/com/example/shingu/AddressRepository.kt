@@ -12,7 +12,8 @@ data class Address(
     val fullAddress: String,  // Haritadan otomatik bulunan cadde/mahalle/ilçe
     val detail: String,       // Kullanıcının elle yazdığı bina/daire/kapı no
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val countryCode: String? = null // Haritadan bulunan ülke kodu (örn. "tr"); eski adreslerde yok
 ) {
     // Sipariş kaydına adresin o anki kopyası yazılır (adres sonradan silinse de sipariş bozulmaz)
     fun toMap() = mapOf(
@@ -20,8 +21,12 @@ data class Address(
         "fullAddress" to fullAddress,
         "detail" to detail,
         "latitude" to latitude,
-        "longitude" to longitude
+        "longitude" to longitude,
+        "countryCode" to countryCode
     )
+
+    // Bu adrese teslimat yapılabilir mi? (Dağıtım alanı: Türkiye)
+    val isInDeliveryArea: Boolean get() = DeliveryArea.isServed(countryCode, latitude, longitude)
 
     // Tek satırlık gösterim: "Gazanfer Bilge Bulvarı, Körfez Mah., İzmit/Kocaeli - No:5 D:3"
     val oneLine: String get() = if (detail.isBlank()) fullAddress else "$fullAddress - $detail"
@@ -51,7 +56,8 @@ object AddressRepository {
                         fullAddress = doc.getString("fullAddress") ?: "",
                         detail = doc.getString("detail") ?: "",
                         latitude = doc.getDouble("latitude") ?: 0.0,
-                        longitude = doc.getDouble("longitude") ?: 0.0
+                        longitude = doc.getDouble("longitude") ?: 0.0,
+                        countryCode = doc.getString("countryCode")
                     )
                 } ?: emptyList())
             }

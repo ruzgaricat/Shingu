@@ -95,6 +95,19 @@
                 android:text="Değiştir" />
         </LinearLayout>
 
+        <!-- Seçili adres kargo alanı dışındaysa görünür; bu durumda "Ödemeye Geç" kapalıdır -->
+        <TextView
+            android:id="@+id/tvDeliveryWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="#FDECEA"
+            android:padding="10dp"
+            android:textColor="#C62828"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <!-- Kupon kodu -->
         <LinearLayout
             android:layout_width="match_parent"

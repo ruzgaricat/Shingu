@@ -1,6 +1,9 @@
 package com.example.shingu
 
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
@@ -74,10 +77,56 @@ object UserRepository {
     // Not: Firebase Auth giriş hesabı uygulama içinden silinemez (sunucu yetkisi gerekir);
     // kalıcı silme için firebase-scripts klasöründeki "npm run purge-deleted" kullanılır.
     fun deleteUser(uid: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        deleteUserData(uid, removeProfile = false)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
+    }
+
+    // Kullanıcının KENDİ hesabını kalıcı olarak silmesi (Google Play ve KVKK "silinme hakkı" gereği):
+    // 1) Güvenlik için yeniden doğrulama (e-posta/şifre hesaplarında şifre sorulur)
+    // 2) Kişisel veriler (profil, sepet, favoriler, adresler, yorumlar) silinir
+    // 3) Firebase Auth giriş hesabı silinir; aynı e-postayla yeniden kayıt olunabilir
+    // Siparişler muhasebe/yasal kayıt amacıyla saklanır. Yönetici hesabı buradan silinemez.
+    fun deleteOwnAccount(password: String?, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val user = FirebaseAuth.getInstance().currentUser
+            ?: return onFailure(IllegalStateException("Giriş yapılmamış"))
+        if (UserSession.isAdmin) {
+            return onFailure(IllegalStateException("Yönetici hesabı uygulama içinden silinemez."))
+        }
+
+        val reauth: Task<Void> = if (password != null) {
+            user.reauthenticate(EmailAuthProvider.getCredential(user.email ?: "", password))
+        } else {
+            // Google ile giren hesapta şifre yoktur; Firebase hesap silmek için son birkaç dakika içinde
+            // giriş yapılmış olmasını ister. Veriler silinmeden önce bu kontrol edilir (yarım silme olmasın).
+            val lastSignIn = user.metadata?.lastSignInTimestamp ?: 0L
+            if (System.currentTimeMillis() - lastSignIn > RECENT_LOGIN_MS) {
+                return onFailure(IllegalStateException("Güvenlik nedeniyle önce çıkış yapıp tekrar giriş yapın, ardından hesabınızı silin."))
+            }
+            Tasks.forResult(null)
+        }
+
+        reauth
+            .continueWithTask { task ->
+                if (!task.isSuccessful) return@continueWithTask Tasks.forException<Void>(task.exception!!)
+                deleteUserData(user.uid, removeProfile = true)
+            }
+            .continueWithTask { task ->
+                if (!task.isSuccessful) return@continueWithTask Tasks.forException<Void>(task.exception!!)
+                user.delete()
+            }
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
+    }
+
+    // Kullanıcının alt verilerini (sepet, favoriler, adresler, yorum kopyaları ve ürünlerdeki asıl yorumları) siler.
+    // removeProfile: true -> kullanıcı belgesi de silinir (kendi hesabını silme);
+    //                false -> belge "deleted" olarak işaretlenir (admin silmesi; giriş engellensin diye kalır)
+    private fun deleteUserData(uid: String, removeProfile: Boolean): Task<Void> {
         val userRef = db.collection("users").document(uid)
         val subcollections = listOf("cart", "favorites", "addresses", "reviews").map { userRef.collection(it).get() }
 
-        Tasks.whenAllSuccess<QuerySnapshot>(subcollections)
+        return Tasks.whenAllSuccess<QuerySnapshot>(subcollections)
             .continueWithTask { task ->
                 val batch = db.batch()
                 task.result.forEachIndexed { index, snapshot ->
@@ -89,15 +138,19 @@ object UserRepository {
                         }
                     }
                 }
-                batch.update(
-                    userRef, mapOf(
-                        "status" to AccountStatus.DELETED.code,
-                        "statusUpdatedAt" to System.currentTimeMillis()
+                if (removeProfile) {
+                    batch.delete(userRef)
+                } else {
+                    batch.update(
+                        userRef, mapOf(
+                            "status" to AccountStatus.DELETED.code,
+                            "statusUpdatedAt" to System.currentTimeMillis()
+                        )
                     )
-                )
+                }
                 batch.commit()
             }
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener(onFailure)
     }
+
+    private const val RECENT_LOGIN_MS = 4 * 60 * 1000L
 }

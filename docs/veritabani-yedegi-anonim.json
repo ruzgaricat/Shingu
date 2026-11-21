@@ -1,0 +1,474 @@
+{
+  "_bilgi": "Shingu Firestore yedeği (2026-11-21_00-21). Kişisel veriler gizlenmiştir.",
+  "categories": {
+    "8tBQCUJzw6VrAGBtS1PS": {
+      "data": {
+        "name": "Banyo",
+        "imageUrl": "https://picsum.photos/seed/banyo/300/150",
+        "createdAt": 1795173484960
+      }
+    },
+    "9yeWEzQHo9fQ6bqApGjK": {
+      "data": {
+        "name": "Yatak Odası",
+        "imageUrl": "https://picsum.photos/seed/yatak-odasi/300/150",
+        "createdAt": 1795173484960
+      }
+    },
+    "ElT9xUL1jyiia1QsWIWK": {
+      "data": {
+        "name": "Mutfak",
+        "imageUrl": "https://picsum.photos/seed/mutfak/300/150",
+        "createdAt": 1795173484960
+      }
+    },
+    "HalZp2w9i2HUtjS99Oyr": {
+      "data": {
+        "name": "Balkon",
+        "imageUrl": "https://picsum.photos/seed/balkon/300/150",
+        "createdAt": 1795173484960
+      }
+    },
+    "akO0zd7jtv92dyC1KZST": {
+      "data": {
+        "name": "Oturma Odası",
+        "imageUrl": "https://picsum.photos/seed/oturma-odasi/300/150",
+        "createdAt": 1795173484960
+      }
+    }
+  },
+  "products": {
+    "home-balkon-minderi": {
+      "data": {
+        "onSale": false,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Su Geçirmez Balkon Minderi",
+        "price": 349,
+        "stock": 14,
+        "categories": [
+          "Balkon"
+        ],
+        "description": "Su itici kumaşlı, 40x40 cm balkon sandalye minderi. (Satıştan kaldırılmış ürün örneği)",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-balkon-minderi/600/400",
+          "https://picsum.photos/seed/home-balkon-minderi-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-balkon-minderi/600/400",
+        "createdAt": 1795172999057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-balkon-seti": {
+      "data": {
+        "onSale": true,
+        "weatherTag": "sunny",
+        "weatherDiscount": 10,
+        "name": "Katlanır Balkon Masa Sandalye Seti",
+        "price": 2899,
+        "stock": 8,
+        "categories": [
+          "Balkon"
+        ],
+        "description": "1 masa ve 2 sandalyeden oluşan, katlanabilir, dış mekâna dayanıklı set.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-balkon-seti/600/400",
+          "https://picsum.photos/seed/home-balkon-seti-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-balkon-seti/600/400",
+        "createdAt": 1795173119057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-banyo-rafi": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Bambu Banyo Rafı",
+        "price": 329,
+        "stock": 12,
+        "categories": [
+          "Banyo"
+        ],
+        "description": "3 katlı, neme dayanıklı bambu raf. Kolay kurulum.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-banyo-rafi/600/400",
+          "https://picsum.photos/seed/home-banyo-rafi-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-banyo-rafi/600/400",
+        "createdAt": 1795173419057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-battaniye": {
+      "data": {
+        "onSale": true,
+        "weatherTag": "snowy",
+        "weatherDiscount": 20,
+        "name": "Peluş Kanepe Battaniyesi",
+        "price": 499,
+        "stock": 18,
+        "categories": [
+          "Oturma Odası",
+          "Balkon"
+        ],
+        "description": "150x200 cm, yumuşak dokulu peluş battaniye. Serin akşamlar için ideal.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-battaniye/600/400",
+          "https://picsum.photos/seed/home-battaniye-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-battaniye/600/400",
+        "createdAt": 1795173299057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-fincan-seti": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Seramik Kahve Fincanı Seti (6'lı)",
+        "price": 399.9,
+        "stock": 40,
+        "categories": [
+          "Mutfak"
+        ],
+        "description": "Tabaklı, 6 kişilik Türk kahvesi fincan seti. Bulaşık makinesinde yıkanabilir.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-fincan-seti/600/400",
+          "https://picsum.photos/seed/home-fincan-seti-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-fincan-seti/600/400",
+        "createdAt": 1795173599057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-gece-lambasi": {
+      "data": {
+        "onSale": true,
+        "weatherTag": "cloudy",
+        "weatherDiscount": 10,
+        "name": "Komodin Gece Lambası",
+        "price": 459,
+        "stock": 25,
+        "categories": [
+          "Yatak Odası",
+          "Oturma Odası"
+        ],
+        "description": "Dokunmatik, 3 kademeli sıcak beyaz ışık. USB ile şarj edilebilir.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-gece-lambasi/600/400",
+          "https://picsum.photos/seed/home-gece-lambasi-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-gece-lambasi/600/400",
+        "createdAt": 1795173719057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-havlu-seti": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Pamuklu Banyo Havlusu Seti",
+        "price": 549.9,
+        "stock": 30,
+        "categories": [
+          "Banyo"
+        ],
+        "description": "Banyo, el ve yüz havlusundan oluşan 3'lü, yüksek emicilikli pamuk havlu seti.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-havlu-seti/600/400",
+          "https://picsum.photos/seed/home-havlu-seti-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-havlu-seti/600/400",
+        "createdAt": 1795173479057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-kesme-tahtasi": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Bambu Kesme Tahtası",
+        "price": 189.9,
+        "stock": 0,
+        "categories": [
+          "Mutfak"
+        ],
+        "description": "40x30 cm, oluklu kenarlı doğal bambu kesme ve servis tahtası.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-kesme-tahtasi/600/400",
+          "https://picsum.photos/seed/home-kesme-tahtasi-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-kesme-tahtasi/600/400",
+        "createdAt": 1795173539057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-kirlent": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Dekoratif Kırlent Seti (4'lü)",
+        "price": 379.9,
+        "stock": 22,
+        "categories": [
+          "Oturma Odası",
+          "Yatak Odası",
+          "Balkon"
+        ],
+        "description": "45x45 cm, fermuarlı kılıflı, dolgusuyla birlikte 4'lü dekoratif kırlent seti.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-kirlent/600/400",
+          "https://picsum.photos/seed/home-kirlent-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-kirlent/600/400",
+        "createdAt": 1795173239057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-nevresim": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Pamuk Saten Nevresim Takımı",
+        "price": 1299.9,
+        "stock": 20,
+        "categories": [
+          "Yatak Odası"
+        ],
+        "description": "Çift kişilik, %100 pamuk saten nevresim takımı. Nevresim, çarşaf ve 2 yastık kılıfı içerir.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-nevresim/600/400",
+          "https://picsum.photos/seed/home-nevresim-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-nevresim/600/400",
+        "createdAt": 1795173839057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-paspas": {
+      "data": {
+        "onSale": true,
+        "weatherTag": "rainy",
+        "weatherDiscount": 15,
+        "name": "Kaymaz Banyo Paspası",
+        "price": 149.9,
+        "stock": 50,
+        "categories": [
+          "Banyo"
+        ],
+        "description": "Kaymaz tabanlı, hızlı kuruyan yumuşak banyo paspası. 50x80 cm.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-paspas/600/400",
+          "https://picsum.photos/seed/home-paspas-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-paspas/600/400",
+        "createdAt": 1795173359057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-saksi-seti": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Saksı ve Çiçeklik Seti",
+        "price": 279.9,
+        "stock": 35,
+        "categories": [
+          "Balkon"
+        ],
+        "description": "3 farklı boyutta saksı ve korkuluğa takılabilen askılı çiçeklik.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-saksi-seti/600/400",
+          "https://picsum.photos/seed/home-saksi-seti-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-saksi-seti/600/400",
+        "createdAt": 1795173059057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-sehpa": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Ahşap Orta Sehpa",
+        "price": 2199,
+        "stock": 6,
+        "categories": [
+          "Oturma Odası"
+        ],
+        "description": "Masif ahşap ayaklı, alt raflı modern orta sehpa. 100x50 cm.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-sehpa/600/400",
+          "https://picsum.photos/seed/home-sehpa-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-sehpa/600/400",
+        "createdAt": 1795173179057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-tava-seti": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Granit Tava Seti (3'lü)",
+        "price": 1749,
+        "stock": 15,
+        "categories": [
+          "Mutfak"
+        ],
+        "description": "20, 24 ve 28 cm granit kaplama, yapışmaz tava seti. Tüm ocak tiplerine uygundur.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-tava-seti/600/400",
+          "https://picsum.photos/seed/home-tava-seti-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-tava-seti/600/400",
+        "createdAt": 1795173659057,
+        "updatedAt": 1795173839057
+      }
+    },
+    "home-yastik": {
+      "data": {
+        "onSale": true,
+        "weatherTag": null,
+        "weatherDiscount": 0,
+        "name": "Kaz Tüyü Yastık (2'li)",
+        "price": 849.9,
+        "stock": 3,
+        "categories": [
+          "Yatak Odası",
+          "Oturma Odası",
+          "Balkon"
+        ],
+        "description": "50x70 cm, antialerjik kumaş, yumuşak dolgulu kaz tüyü yastık seti.",
+        "imageUrls": [
+          "https://picsum.photos/seed/home-yastik/600/400",
+          "https://picsum.photos/seed/home-yastik-2/600/400"
+        ],
+        "imageUrl": "https://picsum.photos/seed/home-yastik/600/400",
+        "createdAt": 1795173779057,
+        "updatedAt": 1795173839057
+      }
+    }
+  },
+  "users": {
+    "52a3qlQ4frObPLKgFuAfkZm1gnc2": {
+      "data": {
+        "uid": "52a3qlQ4frObPLKgFuAfkZm1gnc2",
+        "fullName": "Gizli Kullanıcı 1",
+        "email": "gizli-kullanici1@example.com",
+        "status": "active",
+        "role": "admin"
+      }
+    },
+    "6T5JpQ9vlSOiEUUgLpsGafDy8Jf2": {
+      "data": {
+        "uid": "6T5JpQ9vlSOiEUUgLpsGafDy8Jf2",
+        "fullName": "Mehmet Kaya",
+        "email": "mehmet.kaya@example.com",
+        "role": "admin",
+        "status": "active",
+        "createdAt": 1795219214125
+      }
+    },
+    "ASkmHvFed1TXu7zSs3m2SOpDL6A3": {
+      "data": {
+        "uid": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+        "fullName": "Selin Aydın",
+        "email": "selin.aydin@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219221894
+      }
+    },
+    "I8rEAOdWDdRH13Lf5jEBlZlyX7g2": {
+      "data": {
+        "uid": "I8rEAOdWDdRH13Lf5jEBlZlyX7g2",
+        "fullName": "Zeynep Demir",
+        "email": "zeynep.demir@example.com",
+        "role": "admin",
+        "status": "active",
+        "createdAt": 1795219215267
+      }
+    },
+    "KS0DG2ytvzTFYtFnMHfl9K3YXkm1": {
+      "data": {
+        "uid": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+        "fullName": "Deniz Arslan",
+        "email": "deniz.arslan@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219219747
+      }
+    },
+    "ZPpwscAJaQeX2FxQv8P1DDTxFJs1": {
+      "data": {
+        "uid": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+        "fullName": "Burak Şahin",
+        "email": "burak.sahin@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219218710
+      }
+    },
+    "d6Mspu0VdmZsCBvyImrDZj0iy122": {
+      "data": {
+        "uid": "d6Mspu0VdmZsCBvyImrDZj0iy122",
+        "fullName": "Elif Yılmaz",
+        "email": "elif.yilmaz@example.com",
+        "role": "admin",
+        "status": "active",
+        "createdAt": 1795219211096
+      }
+    },
+    "gwh3S1vgx2bbROMlEMOp3PFlKNN2": {
+      "data": {
+        "uid": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+        "fullName": "Emre Koç",
+        "email": "emre.koc@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219220853
+      }
+    },
+    "nKsGIMz8uWTIB5c7RTv6S3btO073": {
+      "data": {
+        "uid": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+        "fullName": "Ayşe Çelik",
+        "email": "ayse.celik@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219217623
+      }
+    },
+    "vcr64fxjFvg4XuVQoAnjLeQ8tSX2": {
+      "data": {
+        "uid": "vcr64fxjFvg4XuVQoAnjLeQ8tSX2",
+        "fullName": "Oğuz Yıldız",
+        "email": "oguz.yildiz@example.com",
+        "role": "user",
+        "status": "active",
+        "createdAt": 1795219223012
+      }
+    },
+    "xGErblI6a4RFabZALMVvDFa02z42": {
+      "data": {
+        "uid": "xGErblI6a4RFabZALMVvDFa02z42",
+        "fullName": "Can Öztürk",
+        "email": "can.ozturk@example.com",
+        "role": "admin",
+        "status": "active",
+        "createdAt": 1795219216534
+      }
+    }
+  }
+}

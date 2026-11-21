@@ -72,6 +72,19 @@
             android:text="Kayıt Ol"
             android:textColor="#FFFFFF" />
 
+        <!-- Gizlilik politikası bilgilendirmesi: dokununca web sayfası tarayıcıda açılır -->
+        <TextView
+            android:id="@+id/tvRegisterPrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Kayıt olarak Gizlilik Politikası'nı okuduğunuzu kabul etmiş olursunuz."
+            android:textColor="#3498DB"
+            android:textSize="12sp" />
+
         <!-- Giriş Ekranına Dönüş -->
         <TextView
             android:id="@+id/tvGoToLogin"

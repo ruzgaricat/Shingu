@@ -72,7 +72,14 @@ class PaymentFragment : Fragment() {
 
         cbAgreement = view.findViewById(R.id.cbAgreement)
         view.findViewById<Button>(R.id.btnShowContract).setOnClickListener { showContract() }
-        view.findViewById<Button>(R.id.btnShowKvkk).setOnClickListener { showText("KVKK Aydınlatma Metni", LegalTexts.kvkk) }
+        view.findViewById<Button>(R.id.btnShowKvkk).setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("KVKK Aydınlatma Metni")
+                .setMessage(LegalTexts.kvkk)
+                .setPositiveButton("Kapat", null)
+                .setNeutralButton("Gizlilik Politikası") { _, _ -> LegalTexts.openPrivacyPolicy(requireContext()) }
+                .show()
+        }
 
         // Sepette uygulanan kupon burada tekrar okunur (bu arada pasif yapılmış olabilir)
         couponCode?.let { code ->
@@ -182,6 +189,11 @@ class PaymentFragment : Fragment() {
         check(etCvv, CardValidator.cvvError(cvv, brand))
         if (!valid) return
 
+        // Kargo alanı dışındaki adrese sipariş verilemez (sepette de engellenir; burada ikinci kontrol)
+        if (!address.isInDeliveryArea) {
+            Toast.makeText(requireContext(), DeliveryArea.CART_BLOCKED_MESSAGE, Toast.LENGTH_LONG).show()
+            return
+        }
         if (items.any { !it.available || it.exceedsStock }) {
             Toast.makeText(requireContext(), "Sepetinizde satışta olmayan veya stoğu yetmeyen ürün var. Lütfen sepeti düzenleyin.", Toast.LENGTH_LONG).show()
             return
@@ -274,6 +286,7 @@ class PaymentFragment : Fragment() {
                 putString("detail", address.detail)
                 putDouble("latitude", address.latitude)
                 putDouble("longitude", address.longitude)
+                putString("countryCode", address.countryCode)
             }
         }
 
@@ -283,7 +296,8 @@ class PaymentFragment : Fragment() {
             fullAddress = args.getString("fullAddress") ?: "",
             detail = args.getString("detail") ?: "",
             latitude = args.getDouble("latitude"),
-            longitude = args.getDouble("longitude")
+            longitude = args.getDouble("longitude"),
+            countryCode = args.getString("countryCode")
         )
     }
 }

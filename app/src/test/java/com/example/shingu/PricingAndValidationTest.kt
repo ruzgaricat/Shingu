@@ -107,6 +107,32 @@ class PricingAndValidationTest {
         assertNotNull(CardValidator.expiryError("1230"))  // biçim
     }
 
+    // ---------- Kargo (dağıtım) alanı ----------
+    @Test
+    fun deliveryAreaUsesCountryCodeWhenKnown() {
+        // Ülke kodu varsa koordinata bakılmaz (Edirne sınırı / sınıra yakın Yunanistan noktası)
+        assertTrue(DeliveryArea.isServed("tr", 41.71, 26.55))
+        assertTrue(DeliveryArea.isServed("TR", 41.71, 26.55))
+        assertFalse(DeliveryArea.isServed("gr", 41.0, 26.0)) // sınır kutusu içinde ama Yunanistan
+        assertFalse(DeliveryArea.isServed("de", 52.52, 13.40)) // Berlin
+    }
+
+    @Test
+    fun deliveryAreaFallsBackToTurkeyBounds() {
+        assertTrue(DeliveryArea.isServed(null, 41.01, 28.97))  // İstanbul
+        assertTrue(DeliveryArea.isServed(null, 38.50, 43.38))  // Van
+        assertFalse(DeliveryArea.isServed(null, 51.50, -0.12)) // Londra
+        assertFalse(DeliveryArea.isServed(null, 35.68, 139.69)) // Tokyo
+    }
+
+    @Test
+    fun addressDeliveryCheck() {
+        val istanbul = Address(title = "Ev", fullAddress = "", detail = "", latitude = 41.01, longitude = 28.97, countryCode = "tr")
+        val berlin = istanbul.copy(latitude = 52.52, longitude = 13.40, countryCode = "de")
+        assertTrue(istanbul.isInDeliveryArea)
+        assertFalse(berlin.isInDeliveryArea)
+    }
+
     @Test
     fun cvvLengthDependsOnBrand() {
         assertNull(CardValidator.cvvError("123", CardBrand.VISA))

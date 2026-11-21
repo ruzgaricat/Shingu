@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shingu Gizlilik Politikası</title>
+  <style>
+    :root { --text: #222; --muted: #666; --accent: #6750A4; --bg: #fafafa; --card: #fff; --border: #e5e5e5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8e8e8; --muted: #a8a8a8; --accent: #c9b8ff; --bg: #121212; --card: #1c1c1c; --border: #333; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    h1 { font-size: 1.8rem; margin: 0 0 4px; }
+    h2 { font-size: 1.15rem; margin: 32px 0 8px; color: var(--accent); }
+    .meta { color: var(--muted); font-size: .9rem; margin-bottom: 24px; }
+    .note { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Shingu Gizlilik Politikası</h1>
+  <div class="meta">Son güncelleme: 21 Kasım 2026</div>
+
+  <p class="note">
+    Shingu, Kocaeli Üniversitesi TBL223 Mobil Uygulama Geliştirme dersi kapsamında geliştirilmiş bir
+    <strong>ders projesidir</strong>; gerçek bir ticari işletme değildir. Uygulamadaki ödemeler test modundadır,
+    gerçek ödeme alınmaz.
+  </p>
+
+  <p>
+    Bu politika, Shingu Android uygulamasının hangi kişisel verileri topladığını, bunları ne amaçla kullandığını ve
+    6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamındaki haklarınızı açıklar.
+  </p>
+
+  <h2>1. Toplanan veriler</h2>
+  <table>
+    <tr><th>Veri</th><th>Ne zaman</th><th>Amaç</th></tr>
+    <tr><td>Ad-soyad, e-posta adresi</td><td>Kayıt / Google ile giriş</td><td>Üyelik, giriş, sipariş bildirimi</td></tr>
+    <tr><td>Teslimat adresi ve adresin konumu</td><td>Adres eklerken</td><td>Siparişin teslimatı, dağıtım alanı kontrolü</td></tr>
+    <tr><td>Cihaz konumu (GPS)</td><td>Yalnızca adres ekranında "Konumumu bul" butonuna basıldığında</td><td>Haritayı bulunduğunuz yere getirmek</td></tr>
+    <tr><td>Sepet, favoriler, siparişler</td><td>Uygulamayı kullanırken</td><td>Alışveriş hizmetinin sunulması</td></tr>
+    <tr><td>Ürün yorumları ve puanlar</td><td>Yorum yazdığınızda</td><td>Diğer kullanıcılara ürün hakkında bilgi vermek (yorumlar adınızla herkese görünür)</td></tr>
+    <tr><td>Geri bildirim mesajları</td><td>Geri bildirim formunu gönderdiğinizde</td><td>Destek ve uygulamanın iyileştirilmesi</td></tr>
+  </table>
+
+  <h2>2. Ödeme bilgileri</h2>
+  <p>
+    Kart numaranızın tamamı ve güvenlik kodu (CVV) <strong>hiçbir yerde saklanmaz ve sunucuya gönderilmez</strong>.
+    Siparişte yalnızca kart türü (ör. Visa) ve kartın son 4 hanesi tutulur. Ödeme ekranı test modundadır.
+  </p>
+
+  <h2>3. Verilerin paylaşıldığı hizmetler</h2>
+  <ul>
+    <li><strong>Google Firebase</strong> (kimlik doğrulama ve veritabanı): Hesap ve alışveriş verilerinizin saklandığı altyapı.</li>
+    <li><strong>OpenStreetMap / Nominatim</strong>: Haritada seçtiğiniz noktanın koordinatı, cadde ve mahalle bilgisini bulmak için gönderilir. Adınız veya e-postanız gönderilmez.</li>
+    <li><strong>Open-Meteo</strong> (hava durumu) ve <strong>Frankfurter</strong> (döviz kurları): Kişisel veri gönderilmez.</li>
+    <li><strong>Cloudinary</strong>: Yalnızca mağaza yöneticilerinin yüklediği ürün ve kampanya görselleri saklanır.</li>
+  </ul>
+  <p>Verileriniz bu hizmetler dışında üçüncü kişilerle paylaşılmaz, satılmaz veya reklam amacıyla kullanılmaz.</p>
+
+  <h2>4. Saklama süresi</h2>
+  <p>
+    Hesap verileriniz hesabınız açık olduğu sürece saklanır. Hesabınızı sildiğinizde profiliniz, sepetiniz,
+    favorileriniz, adresleriniz ve yorumlarınız kalıcı olarak silinir. Verdiğiniz siparişlerin kaydı yasal
+    yükümlülükler (fatura/muhasebe) nedeniyle saklanır.
+  </p>
+
+  <h2>5. Haklarınız (KVKK madde 11)</h2>
+  <ul>
+    <li>Verilerinize erişme ve düzeltilmesini isteme: <em>Profil &gt; Üyelik Bilgilerim</em></li>
+    <li>Hesabınızı geçici olarak durdurma: <em>Profil &gt; Hesabı Askıya Al</em></li>
+    <li>Hesabınızı ve verilerinizi kalıcı olarak silme: <em>Profil &gt; Hesabımı Sil</em></li>
+    <li>Yorumlarınızı silme: <em>Profil &gt; Ürün Yorumlarım</em></li>
+  </ul>
+
+  <h2>6. İzinler</h2>
+  <p>
+    Uygulama yalnızca <strong>internet</strong> ve <strong>konum</strong> izni ister. Konum izni isteğe bağlıdır;
+    vermezseniz adresinizi haritadan elle seçebilirsiniz. Konumunuz arka planda takip edilmez.
+  </p>
+
+  <h2>7. İletişim</h2>
+  <p>
+    Gizlilikle ilgili soru ve talepleriniz için uygulamadaki <em>Profil &gt; Geri Bildirim Formu</em>nu kullanabilirsiniz.
+  </p>
+</main>
+</body>
+</html>
