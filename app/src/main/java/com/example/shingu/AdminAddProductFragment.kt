@@ -299,18 +299,18 @@ class AdminAddProductFragment : Fragment() {
     }
 
     private fun showImageOptions(index: Int) {
-        val options = if (index == 0) arrayOf("Görseli Sil") else arrayOf("Kapak Görseli Yap", "Görseli Sil")
-        AlertDialog.Builder(requireContext())
-            .setTitle("${index + 1}. görsel")
-            .setItems(options) { _, which ->
-                when (options[which]) {
-                    "Kapak Görseli Yap" -> imageUrls.add(0, imageUrls.removeAt(index))
-                    "Görseli Sil" -> imageUrls.removeAt(index)
-                }
+        val actions = mutableListOf<DialogAction>()
+        if (index != 0) {
+            actions += DialogAction("Kapak Görseli Yap") {
+                imageUrls.add(0, imageUrls.removeAt(index))
                 renderImages()
             }
-            .setNegativeButton("Vazgeç", null)
-            .show()
+        }
+        actions += DialogAction("Görseli Sil", destructive = true) {
+            imageUrls.removeAt(index)
+            renderImages()
+        }
+        showActionDialog("${index + 1}. görsel", actions)
     }
 
     private fun setupWeatherTag() {

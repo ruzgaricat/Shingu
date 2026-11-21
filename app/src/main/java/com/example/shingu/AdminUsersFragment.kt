@@ -74,22 +74,16 @@ class AdminUsersFragment : Fragment() {
         }
 
         val isSuspended = user.status == AccountStatus.SUSPENDED
-        val actions = arrayOf(
-            "Bilgileri Düzenle",
-            if (isSuspended) "Hesabı Aktifleştir" else "Hesabı Dondur",
-            "Hesabı Sil"
+        showActionDialog(
+            user.fullName.ifEmpty { user.email },
+            listOf(
+                DialogAction("Bilgileri Düzenle") { showEditDialog(user) },
+                DialogAction(if (isSuspended) "Hesabı Aktifleştir" else "Hesabı Dondur") {
+                    confirmStatusChange(user, if (isSuspended) AccountStatus.ACTIVE else AccountStatus.SUSPENDED)
+                },
+                DialogAction("Hesabı Sil", destructive = true) { confirmDelete(user) }
+            )
         )
-        AlertDialog.Builder(requireContext())
-            .setTitle(user.fullName.ifEmpty { user.email })
-            .setItems(actions) { _, which ->
-                when (which) {
-                    0 -> showEditDialog(user)
-                    1 -> confirmStatusChange(user, if (isSuspended) AccountStatus.ACTIVE else AccountStatus.SUSPENDED)
-                    2 -> confirmDelete(user)
-                }
-            }
-            .setNegativeButton("Kapat", null)
-            .show()
     }
 
     // Ad-soyad ve rol düzenleme penceresi

@@ -59,14 +59,16 @@ class AdminCouponsFragment : Fragment() {
     }
 
     private fun showCouponActions(coupon: Coupon) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(coupon.code)
-            .setItems(arrayOf("Düzenle", if (coupon.active) "Pasif Yap" else "Aktif Yap", "Sil")) { _, which ->
-                when (which) {
-                    0 -> showCouponForm(coupon)
-                    1 -> CouponRepository.saveCoupon(coupon.copy(active = !coupon.active))
+        showActionDialog(
+            coupon.code,
+            listOf(
+                DialogAction("Düzenle") { showCouponForm(coupon) },
+                DialogAction(if (coupon.active) "Pasif Yap" else "Aktif Yap") {
+                    CouponRepository.saveCoupon(coupon.copy(active = !coupon.active))
                         .addOnFailureListener { e -> toast("Güncellenemedi: ${e.localizedMessage}") }
-                    2 -> AlertDialog.Builder(requireContext())
+                },
+                DialogAction("Sil", destructive = true) {
+                    AlertDialog.Builder(requireContext())
                         .setTitle("Kuponu Sil")
                         .setMessage("${coupon.code} kuponu silinecek. Daha önce bu kuponla verilmiş siparişler etkilenmez.")
                         .setPositiveButton("Sil") { _, _ ->
@@ -76,9 +78,8 @@ class AdminCouponsFragment : Fragment() {
                         .setNegativeButton("Vazgeç", null)
                         .show()
                 }
-            }
-            .setNegativeButton("Kapat", null)
-            .show()
+            )
+        )
     }
 
     // Kupon formu; existing null ise yeni kupon. Kod, kuponun belge kimliği olduğu için düzenlemede değiştirilemez.
