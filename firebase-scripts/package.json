@@ -12,7 +12,9 @@
     "seed-home-categories": "node seed-home-categories.js",
     "seed-home-categories:dry": "node seed-home-categories.js --dry-run",
     "seed-home-products": "node seed-home-products.js",
-    "seed-home-products:dry": "node seed-home-products.js --dry-run"
+    "seed-home-products:dry": "node seed-home-products.js --dry-run",
+    "seed-test-accounts": "node seed-test-accounts.js",
+    "seed-test-accounts:dry": "node seed-test-accounts.js --dry-run"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0"

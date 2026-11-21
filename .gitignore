@@ -30,3 +30,6 @@ firestore-debug.log
 
 # Veritabanı yedekleri gerçek kullanıcı verisi (e-posta, adres) içerir; herkese açık depoya konmaz
 firebase-scripts/backups/*.json
+
+# Test hesaplarının şifreleri (seed-test-accounts.js üretir); GitHub'a gitmemeli
+firebase-scripts/*.local.json
