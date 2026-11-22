@@ -116,7 +116,7 @@ class AdminDashboardFragment : Fragment() {
             }
             val ratio = (revenue / maxRevenue).toFloat()
             barArea.addView(View(requireContext()).apply {
-                setBackgroundColor(Color.parseColor("#6750A4"))
+                setBackgroundColor(Color.parseColor("#E5508A"))
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, ratio.coerceAtLeast(0.01f))
             })
             row.addView(barArea)

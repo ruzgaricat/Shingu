@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -123,7 +123,7 @@ class ProductDetailFragment : Fragment() {
             if (!isAdded) return@listenFavoriteIds
             isFavorite = productId in ids
             btnFavorite.setImageResource(if (isFavorite) R.drawable.baseline_favorite_24 else R.drawable.ic_favorite_border_24)
-            btnFavorite.setColorFilter(Color.parseColor(if (isFavorite) "#E53935" else "#333333"))
+            btnFavorite.setColorFilter(Color.parseColor(if (isFavorite) "#FF4F8B" else "#4A3550"))
         }
 
         // Hava durumu gelince indirimli fiyat yeniden hesaplanır
@@ -160,10 +160,10 @@ class ProductDetailFragment : Fragment() {
         }
 
         val (stockText, stockColor) = when {
-            !product.onSale -> "Satışta değil" to "#757575"
-            product.isOutOfStock -> "Tükendi" to "#E53935"
-            product.stock != null && product.stock <= 5 -> "Son ${product.stock} ürün!" to "#F57C00"
-            else -> "Stokta var" to "#388E3C"
+            !product.onSale -> "Satışta değil" to "#9A88A3"
+            product.isOutOfStock -> "Tükendi" to "#FF4F8B"
+            product.stock != null && product.stock <= 5 -> "Son ${product.stock} ürün!" to "#F08A24"
+            else -> "Stokta var" to "#2FAE80"
         }
         tvStock.text = stockText
         tvStock.setTextColor(Color.parseColor(stockColor))
@@ -353,8 +353,8 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.imageView)
-            .load(urls.getOrNull(position) ?: R.drawable.ic_launcher_foreground)
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .load(urls.getOrNull(position) ?: R.drawable.ic_placeholder_sakura)
+            .placeholder(R.drawable.ic_placeholder_sakura)
             .into(holder.imageView)
     }
 

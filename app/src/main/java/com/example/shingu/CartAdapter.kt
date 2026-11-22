@@ -52,7 +52,7 @@ class CartAdapter(
 
         Glide.with(holder.itemView.context)
             .load(item.imageUrl)
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_placeholder_sakura)
             .into(holder.ivImage)
 
         holder.btnIncrease.setOnClickListener { onIncrease(item) }

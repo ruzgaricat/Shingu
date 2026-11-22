@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -182,7 +182,7 @@ class AdminAddCategoryFragment : Fragment() {
             ivPreview.visibility = View.GONE
         } else {
             ivPreview.visibility = View.VISIBLE
-            Glide.with(this).load(url).placeholder(R.drawable.ic_launcher_foreground).into(ivPreview)
+            Glide.with(this).load(url).placeholder(R.drawable.ic_placeholder_sakura).into(ivPreview)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.widget.LinearLayout
@@ -35,9 +35,9 @@ fun Fragment.showActionDialog(title: String, actions: List<DialogAction>) {
             text = action.label
             isAllCaps = false
             textSize = 15f
-            cornerRadius = (12 * density).toInt()
+            cornerRadius = (24 * density).toInt()
             strokeWidth = (1.5f * density).toInt()
-            val color = Color.parseColor(if (action.destructive) "#C62828" else "#6750A4")
+            val color = Color.parseColor(if (action.destructive) "#E23D63" else "#E5508A")
             setTextColor(color)
             strokeColor = ColorStateList.valueOf(color)
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (52 * density).toInt()).apply {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Diyalog arka planı: kenarlardan boşluklu, geniş yuvarlak köşeli beyaz kart -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="24dp"
+    android:insetTop="24dp"
+    android:insetRight="24dp"
+    android:insetBottom="24dp">
+    <shape>
+        <solid android:color="@color/kw_surface" />
+        <corners android:radius="28dp" />
+    </shape>
+</inset>

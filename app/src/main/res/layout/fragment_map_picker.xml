@@ -44,7 +44,7 @@
             android:background="#B3FFFFFF"
             android:paddingHorizontal="4dp"
             android:text="© OpenStreetMap"
-            android:textColor="#555555"
+            android:textColor="@color/kw_text_body"
             android:textSize="10sp" />
     </FrameLayout>
 
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Seçilen Konum"
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="12sp" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_marginTop="2dp"
             android:maxLines="2"
             android:text="Haritayı kaydırarak konumunuzu seçin"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -79,9 +79,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="#FDECEA"
+            android:background="@color/kw_error_soft"
             android:padding="10dp"
-            android:textColor="#C62828"
+            android:textColor="@color/kw_error"
             android:textSize="13sp"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -93,7 +93,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -110,7 +110,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2">

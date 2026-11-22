@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Görsel yüklenirken / görsel yokken gösterilen yer tutucu: açık pembe zemin üstünde soluk sakura -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path android:fillColor="@color/kw_surface_alt" android:pathData="M0,0h100v100h-100z" />
+    <group
+        android:pivotX="50"
+        android:pivotY="50"
+        android:scaleX="0.45"
+        android:scaleY="0.45">
+        <group android:pivotX="50" android:pivotY="50" android:rotation="0">
+            <path android:fillColor="@color/kw_primary_soft" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+            <path android:fillColor="@color/kw_sakura" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+        </group>
+        <group android:pivotX="50" android:pivotY="50" android:rotation="72">
+            <path android:fillColor="@color/kw_primary_soft" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+            <path android:fillColor="@color/kw_sakura" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+        </group>
+        <group android:pivotX="50" android:pivotY="50" android:rotation="144">
+            <path android:fillColor="@color/kw_primary_soft" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+            <path android:fillColor="@color/kw_sakura" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+        </group>
+        <group android:pivotX="50" android:pivotY="50" android:rotation="216">
+            <path android:fillColor="@color/kw_primary_soft" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+            <path android:fillColor="@color/kw_sakura" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+        </group>
+        <group android:pivotX="50" android:pivotY="50" android:rotation="288">
+            <path android:fillColor="@color/kw_primary_soft" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+            <path android:fillColor="@color/kw_sakura" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+        </group>
+        <path android:fillColor="@color/kw_sakura" android:pathData="M43,50a7,7 0,1 0,14 0a7,7 0,1 0,-14 0" />
+    </group>
+</vector>

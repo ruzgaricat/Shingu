@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:id="@+id/tvDetailName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#222222"
+                android:textColor="@color/kw_text"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textColor="#F57C00"
+                android:textColor="@color/kw_warning"
                 android:textSize="14sp" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:background="@drawable/bg_rounded_card"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:textColor="#1976D2"
+                android:textColor="@color/kw_secondary_dark"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:textColor="#999999"
+                    android:textColor="@color/kw_text_secondary"
                     android:textSize="15sp"
                     android:visibility="gone" />
 
@@ -104,7 +104,7 @@
                     android:id="@+id/tvDetailPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#E53935"
+                    android:textColor="@color/kw_price"
                     android:textSize="22sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Ürün Açıklaması"
-                android:textColor="#222222"
+                android:textColor="@color/kw_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:lineSpacingExtra="2dp"
-                android:textColor="#444444"
+                android:textColor="@color/kw_text_body"
                 android:textSize="14sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -146,7 +146,7 @@
             <!-- Sadece admin görür -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDetailEdit"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Shingu.Button.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
@@ -157,7 +157,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="#EEEEEE" />
+            android:background="@color/kw_divider" />
 
         <!-- Yorumlar -->
         <LinearLayout
@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Değerlendirmeler"
-                android:textColor="#222222"
+                android:textColor="@color/kw_text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -180,9 +180,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E0E0E0"
+                app:strokeColor="@color/kw_stroke"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yorum Yaz"
-                        android:textColor="#333333"
+                        android:textColor="@color/kw_text"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -211,7 +211,7 @@
                         android:stepSize="1" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -251,8 +251,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="Henüz yorum yok. İlk yorumu siz yazın!"
-                android:textColor="#777777"
+                android:text="Henüz yorum yok. İlk yorumu siz yazın! ✿"
+                android:textColor="@color/kw_text_secondary"
                 android:textSize="14sp"
                 android:visibility="gone" />
         </LinearLayout>

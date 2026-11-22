@@ -21,6 +21,9 @@ class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        // Başlık durum çubuğunun arkasına kadar uzanır, yazılar altında kalmaz
+        findViewById<android.view.View>(R.id.registerHeader).padForSystemBars(top = true)
+        findViewById<android.view.View>(R.id.registerRoot).padForSystemBars(bottom = true)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()

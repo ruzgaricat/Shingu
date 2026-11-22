@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:id="@+id/tvDetailOrderNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="13sp" />
 
         <TextView
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
-                android:textColor="#444444"
+                android:textColor="@color/kw_text_body"
                 android:textSize="14sp" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -106,20 +106,20 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_card"
             android:padding="12dp"
-            android:textColor="#444444"
+            android:textColor="@color/kw_text_body"
             android:textSize="14sp" />
 
         <!-- Kullanıcı: "Beklemede" siparişi; admin: teslim edilmemiş siparişi iptal edebilir -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDetailCancel"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Shingu.Button.Outlined"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:text="Siparişi İptal Et"
-            android:textColor="#E53935"
+            android:textColor="@color/kw_error"
             android:visibility="gone"
-            app:strokeColor="#E53935" />
+            app:strokeColor="@color/kw_error" />
 
         <TextView
             android:id="@+id/tvDetailCancelInfo"
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="12sp"
             android:visibility="gone" />
     </LinearLayout>

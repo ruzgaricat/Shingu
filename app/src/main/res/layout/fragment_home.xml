@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/kw_bg"
     android:orientation="vertical">
 
     <!-- Hava durumu şeridi (Open-Meteo API): ekranın üstünü boydan boya kaplar -->
@@ -11,14 +11,14 @@
         android:id="@+id/tvWeatherStrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E8F0FE"
+        android:background="@color/kw_secondary_soft"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:paddingHorizontal="16dp"
         android:paddingVertical="10dp"
         android:text="Hava durumu yükleniyor..."
-        android:textColor="#1A3A6B"
+        android:textColor="@color/kw_secondary_text"
         android:textSize="14sp" />
 
     <androidx.core.widget.NestedScrollView
@@ -36,7 +36,7 @@
             <!-- Ürün arama: ad, açıklama ve kategoride arar -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutSearch"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -91,8 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Kategoriler"
-                    android:textColor="#222222"
+                    android:text="✿ Kategoriler"
+                    android:textColor="@color/kw_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -126,8 +126,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tüm Ürünler"
-                    android:textColor="#222222"
+                    android:text="✿ Tüm Ürünler"
+                    android:textColor="@color/kw_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -135,13 +135,13 @@
                     android:id="@+id/tvResultCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#777777"
+                    android:textColor="@color/kw_text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
 
             <!-- Sıralama -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -171,21 +171,21 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipFilterInStock"
-                        style="@style/Widget.Material3.Chip.Filter"
+                        style="@style/Widget.Shingu.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Stokta olanlar" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipFilterDiscounted"
-                        style="@style/Widget.Material3.Chip.Filter"
+                        style="@style/Widget.Shingu.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="İndirimli" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipFilterRated"
-                        style="@style/Widget.Material3.Chip.Filter"
+                        style="@style/Widget.Shingu.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4★ ve üzeri" />
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:text="Fiyat aralığı"
-                android:textColor="#555555"
+                android:textColor="@color/kw_text_body"
                 android:textSize="13sp" />
 
             <com.google.android.material.slider.RangeSlider
@@ -209,7 +209,18 @@
                 android:layout_marginHorizontal="8dp"
                 android:stepSize="0"
                 android:valueFrom="0"
-                android:valueTo="1" />
+                android:valueTo="1"
+                app:haloColor="@color/kw_primary_soft"
+                app:thumbColor="@color/kw_primary"
+                app:thumbHeight="22dp"
+                app:thumbStrokeColor="@color/white"
+                app:thumbStrokeWidth="3dp"
+                app:thumbTrackGapSize="0dp"
+                app:thumbWidth="22dp"
+                app:trackColorActive="@color/kw_primary"
+                app:trackColorInactive="@color/kw_primary_soft"
+                app:trackHeight="6dp"
+                app:trackStopIndicatorSize="0dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHomeProducts"
@@ -225,7 +236,7 @@
                 android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:text="Ürünler yükleniyor..."
-                android:textColor="#777777"
+                android:textColor="@color/kw_text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

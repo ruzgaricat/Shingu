@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

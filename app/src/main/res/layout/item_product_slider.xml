@@ -6,8 +6,8 @@
     android:layout_marginBottom="12dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,11 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivItemProductImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Shingu.Image" />
 
             <!-- Favori kalbi (dolu = favorilerde) -->
             <ImageButton
@@ -45,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="#F57C00"
+            android:textColor="@color/kw_warning"
             android:textSize="13sp"
             android:visibility="gone" />
 
@@ -68,7 +69,7 @@
             android:background="@drawable/bg_rounded_card"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:textColor="#1976D2"
+            android:textColor="@color/kw_secondary_dark"
             android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -85,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:textColor="#999999"
+                android:textColor="@color/kw_text_secondary"
                 android:textSize="13sp"
                 android:visibility="gone" />
 
@@ -93,7 +94,7 @@
                 android:id="@+id/tvItemProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>

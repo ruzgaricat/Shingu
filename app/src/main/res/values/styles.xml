@@ -1,12 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ===== Kawaii bileşen stilleri (temadan otomatik uygulanır veya layout'ta style= ile seçilir) ===== -->
+
+    <!-- Butonlar: hap (pill) şeklinde, kalın ve büyük/küçük harf korunur -->
+    <style name="Widget.Shingu.Button" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="backgroundTint">@color/kw_primary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Shingu.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/kw_primary_dark</item>
+        <item name="strokeColor">@color/kw_primary</item>
+        <item name="strokeWidth">1.5dp</item>
+    </style>
+
+    <style name="Widget.Shingu.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@color/kw_primary_soft</item>
+        <item name="android:textColor">@color/kw_primary_dark</item>
+    </style>
+
+    <style name="Widget.Shingu.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/kw_primary_dark</item>
+    </style>
+
+    <style name="Widget.Shingu.Button.DialogText" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/kw_primary_dark</item>
+    </style>
+
+    <!-- Kartlar: geniş yuvarlak köşe, gölge yerine ince pembe çerçeve -->
+    <style name="Widget.Shingu.CardView" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardCornerRadius">22dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/kw_surface</item>
+        <item name="strokeColor">@color/kw_stroke</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Çipler: tamamen yuvarlak -->
+    <style name="Widget.Shingu.Chip" parent="Widget.Material3.Chip.Suggestion">
+        <item name="chipCornerRadius">50dp</item>
+        <item name="chipBackgroundColor">@color/kw_surface</item>
+        <item name="chipStrokeColor">@color/kw_stroke</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textColor">@color/kw_text</item>
+    </style>
+
+    <style name="Widget.Shingu.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="chipCornerRadius">50dp</item>
+        <item name="chipStrokeColor">@color/kw_stroke</item>
+    </style>
+
+    <!-- Metin alanları: yuvarlak köşeli, odaklanınca pembe -->
+    <style name="Widget.Shingu.TextInputLayout.OutlinedBox" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/kw_textinput_stroke</item>
+        <item name="boxBackgroundColor">@color/kw_surface</item>
+        <item name="hintTextColor">@color/kw_primary_dark</item>
+    </style>
+
+    <style name="Widget.Shingu.TextInputLayout.OutlinedBox.Dense" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/kw_textinput_stroke</item>
+        <item name="boxBackgroundColor">@color/kw_surface</item>
+        <item name="hintTextColor">@color/kw_primary_dark</item>
+    </style>
+
+    <style name="Widget.Shingu.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/kw_textinput_stroke</item>
+        <item name="boxBackgroundColor">@color/kw_surface</item>
+        <item name="hintTextColor">@color/kw_primary_dark</item>
+    </style>
+
+    <style name="Widget.Shingu.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/kw_textinput_stroke</item>
+        <item name="boxBackgroundColor">@color/kw_surface</item>
+        <item name="hintTextColor">@color/kw_primary_dark</item>
+    </style>
+
+    <!-- Alt menü: beyaz zemin, seçili sekme pembe -->
+    <style name="Widget.Shingu.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/kw_surface</item>
+        <item name="itemIconTint">@color/kw_nav_item</item>
+        <item name="itemTextColor">@color/kw_nav_item</item>
+        <item name="android:elevation">12dp</item>
+    </style>
+
+    <!-- Giriş/kayıt ekranındaki metin kutuları -->
+    <style name="Widget.Shingu.LoginInput" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:background">@drawable/bg_input_kawaii</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textColor">@color/kw_text</item>
+        <item name="android:textColorHint">@color/kw_text_hint</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <!-- Sipariş detay ekranındaki bölüm başlıkları -->
     <style name="OrderDetailSection">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">6dp</item>
-        <item name="android:textColor">#222222</item>
+        <item name="android:textColor">@color/kw_text</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -17,9 +141,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/bg_rounded_card</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:minHeight">72dp</item>
-        <item name="android:textColor">#222222</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:minHeight">76dp</item>
+        <item name="android:textColor">@color/kw_text</item>
         <item name="android:textSize">13sp</item>
+    </style>
+    <!-- Ürün görselleri: köşeleri yuvarlatılmış -->
+    <style name="ShapeAppearance.Shingu.Image" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 </resources>

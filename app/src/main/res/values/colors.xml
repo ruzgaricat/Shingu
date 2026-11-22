@@ -2,4 +2,53 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- ===== Shingu kawaii paleti =====
+         Sakura pembesi ana renk; gök mavisi, lavanta ve nane yardımcı renkler.
+         Yazılarda saf siyah yerine yumuşak koyu erik rengi kullanılır. -->
+
+    <!-- Zemin ve yüzeyler -->
+    <color name="kw_bg">#FFF5F9</color>              <!-- ekran arka planı: çok açık sakura -->
+    <color name="kw_surface">#FFFFFF</color>         <!-- kartlar -->
+    <color name="kw_surface_alt">#FFEDF4</color>     <!-- alanlar, çipler -->
+
+    <!-- Ana renk: sakura pembesi -->
+    <color name="kw_primary">#FF6FA5</color>
+    <color name="kw_primary_dark">#E5508A</color>
+    <color name="kw_primary_soft">#FFD6E6</color>
+    <color name="kw_sakura">#FFB3CF</color>           <!-- sakura logosu yaprakları -->
+
+    <!-- Yardımcı renkler -->
+    <color name="kw_secondary">#7CC6F5</color>       <!-- gök mavisi -->
+    <color name="kw_secondary_dark">#3D9BD6</color>
+    <color name="kw_secondary_soft">#E3F3FD</color>
+    <color name="kw_secondary_text">#2E78A8</color>
+    <color name="kw_lavender">#B79CF2</color>
+    <color name="kw_lavender_dark">#8B69D9</color>
+    <color name="kw_lavender_soft">#F1EAFF</color>
+
+    <!-- Yazılar -->
+    <color name="kw_text">#4A3550</color>            <!-- başlık ve gövde -->
+    <color name="kw_text_body">#6B5873</color>       <!-- ikincil gövde -->
+    <color name="kw_text_secondary">#9A88A3</color>  <!-- açıklama -->
+    <color name="kw_text_hint">#C4B5CB</color>
+
+    <!-- Çizgi ve ayırıcılar -->
+    <color name="kw_stroke">#FFD6E6</color>
+    <color name="kw_divider">#FBE6EE</color>
+
+    <!-- Anlamlı renkler -->
+    <color name="kw_price">#FF4F8B</color>
+    <color name="kw_success">#2FAE80</color>
+    <color name="kw_warning">#F08A24</color>
+    <color name="kw_warning_soft">#FFF1E0</color>
+    <color name="kw_warning_text">#B8650E</color>
+    <color name="kw_error">#E23D63</color>
+    <color name="kw_error_soft">#FFE6EC</color>
+    <color name="kw_muted">#A898AF</color>
+
+    <!-- Kampanya banner'ı -->
+    <color name="kw_banner_overlay_start">#004A3550</color>
+    <color name="kw_banner_overlay_center">#664A3550</color>
+    <color name="kw_banner_overlay_end">#E64A3550</color>
 </resources>

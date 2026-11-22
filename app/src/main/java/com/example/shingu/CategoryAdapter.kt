@@ -32,7 +32,7 @@ class CategoryAdapter(
         // Glide ile kategori görselini yüklüyoruz
         Glide.with(holder.itemView.context)
             .load(category.imageUrl)
-            .placeholder(R.drawable.ic_launcher_foreground) // Varsayılan yüklenme görseli
+            .placeholder(R.drawable.ic_placeholder_sakura) // Varsayılan yüklenme görseli
             .into(holder.ivCategory)
 
         holder.itemView.setOnClickListener {

@@ -98,16 +98,16 @@ class AdminProductAdapter(
 
         val stockText = product.stock?.let { "Stok: $it" } ?: "Stok girilmemiş"
         val (saleText, color) = when {
-            !product.onSale -> "Satışta değil" to "#757575"
-            product.isOutOfStock -> "Tükendi" to "#E53935"
-            else -> "Satışta" to "#388E3C"
+            !product.onSale -> "Satışta değil" to "#9A88A3"
+            product.isOutOfStock -> "Tükendi" to "#FF4F8B"
+            else -> "Satışta" to "#2FAE80"
         }
         holder.tvStatus.text = "$stockText  ·  $saleText"
         holder.tvStatus.setTextColor(Color.parseColor(color))
 
         Glide.with(holder.itemView.context)
             .load(product.imageUrls.firstOrNull())
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_placeholder_sakura)
             .into(holder.ivImage)
 
         holder.itemView.setOnClickListener { onClick(product) }

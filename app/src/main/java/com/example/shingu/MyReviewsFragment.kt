@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +27,7 @@ class MyReviewsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_orders, container, false)
         view.findViewById<TextView>(R.id.tvOrdersTitle).text = "Ürün Yorumlarım"
         val tvEmpty = view.findViewById<TextView>(R.id.tvOrdersEmpty)
-        tvEmpty.text = "Henüz yorum yazmadınız"
+        tvEmpty.text = "Henüz yorum yazmadınız ( ˘ω˘ )"
 
         val adapter = ReviewAdapter(
             currentUid = FirebaseAuth.getInstance().currentUser?.uid,

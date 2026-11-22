@@ -115,12 +115,12 @@ class AdminCategoryAdapter(
         val row = rows[position]
         holder.tvName.text = row.name
         holder.tvCount.text = if (row.productCount > 0) "${row.productCount} ürün" else "Ürün yok"
-        holder.tvCount.setTextColor(Color.parseColor("#757575"))
+        holder.tvCount.setTextColor(Color.parseColor("#9A88A3"))
         holder.tvStatus.visibility = View.GONE
 
         Glide.with(holder.itemView.context)
             .load(row.imageUrl)
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_placeholder_sakura)
             .into(holder.ivImage)
 
         holder.itemView.setOnClickListener { onClick(row) }

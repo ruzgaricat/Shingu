@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -36,6 +36,9 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        // Başlık durum çubuğunun arkasına kadar uzanır, yazılar altında kalmaz
+        findViewById<android.view.View>(R.id.loginHeader).padForSystemBars(top = true)
+        findViewById<android.view.View>(R.id.loginRoot).padForSystemBars(bottom = true)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()

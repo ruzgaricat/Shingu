@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ödeme"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
                 android:id="@+id/tvPaymentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#555555"
+                android:textColor="@color/kw_text_body"
                 android:textSize="13sp" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textColor="#555555"
+                android:textColor="@color/kw_text_body"
                 android:textSize="13sp" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Ödeme Yöntemi"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -67,9 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:strokeColor="#6750A4"
+            app:strokeColor="@color/kw_primary"
             app:strokeWidth="2dp">
 
             <RadioButton
@@ -79,7 +79,7 @@
                 android:clickable="false"
                 android:padding="8dp"
                 android:text="💳  Kredi / Banka Kartı ile online ödeme"
-                android:textColor="#222222" />
+                android:textColor="@color/kw_text" />
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Test modu uyarısı -->
@@ -87,15 +87,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="#FFF8E1"
+            android:background="@color/kw_warning_soft"
             android:padding="10dp"
             android:text="TEST MODU: Gerçek ödeme alınmaz.\nTest kartı: 4242 4242 4242 4242 · ileri bir tarih · herhangi 3 haneli CVV\nReddedilen kart denemesi: 4000 0000 0000 0002"
-            android:textColor="#8D6E00"
+            android:textColor="@color/kw_warning_text"
             android:textSize="12sp" />
 
         <!-- Kart bilgileri -->
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
@@ -110,7 +110,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutCardNumber"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -134,7 +134,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -151,7 +151,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Ön Bilgilendirme Formu'nu ve Mesafeli Satış Sözleşmesi'ni okudum, onaylıyorum."
-            android:textColor="#333333"
+            android:textColor="@color/kw_text"
             android:textSize="13sp" />
 
         <LinearLayout
@@ -184,14 +184,14 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShowContract"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Shingu.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sözleşmeyi oku" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShowKvkk"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Shingu.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="KVKK Aydınlatma Metni" />
@@ -218,7 +218,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="🔒 Kart numarasının tamamı ve CVV kaydedilmez; siparişte yalnızca kart türü ve son 4 hane görünür."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 </ScrollView>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nunito (yuvarlak hatlı, SIL Open Font License 1.1 — lisans: licenses/Nunito-OFL.txt).
+     Tek bir değişken (variable) yazı tipi dosyasından normal ve kalın ağırlıklar üretilir. -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font
+        android:font="@font/nunito"
+        android:fontStyle="normal"
+        android:fontVariationSettings="'wght' 500"
+        android:fontWeight="400"
+        app:font="@font/nunito"
+        app:fontStyle="normal"
+        app:fontVariationSettings="'wght' 500"
+        app:fontWeight="400" />
+    <font
+        android:font="@font/nunito"
+        android:fontStyle="normal"
+        android:fontVariationSettings="'wght' 800"
+        android:fontWeight="700"
+        app:font="@font/nunito"
+        app:fontStyle="normal"
+        app:fontVariationSettings="'wght' 800"
+        app:fontWeight="700" />
+</font-family>

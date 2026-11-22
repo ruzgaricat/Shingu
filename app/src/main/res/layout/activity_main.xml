@@ -2,24 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/kw_bg">
 
     <!-- Sayfa içeriklerinin değişeceği alan -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationView" />
+        android:layout_above="@id/navDivider"
+        android:layout_alignWithParentIfMissing="true" />
 
-    <!-- Alt Gezinme Çubuğu -->
+    <!-- Alt çubuğun üstündeki ince pembe çizgi -->
+    <View
+        android:id="@+id/navDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/kw_stroke" />
+
+    <!-- Alt Gezinme Çubuğu: renkler Widget.Shingu.BottomNavigation stilinden gelir -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black" />
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>

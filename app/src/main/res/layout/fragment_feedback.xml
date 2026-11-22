@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Geri Bildirim Formu"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -25,11 +25,11 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:text="Öneri, şikayet veya karşılaştığınız bir hatayı bize iletin. Mesajınız mağaza yönetimine ulaşır."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="13sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp">
@@ -43,7 +43,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:counterEnabled="true"

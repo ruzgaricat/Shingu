@@ -27,7 +27,7 @@ class UserCouponsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_products, container, false)
         view.findViewById<TextView>(R.id.tvAdminListTitle).text = "Kuponlarım"
         val tvEmpty = view.findViewById<TextView>(R.id.tvAdminProductsEmpty)
-        tvEmpty.text = "Şu an kullanılabilir kupon yok"
+        tvEmpty.text = "Şu an kullanılabilir kupon yok (´・ω・`)"
         view.findViewById<Button>(R.id.btnNewProduct).visibility = View.GONE
 
         val adapter = CouponAdapter(showAdminInfo = false) { coupon -> copyCode(coupon) }

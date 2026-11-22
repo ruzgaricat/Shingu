@@ -2,7 +2,12 @@ package com.example.shingu
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +24,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        setupInsets(bottomNavigationView)
 
         // Rol yüklenene kadar normal kullanıcı varsayılır
         UserSession.isAdmin = false
@@ -105,6 +111,23 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         userListener?.remove()
+    }
+
+    // Sayfalar durum çubuğunun altından başlar; alt çubuk gezinme çubuğu boşluğunu kendisi ekler.
+    // Klavye açılınca alt çubuk gizlenir ve sayfa klavyenin üstünde biter (yazılan alan görünür kalır).
+    private fun setupInsets(bottomNav: BottomNavigationView) {
+        val navDivider = findViewById<View>(R.id.navDivider)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragmentContainer)) { container, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            val keyboardOpen = insets.isVisible(WindowInsetsCompat.Type.ime())
+            bottomNav.isVisible = !keyboardOpen
+            navDivider.isVisible = !keyboardOpen
+            container.updatePadding(
+                top = bars.top,
+                bottom = if (keyboardOpen) insets.getInsets(WindowInsetsCompat.Type.ime()).bottom else 0
+            )
+            insets
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {

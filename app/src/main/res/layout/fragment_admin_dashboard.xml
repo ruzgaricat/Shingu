@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Yönetici: Satış Özeti"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="İptal edilen siparişler ciroya dahil edilmez."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="12sp" />
 
         <!-- Özet kartları (2x2) -->
@@ -85,7 +85,7 @@
             android:background="@drawable/bg_rounded_card"
             android:lineSpacingExtra="3dp"
             android:padding="12dp"
-            android:textColor="#444444"
+            android:textColor="@color/kw_text_body"
             android:textSize="14sp" />
 
         <TextView
@@ -99,12 +99,12 @@
             android:background="@drawable/bg_rounded_card"
             android:lineSpacingExtra="3dp"
             android:padding="12dp"
-            android:textColor="#444444"
+            android:textColor="@color/kw_text_body"
             android:textSize="14sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnOpenFeedback"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Shingu.Button.Outlined"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"

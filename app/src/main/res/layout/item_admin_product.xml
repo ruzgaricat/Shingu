@@ -6,8 +6,8 @@
     android:layout_marginBottom="12dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#222222"
+                android:textColor="@color/kw_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Düzenle >"
-            android:textColor="#6750A4"
+            android:textColor="@color/kw_primary_dark"
             android:textSize="13sp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

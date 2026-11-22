@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginBottom="8dp"
             android:paddingHorizontal="20dp"
             android:text="Yönetici: Yeni Kampanya"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
             android:layout_marginBottom="16dp"
             android:paddingHorizontal="20dp"
             android:text="Kampanya adıyla aynı isimde bir kategori otomatik açılır. Ana sayfadaki banner'a dokunan kullanıcı bu kategoriye gider; kampanya silinirse kategori de silinir."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="13sp" />
 
         <!-- Canlı önizleme: banner'ın ana sayfada nasıl görüneceği -->
@@ -39,7 +39,7 @@
             android:layout_marginBottom="20dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -57,7 +57,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -74,7 +74,7 @@
         <!-- Telefondan fotoğraf seçip Cloudinary'ye yükler, bağlantıyı yukarıdaki alana yazar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPickCampaignImage"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.Shingu.Button.Tonal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -86,22 +86,22 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="20dp"
-            android:backgroundTint="#6750A4"
+            android:backgroundTint="@color/kw_primary"
             android:text="Kampanyayı Oluştur"
             android:textSize="16sp" />
 
         <!-- Sadece düzenleme modunda görünür -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDeleteCampaign"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Shingu.Button.Outlined"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
             android:text="Kampanyayı Sil"
-            android:textColor="#E53935"
+            android:textColor="@color/kw_error"
             android:visibility="gone"
-            app:strokeColor="#E53935" />
+            app:strokeColor="@color/kw_error" />
 
     </LinearLayout>
 </ScrollView>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="Yönetici: Yeni Kategori Oluştur"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNewCategoryName"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNewCategoryImageUrl"
@@ -53,7 +53,7 @@
     <!-- Telefondan görsel seçip Cloudinary'ye yükler, bağlantıyı yukarıdaki alana yazar -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPickCategoryImage"
-        style="@style/Widget.Material3.Button.TonalButton"
+        style="@style/Widget.Shingu.Button.Tonal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -72,21 +72,21 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#6750A4"
+        android:backgroundTint="@color/kw_primary"
         android:text="Kategoriyi Kaydet"
         android:textSize="16sp" />
 
     <!-- Sadece düzenleme modunda görünür -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeleteCategory"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        style="@style/Widget.Shingu.Button.Outlined"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:text="Kategoriyi Sil"
-        android:textColor="#E53935"
+        android:textColor="@color/kw_error"
         android:visibility="gone"
-        app:strokeColor="#E53935" />
+        app:strokeColor="@color/kw_error" />
 
 </LinearLayout>
 </ScrollView>

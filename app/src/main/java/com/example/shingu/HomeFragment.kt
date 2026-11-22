@@ -296,13 +296,13 @@ class HomeFragment : Fragment() {
         productAdapter?.submitList(sorted)
         val searching = query.isNotEmpty()
         layoutBrowseSections.visibility = if (searching) View.GONE else View.VISIBLE
-        tvProductsTitle.text = if (searching) "\"$searchQuery\" için sonuçlar" else "Tüm Ürünler"
+        tvProductsTitle.text = if (searching) "\"$searchQuery\" için sonuçlar" else "✿ Tüm Ürünler"
         tvResultCount.text = "${sorted.size} ürün"
         // Fiyat aralığı yazısı ürünler yüklenip kaydırıcı gerçek aralığa ayarlandıktan sonra gösterilir
         if (sliderPrice.visibility == View.VISIBLE && values.size == 2 && allProducts.isNotEmpty()) {
             tvPriceRange.text = "Fiyat aralığı: ${minPrice.toInt()} – ${maxPrice.toInt()} TL"
         }
-        tvEmpty.text = if (allProducts.isEmpty()) "Henüz ürün yok" else "Aramanıza uygun ürün bulunamadı"
+        tvEmpty.text = if (allProducts.isEmpty()) "Henüz ürün yok (´・ω・`)" else "Aramanıza uygun ürün bulunamadı (・_・;)"
         tvEmpty.visibility = if (sorted.isEmpty()) View.VISIBLE else View.GONE
     }
 

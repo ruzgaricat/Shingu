@@ -14,11 +14,11 @@ import java.util.Locale
 // Sipariş durumunun rengi (liste ve detay ekranı ortak kullanır)
 fun OrderStatus.color(): Int = Color.parseColor(
     when (this) {
-        OrderStatus.PENDING -> "#F57C00"
-        OrderStatus.PROCESSING -> "#1976D2"
-        OrderStatus.SHIPPED -> "#7B1FA2"
-        OrderStatus.DELIVERED -> "#388E3C"
-        OrderStatus.CANCELLED -> "#757575"
+        OrderStatus.PENDING -> "#F08A24"
+        OrderStatus.PROCESSING -> "#3D9BD6"
+        OrderStatus.SHIPPED -> "#8B69D9"
+        OrderStatus.DELIVERED -> "#2FAE80"
+        OrderStatus.CANCELLED -> "#9A88A3"
     }
 )
 

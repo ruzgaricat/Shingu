@@ -12,7 +12,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/ic_placeholder_sakura" />
 
     <!-- Kategori Adı -->
     <TextView
@@ -22,6 +22,6 @@
         android:layout_marginStart="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#222222" />
+        android:textColor="@color/kw_text" />
 
 </LinearLayout>

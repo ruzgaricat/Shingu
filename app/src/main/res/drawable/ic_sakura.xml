@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shingu logosu: beş yapraklı kiraz çiçeği (sakura) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <group android:pivotX="50" android:pivotY="50" android:rotation="0">
+        <path android:fillColor="@color/kw_sakura" android:strokeColor="@color/kw_primary" android:strokeWidth="1.6" android:strokeLineJoin="round" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+        <path android:fillColor="@color/kw_primary" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+    </group>
+    <group android:pivotX="50" android:pivotY="50" android:rotation="72">
+        <path android:fillColor="@color/kw_sakura" android:strokeColor="@color/kw_primary" android:strokeWidth="1.6" android:strokeLineJoin="round" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+        <path android:fillColor="@color/kw_primary" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+    </group>
+    <group android:pivotX="50" android:pivotY="50" android:rotation="144">
+        <path android:fillColor="@color/kw_sakura" android:strokeColor="@color/kw_primary" android:strokeWidth="1.6" android:strokeLineJoin="round" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+        <path android:fillColor="@color/kw_primary" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+    </group>
+    <group android:pivotX="50" android:pivotY="50" android:rotation="216">
+        <path android:fillColor="@color/kw_sakura" android:strokeColor="@color/kw_primary" android:strokeWidth="1.6" android:strokeLineJoin="round" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+        <path android:fillColor="@color/kw_primary" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+    </group>
+    <group android:pivotX="50" android:pivotY="50" android:rotation="288">
+        <path android:fillColor="@color/kw_sakura" android:strokeColor="@color/kw_primary" android:strokeWidth="1.6" android:strokeLineJoin="round" android:pathData="M50,50 C40,44 33,30 38,20 C40,15 45,13 47,15 L50,20 L53,15 C55,13 60,15 62,20 C67,30 60,44 50,50 Z" />
+        <path android:fillColor="@color/kw_primary" android:pathData="M47.8,37a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" />
+    </group>
+    <path android:fillColor="@color/kw_primary_dark" android:pathData="M43,50a7,7 0,1 0,14 0a7,7 0,1 0,-14 0" />
+</vector>

@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -225,7 +225,7 @@ class ProfileFragment : Fragment() {
 
         dialog.setOnShowListener {
             val btnDelete = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            btnDelete.setTextColor(Color.parseColor("#C62828"))
+            btnDelete.setTextColor(Color.parseColor("#E23D63"))
             btnDelete.setOnClickListener {
                 val password = etPassword.text.toString()
                 if (needsPassword && password.isEmpty()) {

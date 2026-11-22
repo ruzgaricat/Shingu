@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -119,19 +119,19 @@ class OrderDetailFragment : Fragment() {
                 layoutParams = LinearLayout.LayoutParams((48 * density).toInt(), (48 * density).toInt())
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
-            Glide.with(this).load(item["imageUrl"] as? String).placeholder(R.drawable.ic_launcher_foreground).into(image)
+            Glide.with(this).load(item["imageUrl"] as? String).placeholder(R.drawable.ic_placeholder_sakura).into(image)
             val text = TextView(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply {
                     marginStart = (12 * density).toInt()
                 }
                 this.text = "${item["name"]}\n$quantity x ${OrderPricing.format(unitPrice)}" +
                     if (discount > 0) "  (hava indirimi %$discount)" else ""
-                setTextColor(Color.parseColor("#333333"))
+                setTextColor(Color.parseColor("#4A3550"))
                 textSize = 14f
             }
             val lineTotal = TextView(requireContext()).apply {
                 this.text = OrderPricing.format(unitPrice * quantity)
-                setTextColor(Color.parseColor("#222222"))
+                setTextColor(Color.parseColor("#4A3550"))
                 textSize = 14f
             }
             row.addView(image)

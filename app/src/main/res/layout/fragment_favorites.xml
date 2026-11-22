@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/kw_bg"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -11,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Favorilerim"
-        android:textColor="#222222"
+        android:text="Favorilerim ♡"
+        android:textColor="@color/kw_text"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -37,14 +38,14 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:src="@drawable/baseline_favorite_24"
-            android:tint="#CCCCCC" />
+            app:tint="@color/kw_primary_soft" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Henüz favori ürününüz yok"
-            android:textColor="#333333"
+            android:text="Henüz favori ürününüz yok (｡・ω・｡)"
+            android:textColor="@color/kw_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -52,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            textAlignment="center"
+            android:textAlignment="center"
             android:text="Beğendiğiniz ürünleri favorilere ekleyerek burada listeleyebilirsiniz."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="13sp" />
 
     </LinearLayout>

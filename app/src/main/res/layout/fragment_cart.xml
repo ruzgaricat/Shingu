@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/kw_bg"
     android:orientation="vertical">
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Sepetim"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -31,8 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Sepetim Boş"
-            android:textColor="#333333"
+            android:gravity="center"
+            android:text="Sepetiniz boş (´・ω・`)\nBeğendiğiniz ürünleri sepete ekleyin ✿"
+            android:textColor="@color/kw_text"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -72,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Teslimat Adresi"
-                    android:textColor="#222222"
+                    android:textColor="@color/kw_text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -83,13 +84,13 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="Adres seçilmedi"
-                    android:textColor="#555555"
+                    android:textColor="@color/kw_text_body"
                     android:textSize="13sp" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnChangeAddress"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Shingu.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Değiştir" />
@@ -101,9 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:background="#FDECEA"
+            android:background="@color/kw_error_soft"
             android:padding="10dp"
-            android:textColor="#C62828"
+            android:textColor="@color/kw_error"
             android:textSize="13sp"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -116,7 +117,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -133,7 +134,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnApplyCoupon"
-                style="@style/Widget.Material3.Button.TonalButton"
+                style="@style/Widget.Shingu.Button.Tonal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Uygula" />
@@ -154,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:lineSpacingExtra="2dp"
-            android:textColor="#555555"
+            android:textColor="@color/kw_text_body"
             android:textSize="13sp" />
 
         <TextView
@@ -162,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="#388E3C"
+            android:textColor="@color/kw_success"
             android:textSize="12sp"
             android:visibility="gone" />
 
@@ -177,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Toplam"
-                android:textColor="#333333"
+                android:textColor="@color/kw_text"
                 android:textSize="18sp" />
 
             <TextView
@@ -185,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0,00 TL"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -198,7 +199,7 @@
             android:layout_marginTop="4dp"
             android:gravity="end"
             android:text="Döviz kuru yükleniyor..."
-            android:textColor="#777777"
+            android:textColor="@color/kw_text_secondary"
             android:textSize="13sp" />
 
         <com.google.android.material.button.MaterialButton

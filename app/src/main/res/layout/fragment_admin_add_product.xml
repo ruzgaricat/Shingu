@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/kw_bg">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="Yönetici: Yeni Ürün Ekle"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etProductName"
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etProductDescription"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProductPrice"
@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProductStock"
@@ -102,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/actvCategorySelect"
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Ürün Fotoğrafları (ilki kapak görseli)"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="15sp"
         android:textStyle="bold" />
 
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProductImageUrl"
@@ -175,7 +175,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddImageUrl"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.Shingu.Button.Tonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ekle" />
@@ -184,7 +184,7 @@
     <!-- Telefondan görsel seçip Cloudinary'ye yükler ve listeye ekler -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPickProductImage"
-        style="@style/Widget.Material3.Button.TonalButton"
+        style="@style/Widget.Shingu.Button.Tonal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -197,7 +197,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Hava Durumu İndirimi (isteğe bağlı)"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="15sp"
         android:textStyle="bold" />
 
@@ -205,7 +205,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/actvWeatherTag"
@@ -221,7 +221,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:visibility="gone"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Shingu.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etWeatherDiscount"
@@ -236,21 +236,21 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#6750A4"
+        android:backgroundTint="@color/kw_primary"
         android:text="Ürünü Sisteme Ekle"
         android:textSize="16sp" />
 
     <!-- Sadece düzenleme modunda görünür -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeleteProduct"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        style="@style/Widget.Shingu.Button.Outlined"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:text="Ürünü Sil"
-        android:textColor="#E53935"
+        android:textColor="@color/kw_error"
         android:visibility="gone"
-        app:strokeColor="#E53935" />
+        app:strokeColor="@color/kw_error" />
 
 </LinearLayout>
 </ScrollView>

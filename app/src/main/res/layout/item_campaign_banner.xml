@@ -7,11 +7,11 @@
     android:layout_marginHorizontal="16dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="#0D1117"
-    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/kw_text"
+    app:cardCornerRadius="24dp"
     app:cardElevation="0dp"
-    app:strokeColor="#F5B700"
-    app:strokeWidth="1.5dp">
+    app:strokeColor="@color/kw_primary_soft"
+    app:strokeWidth="2dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0.15"
-                android:text="KAMPANYA"
-                android:textColor="#F5B700"
+                android:text="✿ KAMPANYA"
+                android:textColor="@color/kw_primary_soft"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -68,11 +68,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_banner_button"
-                android:letterSpacing="0.2"
+                android:letterSpacing="0.1"
                 android:paddingHorizontal="18dp"
                 android:paddingVertical="6dp"
-                android:text="İNCELE"
-                android:textColor="#F5B700"
+                android:text="İncele ♡"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>

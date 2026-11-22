@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/kw_bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Yönetici: Ürünler"
-            android:textColor="#222222"
+            android:textColor="@color/kw_text"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Henüz ürün yok"
-            android:textColor="#333333"
+            android:textColor="@color/kw_text"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone" />

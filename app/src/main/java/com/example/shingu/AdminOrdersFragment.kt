@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,9 +74,9 @@ class AdminOrdersFragment : Fragment() {
         chipCancelled.text = "İptal (${cancelled.size})"
 
         val (orders, emptyText) = when {
-            chipDelivered.isChecked -> delivered to "Teslim edilen sipariş yok"
-            chipCancelled.isChecked -> cancelled to "İptal edilen sipariş yok"
-            else -> active to "Aktif sipariş yok"
+            chipDelivered.isChecked -> delivered to "Teslim edilen sipariş yok (´・ω・`)"
+            chipCancelled.isChecked -> cancelled to "İptal edilen sipariş yok (´・ω・`)"
+            else -> active to "Aktif sipariş yok (´・ω・`)"
         }
         adapter.submitList(orders)
         tvEmpty.text = emptyText

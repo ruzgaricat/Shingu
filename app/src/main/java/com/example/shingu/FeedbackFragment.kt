@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -219,9 +219,9 @@ class FeedbackAdapter(
         holder.ivIcon.setImageResource(android.R.drawable.ic_dialog_email)
         holder.tvSubject.text = (if (item.read) "" else "● ") + item.subject
         holder.tvPreview.text = item.message
-        holder.tvPreview.setTextColor(Color.parseColor("#555555"))
+        holder.tvPreview.setTextColor(Color.parseColor("#6B5873"))
         holder.tvInfo.text = "${item.userEmail}  ·  ${dateFormat.format(Date(item.createdAt))}"
-        holder.tvInfo.setTextColor(Color.parseColor("#777777"))
+        holder.tvInfo.setTextColor(Color.parseColor("#9A88A3"))
         holder.tvAction.text = "Oku >"
         holder.itemView.setOnClickListener { onClick(item) }
     }

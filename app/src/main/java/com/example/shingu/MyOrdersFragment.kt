@@ -25,7 +25,7 @@ class MyOrdersFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.tvOrdersTitle).text = "Siparişlerim"
         val tvEmpty = view.findViewById<TextView>(R.id.tvOrdersEmpty)
-        tvEmpty.text = "Henüz siparişiniz yok"
+        tvEmpty.text = "Henüz siparişiniz yok (｡・ω・｡)"
 
         // Durum değiştirme callback'i verilmediği için buton gizli kalır; karta dokununca sipariş detayı açılır
         val adapter = OrderAdapter(emptyList(), onOrderClick = { order ->

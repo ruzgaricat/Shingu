@@ -1,100 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Kayıt ekranı (kawaii): giriş ekranıyla aynı düzen; başlık, form kartı ve gizlilik bilgisi -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registerRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/kw_bg"
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F9F9F9"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <!-- Başlık -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Aramıza Katılın"
-            android:textColor="#2C3E50"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Shingu hesabınızı hemen oluşturun"
-            android:textColor="#7F8C8D"
-            android:textSize="16sp" />
-
-        <!-- Ad Soyad Alanı -->
-        <EditText
-            android:id="@+id/etRegisterName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="Ad Soyad"
-            android:inputType="textPersonName"
-            android:paddingHorizontal="16dp" />
-
-        <!-- E-posta Alanı -->
-        <EditText
-            android:id="@+id/etRegisterEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="E-posta Adresi"
-            android:inputType="textEmailAddress"
-            android:paddingHorizontal="16dp" />
-
-        <!-- Şifre Alanı -->
-        <EditText
-            android:id="@+id/etRegisterPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="24dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="Şifre (En az 6 karakter)"
-            android:inputType="textPassword"
-            android:paddingHorizontal="16dp" />
-
-        <!-- Kayıt Ol Butonu -->
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="#2C3E50"
-            android:text="Kayıt Ol"
-            android:textColor="#FFFFFF" />
-
-        <!-- Gizlilik politikası bilgilendirmesi: dokununca web sayfası tarayıcıda açılır -->
-        <TextView
-            android:id="@+id/tvRegisterPrivacy"
+        <LinearLayout
+            android:id="@+id/registerHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Kayıt olarak Gizlilik Politikası'nı okuduğunuzu kabul etmiş olursunuz."
-            android:textColor="#3498DB"
-            android:textSize="12sp" />
+            android:background="@drawable/bg_kawaii_header"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="28dp"
+            android:paddingBottom="56dp">
 
-        <!-- Giriş Ekranına Dönüş -->
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_kawaii_circle">
+
+                <ImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Shingu logosu"
+                    android:src="@drawable/ic_sakura" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Aramıza Katılın"
+                android:textColor="@color/kw_primary_dark"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="はじめまして ヽ(＾▽＾)ノ"
+                android:textColor="@color/kw_lavender_dark"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Form kartı -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="-36dp"
+            app:cardCornerRadius="28dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Shingu hesabınızı hemen oluşturun ✿"
+                    android:textColor="@color/kw_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Ad Soyad -->
+                <EditText
+                    android:id="@+id/etRegisterName"
+                    style="@style/Widget.Shingu.LoginInput"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:autofillHints="name"
+                    android:hint="Ad Soyad"
+                    android:inputType="textPersonName" />
+
+                <!-- E-posta -->
+                <EditText
+                    android:id="@+id/etRegisterEmail"
+                    style="@style/Widget.Shingu.LoginInput"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:autofillHints="emailAddress"
+                    android:hint="E-posta adresi"
+                    android:inputType="textEmailAddress" />
+
+                <!-- Şifre -->
+                <EditText
+                    android:id="@+id/etRegisterPassword"
+                    style="@style/Widget.Shingu.LoginInput"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:autofillHints="newPassword"
+                    android:hint="Şifre (en az 6 karakter)"
+                    android:inputType="textPassword" />
+
+                <!-- Kayıt Ol -->
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Kayıt Ol ♡"
+                    android:textSize="16sp" />
+
+                <!-- Gizlilik politikası bilgilendirmesi: dokununca web sayfası tarayıcıda açılır -->
+                <TextView
+                    android:id="@+id/tvRegisterPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Kayıt olarak Gizlilik Politikası'nı okuduğunuzu kabul etmiş olursunuz."
+                    android:textColor="@color/kw_secondary_dark"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Giriş ekranına dönüş -->
         <TextView
             android:id="@+id/tvGoToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:text="Zaten hesabınız var mı? Giriş Yapın"
-            android:textColor="#3498DB" />
-
-
+            android:padding="6dp"
+            android:text="Zaten hesabınız var mı? Giriş Yapın ✿"
+            android:textColor="@color/kw_primary_dark"
+            android:textStyle="bold" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

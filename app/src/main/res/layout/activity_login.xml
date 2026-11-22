@@ -1,125 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Giriş ekranı (kawaii): üstte pembe-lavanta başlık ve sakura logosu, altında beyaz form kartı -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loginRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/kw_bg"
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F9F9F9"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- Marka Başlığı -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Shingu"
-            android:textColor="#2C3E50"
-            android:textSize="36sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Ev Tekstili Dünyası"
-            android:textColor="#7F8C8D"
-            android:textSize="16sp" />
-
-        <!-- E-posta Giriş Alanı -->
-        <EditText
-            android:id="@+id/etLoginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="E-posta Adresi"
-            android:inputType="text|textEmailAddress"
-            android:paddingHorizontal="16dp" />
-
-        <!-- Şifre Giriş Alanı -->
-        <EditText
-            android:id="@+id/etLoginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="Şifre"
-            android:inputType="textPassword"
-            android:paddingHorizontal="16dp" />
-
-        <!-- Beni Hatırla + Şifremi Unuttum -->
+        <!-- Marka başlığı -->
         <LinearLayout
+            android:id="@+id/loginHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_kawaii_header"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="32dp"
+            android:paddingBottom="56dp">
+
+            <FrameLayout
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:background="@drawable/bg_kawaii_circle">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Shingu logosu"
+                    android:src="@drawable/ic_sakura" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Shingu"
+                android:textColor="@color/kw_primary_dark"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="♡ Ev Tekstili Dünyası ♡"
+                android:textColor="@color/kw_text_body"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="ようこそ"
+                android:textColor="@color/kw_lavender_dark"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Form kartı: başlığın üstüne hafifçe biner -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="-36dp"
+            app:cardCornerRadius="28dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tekrar hoş geldiniz! (◕‿◕✿)"
+                    android:textColor="@color/kw_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Hesabınıza giriş yapın"
+                    android:textColor="@color/kw_text_secondary"
+                    android:textSize="14sp" />
+
+                <!-- E-posta -->
+                <EditText
+                    android:id="@+id/etLoginEmail"
+                    style="@style/Widget.Shingu.LoginInput"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:autofillHints="emailAddress"
+                    android:hint="E-posta adresi"
+                    android:inputType="text|textEmailAddress" />
+
+                <!-- Şifre -->
+                <EditText
+                    android:id="@+id/etLoginPassword"
+                    style="@style/Widget.Shingu.LoginInput"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="4dp"
+                    android:autofillHints="password"
+                    android:hint="Şifre"
+                    android:inputType="textPassword" />
+
+                <!-- Beni Hatırla + Şifremi Unuttum -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- İşaretliyse uygulama kapatılıp açılınca oturum açık kalır, e-posta hatırlanır -->
+                    <CheckBox
+                        android:id="@+id/cbRememberMe"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Beni hatırla"
+                        android:textColor="@color/kw_text_body"
+                        app:buttonTint="@color/kw_primary" />
+
+                    <TextView
+                        android:id="@+id/tvForgotPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="6dp"
+                        android:text="Şifremi unuttum?"
+                        android:textColor="@color/kw_secondary_dark"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Giriş Yap -->
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Giriş Yap ♡"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:gravity="center"
+                    android:text="✿  ya da  ✿"
+                    android:textColor="@color/kw_text_hint"
+                    android:textSize="13sp" />
+
+                <!-- Google ile Giriş -->
+                <Button
+                    android:id="@+id/btnGoogleLogin"
+                    style="@style/Widget.Shingu.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Google ile Giriş Yap"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Kayıt Ol ekranına geçiş -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- İşaretliyse uygulama kapatılıp açılınca oturum açık kalır, e-posta hatırlanır -->
-            <CheckBox
-                android:id="@+id/cbRememberMe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Beni hatırla"
-                android:textColor="#333333" />
-
-            <TextView
-                android:id="@+id/tvForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Şifremi Unuttum?"
-                android:textColor="#3498DB" />
-        </LinearLayout>
-
-        <!-- Giriş Yap Butonu -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#2C3E50"
-            android:text="Giriş Yap"
-            android:textColor="#FFFFFF" />
-
-        <!-- Google ile Giriş Yap Butonu -->
-        <Button
-            android:id="@+id/btnGoogleLogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="#E74C3C"
-            android:text="Google ile Giriş Yap"
-            android:textColor="#FFFFFF" />
-
-        <!-- Kayıt Ol Ekranına Geçiş -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hesabınız yok mi? "
-                android:textColor="#7F8C8D" />
+                android:text="Hesabınız yok mu? "
+                android:textColor="@color/kw_text_secondary" />
 
             <TextView
                 android:id="@+id/tvGoToRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="Kayıt Ol"
-                android:textColor="#2C3E50"
+                android:padding="6dp"
+                android:text="Kayıt Ol ✿"
+                android:textColor="@color/kw_primary_dark"
                 android:textStyle="bold" />
         </LinearLayout>
-
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

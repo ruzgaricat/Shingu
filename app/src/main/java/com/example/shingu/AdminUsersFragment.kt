@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -104,7 +104,7 @@ class AdminUsersFragment : Fragment() {
         }
         val tvEmail = TextView(requireContext()).apply {
             text = "E-posta: ${user.email}\n(E-postayı sadece kullanıcının kendisi değiştirebilir.)"
-            setTextColor(Color.parseColor("#777777"))
+            setTextColor(Color.parseColor("#9A88A3"))
             textSize = 12f
         }
         val container = LinearLayout(requireContext()).apply {
@@ -221,16 +221,16 @@ class AdminUserAdapter(
         val name = user.fullName.ifEmpty { "(İsimsiz)" }
         holder.tvName.text = if (user.uid == currentUid) "$name (Siz)" else name
         holder.tvEmail.text = user.email
-        holder.tvEmail.setTextColor(Color.parseColor("#555555"))
+        holder.tvEmail.setTextColor(Color.parseColor("#6B5873"))
 
         holder.ivImage.setImageResource(R.drawable.outline_account_box_24)
-        holder.ivImage.setColorFilter(Color.parseColor(if (user.isAdmin) "#6750A4" else "#757575"))
+        holder.ivImage.setColorFilter(Color.parseColor(if (user.isAdmin) "#E5508A" else "#9A88A3"))
 
         val roleText = if (user.isAdmin) "Admin" else "Kullanıcı"
         holder.tvStatus.visibility = View.VISIBLE
         holder.tvStatus.text = "$roleText  ·  ${user.status.label}"
         holder.tvStatus.setTextColor(
-            Color.parseColor(if (user.status == AccountStatus.SUSPENDED) "#E53935" else "#388E3C")
+            Color.parseColor(if (user.status == AccountStatus.SUSPENDED) "#FF4F8B" else "#2FAE80")
         )
 
         holder.itemView.setOnClickListener { onClick(user) }

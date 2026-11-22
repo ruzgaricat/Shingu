@@ -159,7 +159,7 @@ class ProductSliderAdapter(
             holder.btnFavorite.setImageResource(
                 if (isFavorite) R.drawable.baseline_favorite_24 else R.drawable.ic_favorite_border_24
             )
-            holder.btnFavorite.setColorFilter(Color.parseColor(if (isFavorite) "#E53935" else "#333333"))
+            holder.btnFavorite.setColorFilter(Color.parseColor(if (isFavorite) "#FF4F8B" else "#4A3550"))
             holder.btnFavorite.setOnClickListener { onFavoriteToggle.invoke(product, !isFavorite) }
         } else {
             holder.btnFavorite.visibility = View.GONE
@@ -177,7 +177,7 @@ class ProductSliderAdapter(
 
         if (product.imageUrls.isEmpty()) {
             // Görseli kaldırılmış ürün: geri dönüştürülen karttaki eski görsel kalmasın
-            Glide.with(holder.itemView.context).load(R.drawable.ic_launcher_foreground).into(holder.ivProduct)
+            Glide.with(holder.itemView.context).load(R.drawable.ic_placeholder_sakura).into(holder.ivProduct)
         } else {
             var currentIndex = 0
             // İlk görseli yükle

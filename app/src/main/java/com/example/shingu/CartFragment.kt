@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -228,7 +228,7 @@ class CartFragment : Fragment() {
 
     private fun showCouponMessage(message: String, isError: Boolean) {
         tvCouponStatus.text = message
-        tvCouponStatus.setTextColor(Color.parseColor(if (isError) "#C62828" else "#388E3C"))
+        tvCouponStatus.setTextColor(Color.parseColor(if (isError) "#E23D63" else "#2FAE80"))
         tvCouponStatus.visibility = View.VISIBLE
     }
 
@@ -273,7 +273,7 @@ class CartFragment : Fragment() {
         val outOfArea = selectedAddress?.isInDeliveryArea == false
         tvDeliveryWarning.visibility = if (outOfArea) View.VISIBLE else View.GONE
         tvDeliveryWarning.text = DeliveryArea.CART_BLOCKED_MESSAGE
-        tvAddress.setTextColor(Color.parseColor(if (outOfArea) "#C62828" else "#555555"))
+        tvAddress.setTextColor(Color.parseColor(if (outOfArea) "#E23D63" else "#6B5873"))
         btnPlaceOrder.isEnabled = !outOfArea
         btnPlaceOrder.text = if (outOfArea) "Kargo alanı dışında" else "Ödemeye Geç"
     }

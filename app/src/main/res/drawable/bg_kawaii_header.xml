@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Giriş ekranı üst süsü: pembe-lavanta yumuşak geçiş, alt köşeleri yuvarlak -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="315"
+        android:endColor="@color/kw_lavender_soft"
+        android:startColor="@color/kw_primary_soft" />
+    <corners
+        android:bottomLeftRadius="40dp"
+        android:bottomRightRadius="40dp" />
+</shape>

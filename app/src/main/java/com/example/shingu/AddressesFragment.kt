@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +28,7 @@ class AddressesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_products, container, false)
         view.findViewById<TextView>(R.id.tvAdminListTitle).text = "Adreslerim"
         val tvEmpty = view.findViewById<TextView>(R.id.tvAdminProductsEmpty)
-        tvEmpty.text = "Henüz kayıtlı adresiniz yok"
+        tvEmpty.text = "Henüz kayıtlı adresiniz yok (´・ω・`)"
         view.findViewById<Button>(R.id.btnNewProduct).apply {
             text = "+ Yeni Adres"
             setOnClickListener { openMapPicker(parentFragmentManager) }

@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -224,7 +224,7 @@ class CouponAdapter(
         }
         holder.tvInfo.visibility = View.VISIBLE
         holder.tvInfo.text = conditions.joinToString("  ·  ")
-        holder.tvInfo.setTextColor(Color.parseColor(if (showAdminInfo && (!coupon.active || expired)) "#757575" else "#388E3C"))
+        holder.tvInfo.setTextColor(Color.parseColor(if (showAdminInfo && (!coupon.active || expired)) "#9A88A3" else "#2FAE80"))
 
         holder.itemView.setOnClickListener { onClick(coupon) }
     }

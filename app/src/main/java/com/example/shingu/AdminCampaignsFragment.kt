@@ -95,12 +95,12 @@ class AdminCampaignAdapter(
         val campaign = campaigns[position]
         holder.tvTitle.text = campaign.title
         holder.tvCategory.text = "Kategori: ${campaign.categoryName}"
-        holder.tvCategory.setTextColor(Color.parseColor("#555555"))
+        holder.tvCategory.setTextColor(Color.parseColor("#6B5873"))
         holder.tvStatus.visibility = View.GONE
 
         Glide.with(holder.itemView.context)
             .load(campaign.imageUrl)
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_placeholder_sakura)
             .into(holder.ivImage)
 
         holder.itemView.setOnClickListener { onClick(campaign) }

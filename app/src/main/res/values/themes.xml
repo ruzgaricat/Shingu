@@ -1,9 +1,69 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Shingu" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Shingu kawaii teması.
+         Sadece açık tema kullanılır: ekranlar pastel renklerle tasarlandığı için telefon karanlık
+         moddayken de aynı görünür (önceki DayNight temasında karanlık modda yazılar okunmuyordu). -->
+    <style name="Base.Theme.Shingu" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Renkler -->
+        <item name="colorPrimary">@color/kw_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/kw_primary_soft</item>
+        <item name="colorOnPrimaryContainer">@color/kw_text</item>
+        <item name="colorSecondary">@color/kw_secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/kw_primary_soft</item>
+        <item name="colorOnSecondaryContainer">@color/kw_text</item>
+        <item name="colorTertiary">@color/kw_lavender</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/kw_lavender_soft</item>
+        <item name="colorError">@color/kw_error</item>
+        <item name="android:colorBackground">@color/kw_bg</item>
+        <item name="colorOnBackground">@color/kw_text</item>
+        <item name="colorSurface">@color/kw_surface</item>
+        <item name="colorOnSurface">@color/kw_text</item>
+        <item name="colorSurfaceVariant">@color/kw_surface_alt</item>
+        <item name="colorOnSurfaceVariant">@color/kw_text_body</item>
+        <item name="colorOutline">@color/kw_stroke</item>
+        <item name="colorSurfaceContainerHigh">@color/kw_surface</item>
+        <item name="colorSurfaceContainerHighest">@color/kw_surface_alt</item>
+        <item name="android:textColorPrimary">@color/kw_text</item>
+        <item name="android:textColorSecondary">@color/kw_text_secondary</item>
+        <item name="android:textColorHint">@color/kw_text_hint</item>
+        <item name="android:windowBackground">@color/kw_bg</item>
+
+        <!-- Sistem çubukları: açık zemin üzerinde koyu ikonlar -->
+        <item name="android:statusBarColor">@color/kw_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/kw_surface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+
+        <!-- Yuvarlak hatlı Nunito yazı tipi -->
+        <item name="fontFamily">@font/nunito_family</item>
+        <item name="android:fontFamily">@font/nunito_family</item>
+
+        <!-- Bileşen stilleri (styles.xml) -->
+        <item name="materialButtonStyle">@style/Widget.Shingu.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Shingu.Button.Outlined</item>
+        <item name="materialCardViewStyle">@style/Widget.Shingu.CardView</item>
+        <item name="chipStyle">@style/Widget.Shingu.Chip</item>
+        <item name="textInputStyle">@style/Widget.Shingu.TextInputLayout.OutlinedBox</item>
+        <item name="bottomNavigationStyle">@style/Widget.Shingu.BottomNavigation</item>
+        <item name="checkboxStyle">@style/Widget.Material3.CompoundButton.CheckBox</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Shingu.Dialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Shingu.Dialog</item>
     </style>
 
     <style name="Theme.Shingu" parent="Base.Theme.Shingu" />
+
+    <!-- Diyaloglar: yuvarlak köşeli, pembe butonlu -->
+    <style name="ThemeOverlay.Shingu.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="colorPrimary">@color/kw_primary_dark</item>
+        <item name="colorSurface">@color/kw_surface</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_kawaii</item>
+        <item name="fontFamily">@font/nunito_family</item>
+        <item name="android:fontFamily">@font/nunito_family</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Shingu.Button.DialogText</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Shingu.Button.DialogText</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Shingu.Button.DialogText</item>
+    </style>
 </resources>

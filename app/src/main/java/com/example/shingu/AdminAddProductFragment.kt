@@ -1,6 +1,6 @@
 package com.example.shingu
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -284,7 +284,7 @@ class AdminAddProductFragment : Fragment() {
                 layoutParams = LinearLayout.LayoutParams(size, size)
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
-            Glide.with(this).load(url).placeholder(R.drawable.ic_launcher_foreground).into(image)
+            Glide.with(this).load(url).placeholder(R.drawable.ic_placeholder_sakura).into(image)
             val label = TextView(requireContext()).apply {
                 text = if (index == 0) "Kapak" else "${index + 1}. görsel"
                 textSize = 11f

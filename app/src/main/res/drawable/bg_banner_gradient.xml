@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Kampanya banner'ı: yazının okunabilmesi için görselin sağ tarafı koyulaştırılır -->
+<!-- Kampanya banner'ı: yazının okunabilmesi için görselin sağ tarafı yumuşak erik rengiyle koyulaştırılır -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
         android:angle="0"
-        android:centerColor="#660D1117"
-        android:endColor="#F00D1117"
-        android:startColor="#000D1117" />
+        android:centerColor="@color/kw_banner_overlay_center"
+        android:endColor="@color/kw_banner_overlay_end"
+        android:startColor="@color/kw_banner_overlay_start" />
 </shape>

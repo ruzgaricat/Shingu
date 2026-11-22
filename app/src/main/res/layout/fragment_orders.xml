@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/kw_bg"
     android:orientation="vertical">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Siparişler"
-        android:textColor="#222222"
+        android:textColor="@color/kw_text"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipActiveOrders"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Shingu.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
@@ -37,14 +37,14 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipDeliveredOrders"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Shingu.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Teslim Edilen" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipCancelledOrders"
-            style="@style/Widget.Material3.Chip.Filter"
+            style="@style/Widget.Shingu.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="İptal" />
@@ -66,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Henüz sipariş yok"
-            android:textColor="#333333"
+            android:text="Henüz sipariş yok (｡・ω・｡)"
+            android:textColor="@color/kw_text"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone" />

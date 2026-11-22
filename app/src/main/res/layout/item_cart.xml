@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:textColor="#222222"
+                android:textColor="@color/kw_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textColor="#E53935"
+                android:textColor="@color/kw_price"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="#222222"
+                    android:textColor="@color/kw_text"
                     android:textSize="16sp" />
 
                 <ImageButton
