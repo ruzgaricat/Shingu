@@ -1,5 +1,25 @@
 {
-  "_bilgi": "Shingu Firestore yedeği (2026-11-21_00-21). Kişisel veriler gizlenmiştir.",
+  "_bilgi": "Shingu Firestore yedeği (2026-11-22_16-44). Kişisel veriler gizlenmiştir.",
+  "campaigns": {
+    "DezyGNW5f17tvicvyDEj": {
+      "data": {
+        "title": "Kış Fırsatları",
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795365175/shingu/products/wgj8yrvr7v2zaldg22v1.jpg",
+        "categoryId": "MausfC1kKnl6AMe3CvWb",
+        "categoryName": "Kış Fırsatları",
+        "createdAt": 1795192940887
+      }
+    },
+    "bMAZ18MKRmjZC07qREUh": {
+      "data": {
+        "title": "Mutfak Haftası",
+        "imageUrl": "https://picsum.photos/seed/home-tava-seti/600/400",
+        "categoryId": "x2y6JxFxMReVXhoLp783",
+        "categoryName": "Mutfak Haftası",
+        "createdAt": 1795279340887
+      }
+    }
+  },
   "categories": {
     "8tBQCUJzw6VrAGBtS1PS": {
       "data": {
@@ -29,11 +49,930 @@
         "createdAt": 1795173484960
       }
     },
+    "MausfC1kKnl6AMe3CvWb": {
+      "data": {
+        "name": "Kış Fırsatları",
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795365175/shingu/products/wgj8yrvr7v2zaldg22v1.jpg",
+        "campaignId": "DezyGNW5f17tvicvyDEj",
+        "createdAt": 1795192940887
+      }
+    },
     "akO0zd7jtv92dyC1KZST": {
       "data": {
         "name": "Oturma Odası",
         "imageUrl": "https://picsum.photos/seed/oturma-odasi/300/150",
         "createdAt": 1795173484960
+      }
+    },
+    "x2y6JxFxMReVXhoLp783": {
+      "data": {
+        "name": "Mutfak Haftası",
+        "imageUrl": "https://picsum.photos/seed/home-tava-seti/600/400",
+        "campaignId": "bMAZ18MKRmjZC07qREUh",
+        "createdAt": 1795279340887
+      }
+    }
+  },
+  "coupons": {
+    "KAR20": {
+      "data": {
+        "code": "KAR20",
+        "description": "Kış fırsatı: 1000 TL ve üzeri sepette %20 indirim",
+        "type": "percent",
+        "value": 20,
+        "minCartTotal": 1000,
+        "active": true,
+        "expiresAt": 1800549740887,
+        "updatedAt": 1793464940887
+      }
+    },
+    "MERHABA10": {
+      "data": {
+        "code": "MERHABA10",
+        "description": "Hoş geldin! Tüm sepette %10 indirim",
+        "type": "percent",
+        "value": 10,
+        "minCartTotal": 0,
+        "active": true,
+        "expiresAt": null,
+        "updatedAt": 1793464940887
+      }
+    },
+    "SAKURA50": {
+      "data": {
+        "code": "SAKURA50",
+        "description": "300 TL ve üzeri alışverişte 50 TL indirim",
+        "type": "amount",
+        "value": 50,
+        "minCartTotal": 300,
+        "active": true,
+        "expiresAt": 1797957740887,
+        "updatedAt": 1793464940887
+      }
+    },
+    "YAZ15": {
+      "data": {
+        "code": "YAZ15",
+        "description": "Yaz kampanyası (süresi doldu)",
+        "type": "percent",
+        "value": 15,
+        "minCartTotal": 200,
+        "active": true,
+        "expiresAt": 1794501740887,
+        "updatedAt": 1793464940887
+      }
+    }
+  },
+  "feedback": {
+    "HSysTa6z5sQKE3ISWgF3": {
+      "data": {
+        "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+        "userEmail": "ayse.celik@example.com",
+        "subject": "Öneri",
+        "message": "Ürün sayfalarına ölçü tablosu eklenirse çok iyi olur.",
+        "read": true,
+        "createdAt": 1794069740887
+      }
+    },
+    "IjUWPLK7Z3hefTxY3wza": {
+      "data": {
+        "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+        "userEmail": "selin.aydin@example.com",
+        "subject": "Diğer",
+        "message": "Uygulamanın yeni tasarımı çok tatlı olmuş, teşekkürler!",
+        "read": true,
+        "createdAt": 1795347740887
+      }
+    },
+    "kIxx8qzgcnTLllMVJUNd": {
+      "data": {
+        "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+        "userEmail": "burak.sahin@example.com",
+        "subject": "Sipariş / teslimat",
+        "message": "Banyo rafı siparişim iptal edildi ama nedenini göremedim, bilgi verebilir misiniz?",
+        "read": false,
+        "createdAt": 1795106540887
+      }
+    },
+    "plhBwhgzou4G0HvvQIg6": {
+      "data": {
+        "userId": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+        "userEmail": "emre.koc@example.com",
+        "subject": "Hata bildirimi",
+        "message": "Haritadan adres seçerken konumum ilk denemede gelmedi, ikincisinde geldi.",
+        "read": false,
+        "createdAt": 1795257740887
+      }
+    }
+  },
+  "orders": {
+    "1A2s7kQ6ZNN8Wo83vMR5": {
+      "data": {
+        "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+        "userEmail": "deniz.arslan@example.com",
+        "items": [
+          {
+            "productId": "home-balkon-seti",
+            "name": "Katlanır Balkon Masa Sandalye Seti",
+            "imageUrl": "https://picsum.photos/seed/home-balkon-seti/600/400",
+            "price": 2899,
+            "originalPrice": 2899,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-balkon-seti": 1
+        },
+        "subtotal": 2899,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 2899,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Troy",
+          "cardLast4": "0016",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795102940887
+        },
+        "agreementsAcceptedAt": 1795102940887,
+        "status": "shipped",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795102940887
+          },
+          {
+            "status": "processing",
+            "at": 1795117340887
+          },
+          {
+            "status": "shipped",
+            "at": 1795210940887
+          }
+        ],
+        "createdAt": 1795102940887,
+        "statusUpdatedAt": 1795210940887
+      }
+    },
+    "Dp0i2TEDUZGbXybVVvhL": {
+      "data": {
+        "userId": "vcr64fxjFvg4XuVQoAnjLeQ8tSX2",
+        "userEmail": "oguz.yildiz@example.com",
+        "items": [
+          {
+            "productId": "home-paspas",
+            "name": "Kaymaz Banyo Paspası",
+            "imageUrl": "https://picsum.photos/seed/home-paspas/600/400",
+            "price": 149.9,
+            "originalPrice": 149.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-paspas": 1
+        },
+        "subtotal": 149.9,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 39.9,
+        "totalPrice": 189.8,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "4242",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795354940887
+        },
+        "agreementsAcceptedAt": 1795354940887,
+        "status": "pending",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795354940887
+          }
+        ],
+        "createdAt": 1795354940887
+      }
+    },
+    "F0Q0gf3jVdnAeYV75t8f": {
+      "data": {
+        "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+        "userEmail": "selin.aydin@example.com",
+        "items": [
+          {
+            "productId": "home-kirlent",
+            "name": "Dekoratif Kırlent Seti (4'lü)",
+            "imageUrl": "https://picsum.photos/seed/home-kirlent/600/400",
+            "price": 379.9,
+            "originalPrice": 379.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          },
+          {
+            "productId": "home-battaniye",
+            "name": "Peluş Kanepe Battaniyesi",
+            "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795365175/shingu/products/wgj8yrvr7v2zaldg22v1.jpg",
+            "price": 499,
+            "originalPrice": 499,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-kirlent": 1,
+          "home-battaniye": 1
+        },
+        "subtotal": 878.9,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 878.9,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Mastercard",
+          "cardLast4": "5100",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1794840140887
+        },
+        "agreementsAcceptedAt": 1794840140887,
+        "status": "delivered",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1794840140887
+          },
+          {
+            "status": "processing",
+            "at": 1794847340887
+          },
+          {
+            "status": "shipped",
+            "at": 1794933740887
+          },
+          {
+            "status": "delivered",
+            "at": 1795099340887
+          }
+        ],
+        "createdAt": 1794840140887,
+        "statusUpdatedAt": 1795099340887
+      }
+    },
+    "M8QRl9gjtTpCauXFGtsR": {
+      "data": {
+        "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+        "userEmail": "burak.sahin@example.com",
+        "items": [
+          {
+            "productId": "home-tava-seti",
+            "name": "Granit Tava Seti (3'lü)",
+            "imageUrl": "https://picsum.photos/seed/home-tava-seti/600/400",
+            "price": 1749,
+            "originalPrice": 1749,
+            "weatherDiscount": 0,
+            "quantity": 1
+          },
+          {
+            "productId": "home-fincan-seti",
+            "name": "Seramik Kahve Fincanı Seti (6'lı)",
+            "imageUrl": "https://picsum.photos/seed/home-fincan-seti/600/400",
+            "price": 399.9,
+            "originalPrice": 399.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-tava-seti": 1,
+          "home-fincan-seti": 1
+        },
+        "subtotal": 2148.9,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 2148.9,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Mastercard",
+          "cardLast4": "4444",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1793886140887
+        },
+        "agreementsAcceptedAt": 1793886140887,
+        "status": "delivered",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1793886140887
+          },
+          {
+            "status": "processing",
+            "at": 1793893340887
+          },
+          {
+            "status": "shipped",
+            "at": 1793979740887
+          },
+          {
+            "status": "delivered",
+            "at": 1794145340887
+          }
+        ],
+        "createdAt": 1793886140887,
+        "statusUpdatedAt": 1794145340887
+      }
+    },
+    "PgwwMCcObNC3xevSkKRa": {
+      "data": {
+        "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+        "userEmail": "deniz.arslan@example.com",
+        "items": [
+          {
+            "productId": "home-paspas",
+            "name": "Kaymaz Banyo Paspası",
+            "imageUrl": "https://picsum.photos/seed/home-paspas/600/400",
+            "price": 127.415,
+            "originalPrice": 149.9,
+            "weatherDiscount": 15,
+            "quantity": 2
+          },
+          {
+            "productId": "home-havlu-seti",
+            "name": "Pamuklu Banyo Havlusu Seti",
+            "imageUrl": "https://picsum.photos/seed/home-havlu-seti/600/400",
+            "price": 549.9,
+            "originalPrice": 549.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-paspas": 2,
+          "home-havlu-seti": 1
+        },
+        "subtotal": 804.73,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 804.73,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Troy",
+          "cardLast4": "0016",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1794134540887
+        },
+        "agreementsAcceptedAt": 1794134540887,
+        "status": "delivered",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1794134540887
+          },
+          {
+            "status": "processing",
+            "at": 1794141740887
+          },
+          {
+            "status": "shipped",
+            "at": 1794228140887
+          },
+          {
+            "status": "delivered",
+            "at": 1794393740887
+          }
+        ],
+        "createdAt": 1794134540887,
+        "statusUpdatedAt": 1794393740887
+      }
+    },
+    "SsOIr5FdNwB6EKOQNnub": {
+      "data": {
+        "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+        "userEmail": "selin.aydin@example.com",
+        "items": [
+          {
+            "productId": "home-havlu-seti",
+            "name": "Pamuklu Banyo Havlusu Seti",
+            "imageUrl": "https://picsum.photos/seed/home-havlu-seti/600/400",
+            "price": 549.9,
+            "originalPrice": 549.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-havlu-seti": 1
+        },
+        "subtotal": 549.9,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 549.9,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Mastercard",
+          "cardLast4": "5100",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795272140887
+        },
+        "agreementsAcceptedAt": 1795272140887,
+        "status": "processing",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795272140887
+          },
+          {
+            "status": "processing",
+            "at": 1795293740887
+          }
+        ],
+        "createdAt": 1795272140887,
+        "statusUpdatedAt": 1795293740887
+      }
+    },
+    "U1ZLxM2mvbmwN1rZSmkz": {
+      "data": {
+        "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+        "userEmail": "ayse.celik@example.com",
+        "items": [
+          {
+            "productId": "home-nevresim",
+            "name": "Pamuk Saten Nevresim Takımı",
+            "imageUrl": "https://picsum.photos/seed/home-nevresim/600/400",
+            "price": 1299.9,
+            "originalPrice": 1299.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          },
+          {
+            "productId": "home-yastik",
+            "name": "Kaz Tüyü Yastık (2'li)",
+            "imageUrl": "https://picsum.photos/seed/home-yastik/600/400",
+            "price": 849.9,
+            "originalPrice": 849.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-nevresim": 1,
+          "home-yastik": 1
+        },
+        "subtotal": 2149.8,
+        "couponCode": "MERHABA10",
+        "couponDiscount": 214.98,
+        "shippingFee": 0,
+        "totalPrice": 1934.8200000000002,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "4242",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1793619740887
+        },
+        "agreementsAcceptedAt": 1793619740887,
+        "status": "delivered",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1793619740887
+          },
+          {
+            "status": "processing",
+            "at": 1793626940887
+          },
+          {
+            "status": "shipped",
+            "at": 1793713340887
+          },
+          {
+            "status": "delivered",
+            "at": 1793878940887
+          }
+        ],
+        "createdAt": 1793619740887,
+        "statusUpdatedAt": 1793878940887
+      }
+    },
+    "ZTUaG7Lhlz3RoqwVwQpf": {
+      "data": {
+        "userId": "vcr64fxjFvg4XuVQoAnjLeQ8tSX2",
+        "userEmail": "oguz.yildiz@example.com",
+        "items": [
+          {
+            "productId": "home-sehpa",
+            "name": "Ahşap Orta Sehpa",
+            "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364715/shingu/products/qjotfy0mfttvdnoqhrl8.jpg",
+            "price": 2199,
+            "originalPrice": 2199,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-sehpa": 1
+        },
+        "subtotal": 2199,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 2199,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "4242",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1794908540887
+        },
+        "agreementsAcceptedAt": 1794908540887,
+        "status": "cancelled",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1794908540887
+          },
+          {
+            "status": "cancelled",
+            "at": 1794912140887
+          }
+        ],
+        "createdAt": 1794908540887,
+        "statusUpdatedAt": 1794912140887,
+        "cancelledBy": "user"
+      }
+    },
+    "gweQkm2eW6FW20VMOpYX": {
+      "data": {
+        "userId": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+        "userEmail": "emre.koc@example.com",
+        "items": [
+          {
+            "productId": "home-fincan-seti",
+            "name": "Seramik Kahve Fincanı Seti (6'lı)",
+            "imageUrl": "https://picsum.photos/seed/home-fincan-seti/600/400",
+            "price": 399.9,
+            "originalPrice": 399.9,
+            "weatherDiscount": 0,
+            "quantity": 1
+          },
+          {
+            "productId": "home-banyo-rafi",
+            "name": "Banyo Rafı",
+            "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364122/shingu/products/em8mz4anzavwtkmkmylf.jpg",
+            "price": 329,
+            "originalPrice": 329,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-fincan-seti": 1,
+          "home-banyo-rafi": 1
+        },
+        "subtotal": 728.9,
+        "couponCode": "MERHABA10",
+        "couponDiscount": 72.89,
+        "shippingFee": 0,
+        "totalPrice": 656.01,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "1881",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795185740887
+        },
+        "agreementsAcceptedAt": 1795185740887,
+        "status": "processing",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795185740887
+          },
+          {
+            "status": "processing",
+            "at": 1795203740887
+          }
+        ],
+        "createdAt": 1795185740887,
+        "statusUpdatedAt": 1795203740887
+      }
+    },
+    "iQF4mnDjIGgh6nTA2rYZ": {
+      "data": {
+        "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+        "userEmail": "burak.sahin@example.com",
+        "items": [
+          {
+            "productId": "home-banyo-rafi",
+            "name": "Banyo Rafı",
+            "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364122/shingu/products/em8mz4anzavwtkmkmylf.jpg",
+            "price": 329,
+            "originalPrice": 329,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-banyo-rafi": 1
+        },
+        "subtotal": 329,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 329,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Mastercard",
+          "cardLast4": "4444",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795084940887
+        },
+        "agreementsAcceptedAt": 1795084940887,
+        "status": "cancelled",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795084940887
+          },
+          {
+            "status": "processing",
+            "at": 1795092140887
+          },
+          {
+            "status": "cancelled",
+            "at": 1795102940887
+          }
+        ],
+        "createdAt": 1795084940887,
+        "statusUpdatedAt": 1795102940887,
+        "cancelledBy": "admin"
+      }
+    },
+    "uE4ZTX4QxoemjwjZirOj": {
+      "data": {
+        "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+        "userEmail": "ayse.celik@example.com",
+        "items": [
+          {
+            "productId": "home-sehpa",
+            "name": "Ahşap Orta Sehpa",
+            "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364715/shingu/products/qjotfy0mfttvdnoqhrl8.jpg",
+            "price": 2199,
+            "originalPrice": 2199,
+            "weatherDiscount": 0,
+            "quantity": 1
+          }
+        ],
+        "itemQuantities": {
+          "home-sehpa": 1
+        },
+        "subtotal": 2199,
+        "couponCode": "KAR20",
+        "couponDiscount": 439.8,
+        "shippingFee": 0,
+        "totalPrice": 1759.2,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "4242",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795363220887
+        },
+        "agreementsAcceptedAt": 1795363220887,
+        "status": "pending",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795363220887
+          }
+        ],
+        "createdAt": 1795363220887
+      }
+    },
+    "w9lQgVdWyklg0O2qmSHG": {
+      "data": {
+        "userId": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+        "userEmail": "emre.koc@example.com",
+        "items": [
+          {
+            "productId": "home-gece-lambasi",
+            "name": "Komodin Gece Lambası",
+            "imageUrl": "https://picsum.photos/seed/home-gece-lambasi/600/400",
+            "price": 459,
+            "originalPrice": 459,
+            "weatherDiscount": 0,
+            "quantity": 2
+          }
+        ],
+        "itemQuantities": {
+          "home-gece-lambasi": 2
+        },
+        "subtotal": 918,
+        "couponCode": "SAKURA50",
+        "couponDiscount": 50,
+        "shippingFee": 0,
+        "totalPrice": 868,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "1881",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1794400940887
+        },
+        "agreementsAcceptedAt": 1794400940887,
+        "status": "delivered",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1794400940887
+          },
+          {
+            "status": "processing",
+            "at": 1794408140887
+          },
+          {
+            "status": "shipped",
+            "at": 1794494540887
+          },
+          {
+            "status": "delivered",
+            "at": 1794660140887
+          }
+        ],
+        "createdAt": 1794400940887,
+        "statusUpdatedAt": 1794660140887
+      }
+    },
+    "z48k8OBWQyf74Gln3vx0": {
+      "data": {
+        "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+        "userEmail": "ayse.celik@example.com",
+        "items": [
+          {
+            "productId": "home-saksi-seti",
+            "name": "Saksı ve Çiçeklik Seti",
+            "imageUrl": "https://picsum.photos/seed/home-saksi-seti/600/400",
+            "price": 279.9,
+            "originalPrice": 279.9,
+            "weatherDiscount": 0,
+            "quantity": 2
+          }
+        ],
+        "itemQuantities": {
+          "home-saksi-seti": 2
+        },
+        "subtotal": 559.8,
+        "couponCode": null,
+        "couponDiscount": 0,
+        "shippingFee": 0,
+        "totalPrice": 559.8,
+        "address": {
+          "title": "Ev",
+          "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+          "detail": "",
+          "latitude": 40.7654,
+          "longitude": 29.9408,
+          "countryCode": "tr"
+        },
+        "payment": {
+          "method": "card",
+          "cardBrand": "Visa",
+          "cardLast4": "4242",
+          "status": "paid",
+          "testMode": true,
+          "paidAt": 1795009340887
+        },
+        "agreementsAcceptedAt": 1795009340887,
+        "status": "shipped",
+        "statusHistory": [
+          {
+            "status": "pending",
+            "at": 1795009340887
+          },
+          {
+            "status": "processing",
+            "at": 1795020140887
+          },
+          {
+            "status": "shipped",
+            "at": 1795110140887
+          }
+        ],
+        "createdAt": 1795009340887,
+        "statusUpdatedAt": 1795110140887
       }
     }
   },
@@ -66,7 +1005,6 @@
         "weatherDiscount": 10,
         "name": "Katlanır Balkon Masa Sandalye Seti",
         "price": 2899,
-        "stock": 8,
         "categories": [
           "Balkon"
         ],
@@ -77,7 +1015,8 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-balkon-seti/600/400",
         "createdAt": 1795173119057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 7
       }
     },
     "home-banyo-rafi": {
@@ -85,20 +1024,21 @@
         "onSale": true,
         "weatherTag": null,
         "weatherDiscount": 0,
-        "name": "Bambu Banyo Rafı",
-        "price": 329,
-        "stock": 12,
         "categories": [
           "Banyo"
         ],
-        "description": "3 katlı, neme dayanıklı bambu raf. Kolay kurulum.",
-        "imageUrls": [
-          "https://picsum.photos/seed/home-banyo-rafi/600/400",
-          "https://picsum.photos/seed/home-banyo-rafi-2/600/400"
-        ],
-        "imageUrl": "https://picsum.photos/seed/home-banyo-rafi/600/400",
         "createdAt": 1795173419057,
-        "updatedAt": 1795173839057
+        "price": 329,
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364122/shingu/products/em8mz4anzavwtkmkmylf.jpg",
+        "imageUrls": [
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364122/shingu/products/em8mz4anzavwtkmkmylf.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364127/shingu/products/n0qesjojfcutfcthh0nf.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364132/shingu/products/fteqvxhb17fv61w8jpcr.jpg"
+        ],
+        "name": "Banyo Rafı",
+        "description": "3 katlı, neme dayanıklı raf. Kolay kurulum.",
+        "updatedAt": 1795364141732,
+        "stock": 11
       }
     },
     "home-battaniye": {
@@ -107,20 +1047,34 @@
         "weatherTag": "snowy",
         "weatherDiscount": 20,
         "name": "Peluş Kanepe Battaniyesi",
+        "description": "150x200 cm, yumuşak dokulu peluş battaniye. Serin akşamlar için ideal.",
+        "createdAt": 1795173299057,
         "price": 499,
-        "stock": 18,
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795365175/shingu/products/wgj8yrvr7v2zaldg22v1.jpg",
+        "imageUrls": [
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795365175/shingu/products/wgj8yrvr7v2zaldg22v1.jpg"
+        ],
+        "updatedAt": 1795365174946,
         "categories": [
           "Oturma Odası",
-          "Balkon"
+          "Balkon",
+          "Kış Fırsatları"
         ],
-        "description": "150x200 cm, yumuşak dokulu peluş battaniye. Serin akşamlar için ideal.",
-        "imageUrls": [
-          "https://picsum.photos/seed/home-battaniye/600/400",
-          "https://picsum.photos/seed/home-battaniye-2/600/400"
-        ],
-        "imageUrl": "https://picsum.photos/seed/home-battaniye/600/400",
-        "createdAt": 1795173299057,
-        "updatedAt": 1795173839057
+        "stock": 17
+      },
+      "subcollections": {
+        "reviews": {
+          "ASkmHvFed1TXu7zSs3m2SOpDL6A3": {
+            "data": {
+              "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+              "userName": "Selin Aydın",
+              "productId": "home-battaniye",
+              "rating": 5,
+              "comment": "Kış akşamları için birebir, çok yumuşak ♡",
+              "createdAt": 1795196540887
+            }
+          }
+        }
       }
     },
     "home-fincan-seti": {
@@ -130,10 +1084,6 @@
         "weatherDiscount": 0,
         "name": "Seramik Kahve Fincanı Seti (6'lı)",
         "price": 399.9,
-        "stock": 40,
-        "categories": [
-          "Mutfak"
-        ],
         "description": "Tabaklı, 6 kişilik Türk kahvesi fincan seti. Bulaşık makinesinde yıkanabilir.",
         "imageUrls": [
           "https://picsum.photos/seed/home-fincan-seti/600/400",
@@ -141,7 +1091,26 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-fincan-seti/600/400",
         "createdAt": 1795173599057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "categories": [
+          "Mutfak",
+          "Mutfak Haftası"
+        ],
+        "stock": 38
+      },
+      "subcollections": {
+        "reviews": {
+          "ZPpwscAJaQeX2FxQv8P1DDTxFJs1": {
+            "data": {
+              "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+              "userName": "Burak Şahin",
+              "productId": "home-fincan-seti",
+              "rating": 4,
+              "comment": "Fincanlar şık, sadece tabakları biraz küçük.",
+              "createdAt": 1794249740887
+            }
+          }
+        }
       }
     },
     "home-gece-lambasi": {
@@ -151,7 +1120,6 @@
         "weatherDiscount": 10,
         "name": "Komodin Gece Lambası",
         "price": 459,
-        "stock": 25,
         "categories": [
           "Yatak Odası",
           "Oturma Odası"
@@ -163,7 +1131,22 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-gece-lambasi/600/400",
         "createdAt": 1795173719057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 23
+      },
+      "subcollections": {
+        "reviews": {
+          "gwh3S1vgx2bbROMlEMOp3PFlKNN2": {
+            "data": {
+              "userId": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+              "userName": "Emre Koç",
+              "productId": "home-gece-lambasi",
+              "rating": 5,
+              "comment": "Işığı göz yormuyor, yatak odasına çok yakıştı.",
+              "createdAt": 1794760940887
+            }
+          }
+        }
       }
     },
     "home-havlu-seti": {
@@ -173,7 +1156,6 @@
         "weatherDiscount": 0,
         "name": "Pamuklu Banyo Havlusu Seti",
         "price": 549.9,
-        "stock": 30,
         "categories": [
           "Banyo"
         ],
@@ -184,7 +1166,22 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-havlu-seti/600/400",
         "createdAt": 1795173479057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 28
+      },
+      "subcollections": {
+        "reviews": {
+          "KS0DG2ytvzTFYtFnMHfl9K3YXkm1": {
+            "data": {
+              "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+              "userName": "Deniz Arslan",
+              "productId": "home-havlu-seti",
+              "rating": 3,
+              "comment": "Kalitesi iyi ama ilk yıkamada biraz tüy döktü.",
+              "createdAt": 1794505340887
+            }
+          }
+        }
       }
     },
     "home-kesme-tahtasi": {
@@ -195,17 +1192,19 @@
         "name": "Bambu Kesme Tahtası",
         "price": 189.9,
         "stock": 0,
-        "categories": [
-          "Mutfak"
-        ],
         "description": "40x30 cm, oluklu kenarlı doğal bambu kesme ve servis tahtası.",
-        "imageUrls": [
-          "https://picsum.photos/seed/home-kesme-tahtasi/600/400",
-          "https://picsum.photos/seed/home-kesme-tahtasi-2/600/400"
-        ],
-        "imageUrl": "https://picsum.photos/seed/home-kesme-tahtasi/600/400",
         "createdAt": 1795173539057,
-        "updatedAt": 1795173839057
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795365122/shingu/products/vsl8sfu1pmvlhovvtjli.jpg",
+        "imageUrls": [
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795365122/shingu/products/vsl8sfu1pmvlhovvtjli.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795365128/shingu/products/gkmqipukrj9qzj4u6qe2.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795365133/shingu/products/kigkkz9dpua8sggerasu.jpg"
+        ],
+        "updatedAt": 1795365144694,
+        "categories": [
+          "Mutfak",
+          "Mutfak Haftası"
+        ]
       }
     },
     "home-kirlent": {
@@ -215,7 +1214,6 @@
         "weatherDiscount": 0,
         "name": "Dekoratif Kırlent Seti (4'lü)",
         "price": 379.9,
-        "stock": 22,
         "categories": [
           "Oturma Odası",
           "Yatak Odası",
@@ -228,7 +1226,22 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-kirlent/600/400",
         "createdAt": 1795173239057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 21
+      },
+      "subcollections": {
+        "reviews": {
+          "ASkmHvFed1TXu7zSs3m2SOpDL6A3": {
+            "data": {
+              "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+              "userName": "Selin Aydın",
+              "productId": "home-kirlent",
+              "rating": 4,
+              "comment": "Renkleri canlı, kılıflarının fermuarlı olması büyük avantaj.",
+              "createdAt": 1795192940887
+            }
+          }
+        }
       }
     },
     "home-nevresim": {
@@ -238,10 +1251,6 @@
         "weatherDiscount": 0,
         "name": "Pamuk Saten Nevresim Takımı",
         "price": 1299.9,
-        "stock": 20,
-        "categories": [
-          "Yatak Odası"
-        ],
         "description": "Çift kişilik, %100 pamuk saten nevresim takımı. Nevresim, çarşaf ve 2 yastık kılıfı içerir.",
         "imageUrls": [
           "https://picsum.photos/seed/home-nevresim/600/400",
@@ -249,7 +1258,26 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-nevresim/600/400",
         "createdAt": 1795173839057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "categories": [
+          "Yatak Odası",
+          "Kış Fırsatları"
+        ],
+        "stock": 19
+      },
+      "subcollections": {
+        "reviews": {
+          "nKsGIMz8uWTIB5c7RTv6S3btO073": {
+            "data": {
+              "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+              "userName": "Ayşe Çelik",
+              "productId": "home-nevresim",
+              "rating": 5,
+              "comment": "Kumaşı çok yumuşak, yıkamadan sonra da formunu korudu. Renkleri fotoğraftaki gibi.",
+              "createdAt": 1793983340887
+            }
+          }
+        }
       }
     },
     "home-paspas": {
@@ -259,7 +1287,6 @@
         "weatherDiscount": 15,
         "name": "Kaymaz Banyo Paspası",
         "price": 149.9,
-        "stock": 50,
         "categories": [
           "Banyo"
         ],
@@ -270,7 +1297,22 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-paspas/600/400",
         "createdAt": 1795173359057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 47
+      },
+      "subcollections": {
+        "reviews": {
+          "KS0DG2ytvzTFYtFnMHfl9K3YXkm1": {
+            "data": {
+              "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+              "userName": "Deniz Arslan",
+              "productId": "home-paspas",
+              "rating": 5,
+              "comment": "Gerçekten kaymıyor, suyu da hızlı çekiyor.",
+              "createdAt": 1794501740887
+            }
+          }
+        }
       }
     },
     "home-saksi-seti": {
@@ -280,7 +1322,6 @@
         "weatherDiscount": 0,
         "name": "Saksı ve Çiçeklik Seti",
         "price": 279.9,
-        "stock": 35,
         "categories": [
           "Balkon"
         ],
@@ -291,7 +1332,8 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-saksi-seti/600/400",
         "createdAt": 1795173059057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "stock": 33
       }
     },
     "home-sehpa": {
@@ -300,19 +1342,20 @@
         "weatherTag": null,
         "weatherDiscount": 0,
         "name": "Ahşap Orta Sehpa",
-        "price": 2199,
-        "stock": 6,
         "categories": [
           "Oturma Odası"
         ],
         "description": "Masif ahşap ayaklı, alt raflı modern orta sehpa. 100x50 cm.",
-        "imageUrls": [
-          "https://picsum.photos/seed/home-sehpa/600/400",
-          "https://picsum.photos/seed/home-sehpa-2/600/400"
-        ],
-        "imageUrl": "https://picsum.photos/seed/home-sehpa/600/400",
         "createdAt": 1795173179057,
-        "updatedAt": 1795173839057
+        "price": 2199,
+        "imageUrl": "https://res.cloudinary.com/sxdu50me/image/upload/v1795364715/shingu/products/qjotfy0mfttvdnoqhrl8.jpg",
+        "imageUrls": [
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364715/shingu/products/qjotfy0mfttvdnoqhrl8.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364723/shingu/products/to123gfqijwwmy9qhghs.jpg",
+          "https://res.cloudinary.com/sxdu50me/image/upload/v1795364731/shingu/products/owii6seg2jywf6yps1i2.jpg"
+        ],
+        "updatedAt": 1795364736196,
+        "stock": 5
       }
     },
     "home-tava-seti": {
@@ -322,10 +1365,6 @@
         "weatherDiscount": 0,
         "name": "Granit Tava Seti (3'lü)",
         "price": 1749,
-        "stock": 15,
-        "categories": [
-          "Mutfak"
-        ],
         "description": "20, 24 ve 28 cm granit kaplama, yapışmaz tava seti. Tüm ocak tiplerine uygundur.",
         "imageUrls": [
           "https://picsum.photos/seed/home-tava-seti/600/400",
@@ -333,7 +1372,26 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-tava-seti/600/400",
         "createdAt": 1795173659057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "categories": [
+          "Mutfak",
+          "Mutfak Haftası"
+        ],
+        "stock": 14
+      },
+      "subcollections": {
+        "reviews": {
+          "ZPpwscAJaQeX2FxQv8P1DDTxFJs1": {
+            "data": {
+              "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+              "userName": "Burak Şahin",
+              "productId": "home-tava-seti",
+              "rating": 5,
+              "comment": "Gerçekten yapışmıyor, az yağla yemek yapabiliyorum.",
+              "createdAt": 1794242540887
+            }
+          }
+        }
       }
     },
     "home-yastik": {
@@ -343,12 +1401,6 @@
         "weatherDiscount": 0,
         "name": "Kaz Tüyü Yastık (2'li)",
         "price": 849.9,
-        "stock": 3,
-        "categories": [
-          "Yatak Odası",
-          "Oturma Odası",
-          "Balkon"
-        ],
         "description": "50x70 cm, antialerjik kumaş, yumuşak dolgulu kaz tüyü yastık seti.",
         "imageUrls": [
           "https://picsum.photos/seed/home-yastik/600/400",
@@ -356,7 +1408,28 @@
         ],
         "imageUrl": "https://picsum.photos/seed/home-yastik/600/400",
         "createdAt": 1795173779057,
-        "updatedAt": 1795173839057
+        "updatedAt": 1795173839057,
+        "categories": [
+          "Yatak Odası",
+          "Oturma Odası",
+          "Balkon",
+          "Kış Fırsatları"
+        ],
+        "stock": 2
+      },
+      "subcollections": {
+        "reviews": {
+          "nKsGIMz8uWTIB5c7RTv6S3btO073": {
+            "data": {
+              "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+              "userName": "Ayşe Çelik",
+              "productId": "home-yastik",
+              "rating": 4,
+              "comment": "Çok rahat; ilk gün hafif bir koku vardı, havalandırınca geçti.",
+              "createdAt": 1793986940887
+            }
+          }
+        }
       }
     }
   },
@@ -388,6 +1461,57 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219221894
+      },
+      "subcollections": {
+        "addresses": {
+          "x5l2OyyVfvpoZIw8KsUI": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-fincan-seti": {
+            "data": {
+              "productId": "home-fincan-seti",
+              "addedAt": 1794588140887
+            }
+          },
+          "home-havlu-seti": {
+            "data": {
+              "productId": "home-havlu-seti",
+              "addedAt": 1794501740887
+            }
+          }
+        },
+        "reviews": {
+          "home-battaniye": {
+            "data": {
+              "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+              "userName": "Selin Aydın",
+              "productId": "home-battaniye",
+              "rating": 5,
+              "comment": "Kış akşamları için birebir, çok yumuşak ♡",
+              "createdAt": 1795196540887
+            }
+          },
+          "home-kirlent": {
+            "data": {
+              "userId": "ASkmHvFed1TXu7zSs3m2SOpDL6A3",
+              "userName": "Selin Aydın",
+              "productId": "home-kirlent",
+              "rating": 4,
+              "comment": "Renkleri canlı, kılıflarının fermuarlı olması büyük avantaj.",
+              "createdAt": 1795192940887
+            }
+          }
+        }
       }
     },
     "I8rEAOdWDdRH13Lf5jEBlZlyX7g2": {
@@ -408,6 +1532,51 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219219747
+      },
+      "subcollections": {
+        "addresses": {
+          "wsXDEtdl5fVLbdxyRV3B": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-gece-lambasi": {
+            "data": {
+              "productId": "home-gece-lambasi",
+              "addedAt": 1794501740887
+            }
+          }
+        },
+        "reviews": {
+          "home-havlu-seti": {
+            "data": {
+              "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+              "userName": "Deniz Arslan",
+              "productId": "home-havlu-seti",
+              "rating": 3,
+              "comment": "Kalitesi iyi ama ilk yıkamada biraz tüy döktü.",
+              "createdAt": 1794505340887
+            }
+          },
+          "home-paspas": {
+            "data": {
+              "userId": "KS0DG2ytvzTFYtFnMHfl9K3YXkm1",
+              "userName": "Deniz Arslan",
+              "productId": "home-paspas",
+              "rating": 5,
+              "comment": "Gerçekten kaymıyor, suyu da hızlı çekiyor.",
+              "createdAt": 1794501740887
+            }
+          }
+        }
       }
     },
     "ZPpwscAJaQeX2FxQv8P1DDTxFJs1": {
@@ -418,6 +1587,57 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219218710
+      },
+      "subcollections": {
+        "addresses": {
+          "y8qirnuCmHXAtFU0EhJc": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-balkon-seti": {
+            "data": {
+              "productId": "home-balkon-seti",
+              "addedAt": 1794501740887
+            }
+          },
+          "home-tava-seti": {
+            "data": {
+              "productId": "home-tava-seti",
+              "addedAt": 1794588140887
+            }
+          }
+        },
+        "reviews": {
+          "home-fincan-seti": {
+            "data": {
+              "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+              "userName": "Burak Şahin",
+              "productId": "home-fincan-seti",
+              "rating": 4,
+              "comment": "Fincanlar şık, sadece tabakları biraz küçük.",
+              "createdAt": 1794249740887
+            }
+          },
+          "home-tava-seti": {
+            "data": {
+              "userId": "ZPpwscAJaQeX2FxQv8P1DDTxFJs1",
+              "userName": "Burak Şahin",
+              "productId": "home-tava-seti",
+              "rating": 5,
+              "comment": "Gerçekten yapışmıyor, az yağla yemek yapabiliyorum.",
+              "createdAt": 1794242540887
+            }
+          }
+        }
       }
     },
     "d6Mspu0VdmZsCBvyImrDZj0iy122": {
@@ -438,6 +1658,47 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219220853
+      },
+      "subcollections": {
+        "addresses": {
+          "TX7or4smQ5WBReq0eaCw": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-kirlent": {
+            "data": {
+              "productId": "home-kirlent",
+              "addedAt": 1794501740887
+            }
+          },
+          "home-nevresim": {
+            "data": {
+              "productId": "home-nevresim",
+              "addedAt": 1794588140887
+            }
+          }
+        },
+        "reviews": {
+          "home-gece-lambasi": {
+            "data": {
+              "userId": "gwh3S1vgx2bbROMlEMOp3PFlKNN2",
+              "userName": "Emre Koç",
+              "productId": "home-gece-lambasi",
+              "rating": 5,
+              "comment": "Işığı göz yormuyor, yatak odasına çok yakıştı.",
+              "createdAt": 1794760940887
+            }
+          }
+        }
       }
     },
     "nKsGIMz8uWTIB5c7RTv6S3btO073": {
@@ -448,6 +1709,74 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219217623
+      },
+      "subcollections": {
+        "addresses": {
+          "1WJfOdGL41MgUVE67aS8": {
+            "data": {
+              "title": "İş",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793292140887
+            }
+          },
+          "oHeNg0XlpH7eHxIdAJk9": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-battaniye": {
+            "data": {
+              "productId": "home-battaniye",
+              "addedAt": 1794501740887
+            }
+          },
+          "home-saksi-seti": {
+            "data": {
+              "productId": "home-saksi-seti",
+              "addedAt": 1794674540887
+            }
+          },
+          "home-sehpa": {
+            "data": {
+              "productId": "home-sehpa",
+              "addedAt": 1794588140887
+            }
+          }
+        },
+        "reviews": {
+          "home-nevresim": {
+            "data": {
+              "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+              "userName": "Ayşe Çelik",
+              "productId": "home-nevresim",
+              "rating": 5,
+              "comment": "Kumaşı çok yumuşak, yıkamadan sonra da formunu korudu. Renkleri fotoğraftaki gibi.",
+              "createdAt": 1793983340887
+            }
+          },
+          "home-yastik": {
+            "data": {
+              "userId": "nKsGIMz8uWTIB5c7RTv6S3btO073",
+              "userName": "Ayşe Çelik",
+              "productId": "home-yastik",
+              "rating": 4,
+              "comment": "Çok rahat; ilk gün hafif bir koku vardı, havalandırınca geçti.",
+              "createdAt": 1793986940887
+            }
+          }
+        }
       }
     },
     "vcr64fxjFvg4XuVQoAnjLeQ8tSX2": {
@@ -458,6 +1787,29 @@
         "role": "user",
         "status": "active",
         "createdAt": 1795219223012
+      },
+      "subcollections": {
+        "addresses": {
+          "UdJcwIjSsx4PSGY4llCm": {
+            "data": {
+              "title": "Ev",
+              "fullAddress": "Örnek Mahallesi, Örnek Cadde, İzmit/Kocaeli",
+              "detail": "",
+              "latitude": 40.7654,
+              "longitude": 29.9408,
+              "countryCode": "tr",
+              "createdAt": 1793205740887
+            }
+          }
+        },
+        "favorites": {
+          "home-balkon-seti": {
+            "data": {
+              "productId": "home-balkon-seti",
+              "addedAt": 1794501740887
+            }
+          }
+        }
       }
     },
     "xGErblI6a4RFabZALMVvDFa02z42": {
