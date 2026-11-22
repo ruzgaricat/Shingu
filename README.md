@@ -5,7 +5,7 @@ Kocaeli Üniversitesi Teknoloji Fakültesi Bilişim Sistemleri Mühendisliği, *
 dersi (2026-2027 Güz) projesidir.
 
 - **Proje raporu:** [docs/Shingu_Proje_Raporu.docx](docs/Shingu_Proje_Raporu.docx)
-- **İndirilebilir teslim paketi (kaynak kod + veritabanı yedeği + rapor):** https://drive.google.com/drive/folders/1XF5nAKfwrtWSgKBvW5A3FZUYwsy7D0c5?usp=sharing
+- **İndirilebilir teslim paketi (kaynak kod + veritabanı yedeği + rapor):** https://drive.google.com/drive/folders/1jZbqCvJH6G8EnqQ3TAiPdwWAY5B2HHQq?usp=sharing
 - **Gizlilik politikası:** https://ruzgaricat.github.io/Shingu/gizlilik-politikasi.html
 - **Veritabanı şeması (ERD):** [docs/ERD.md](docs/ERD.md)
 - **Akış diyagramları:** [docs/AKIS_DIYAGRAMLARI.md](docs/AKIS_DIYAGRAMLARI.md)
