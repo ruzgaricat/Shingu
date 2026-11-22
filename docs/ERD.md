@@ -27,6 +27,7 @@ erDiagram
         string email
         string role "user | admin"
         string status "active | suspended | deleted"
+        string suspendedBy "user | admin (askıya alan)"
         long createdAt
     }
     CART_ITEMS {

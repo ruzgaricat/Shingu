@@ -24,7 +24,6 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -265,7 +264,7 @@ class HomeFragment : Fragment() {
     // Arama + filtreler + sıralama uygulanır ve liste güncellenir
     private fun applyFilters() {
         if (!isAdded) return
-        val locale = Locale("tr", "TR")
+        val locale = TR_LOCALE
         val query = searchQuery.lowercase(locale)
         // Ürünler (ve dolayısıyla fiyat aralığı) henüz yüklenmeden de çağrılabilir (örn. hava durumu önce gelirse)
         val values = sliderPrice.values

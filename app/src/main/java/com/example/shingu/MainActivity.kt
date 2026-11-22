@@ -38,31 +38,20 @@ class MainActivity : BaseActivity() {
 
         // Alt çubuk tıklama yönetimi
         bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    loadFragment(HomeFragment())
-                    true
-                }
-                R.id.nav_categories -> {
-                    loadFragment(CategoriesFragment())
-                    true
-                }
-                R.id.nav_favorites -> {
-                    loadFragment(FavoritesFragment())
-                    true
-                }
-                R.id.nav_cart -> {
-                    // Admin alışveriş yapmadığı için sepet yerine sipariş yönetimi açılır
-                    loadFragment(if (UserSession.isAdmin) AdminOrdersFragment() else CartFragment())
-                    true
-                }
-                R.id.nav_profile -> {
-                    loadFragment(ProfileFragment())
-                    true
-                }
-                else -> false
-            }
+            val fragment = fragmentForTab(item.itemId) ?: return@setOnItemSelectedListener false
+            loadFragment(fragment)
+            true
         }
+    }
+
+    // Sekmenin açacağı ekran; admin alışveriş yapmadığı için sepet sekmesinde sipariş yönetimi açılır
+    private fun fragmentForTab(itemId: Int): Fragment? = when (itemId) {
+        R.id.nav_home -> HomeFragment()
+        R.id.nav_categories -> CategoriesFragment()
+        R.id.nav_favorites -> FavoritesFragment()
+        R.id.nav_cart -> if (UserSession.isAdmin) AdminOrdersFragment() else CartFragment()
+        R.id.nav_profile -> ProfileFragment()
+        else -> null
     }
 
     private fun loadUserRole(bottomNavigationView: BottomNavigationView) {
@@ -73,32 +62,39 @@ class MainActivity : BaseActivity() {
                 if (document == null || isFinishing) return@addSnapshotListener
                 val status = AccountStatus.fromCode(document.getString("status"))
                 if (status != AccountStatus.ACTIVE) {
-                    signOutBlockedUser(status)
+                    // Kullanıcı kendi hesabını askıya alınca değişiklik önce yerelde görünür; sunucuya ulaşmadan
+                    // oturum kapatılırsa yazma sunucuya gitmeyebilir. Sunucu onayını beklemek için bekleyen yazma atlanır.
+                    if (document.metadata.hasPendingWrites()) return@addSnapshotListener
+                    signOutBlockedUser(status, suspendedBySelf = document.getString("suspendedBy") == SUSPENDED_BY_USER)
                     return@addSnapshotListener
                 }
 
-                if (document.getString("role") != "admin" || UserSession.isAdmin) return@addSnapshotListener
-                UserSession.isAdmin = true
+                // Rol değiştiyse (girişten sonraki ilk yükleme ya da admin rolü verildi/geri alındı) arayüz yeni role göre kurulur.
+                // Eskiden sadece kullanıcı -> admin yönü işleniyordu; rolü geri alınan admin, uygulama kapanana kadar admin ekranlarını görüyordu.
+                val isAdminNow = document.getString("role") == "admin"
+                if (isAdminNow == UserSession.isAdmin) return@addSnapshotListener
+                UserSession.isAdmin = isAdminNow
 
-                // Sepet sekmesinin ikonunu sipariş ikonuyla değiştir
-                bottomNavigationView.menu.findItem(R.id.nav_cart)?.setIcon(R.drawable.ic_receipt_24)
+                // Admin'de sepet sekmesi sipariş yönetimine dönüşür
+                bottomNavigationView.menu.findItem(R.id.nav_cart)?.setIcon(
+                    if (isAdminNow) R.drawable.ic_receipt_24 else R.drawable.outline_add_shopping_cart_24
+                )
 
-                // Rol yüklenmeden önce açılmış sekme kullanıcı görünümüyle çizilmişti (Sepete Ekle butonları,
-                // satışta olmayan ürünlerin gizlenmesi); kullanıcı alt sayfalara girmediyse admin görünümüyle yenilenir
+                // Rol yüklenmeden önce açılmış sekme eski görünümle çizilmişti (Sepete Ekle butonları,
+                // satışta olmayan ürünlerin gizlenmesi); kullanıcı alt sayfalara girmediyse yeni rolle yenilenir
                 // (isStateSaved: uygulama arka plandaysa ekran değişikliği yapılamaz, çökme olmasın)
                 if (supportFragmentManager.backStackEntryCount == 0 && !supportFragmentManager.isStateSaved) {
-                    when (bottomNavigationView.selectedItemId) {
-                        R.id.nav_home -> loadFragment(HomeFragment())
-                        R.id.nav_categories -> loadFragment(CategoriesFragment())
-                        R.id.nav_favorites -> loadFragment(FavoritesFragment())
-                        R.id.nav_cart -> loadFragment(AdminOrdersFragment())
-                    }
+                    fragmentForTab(bottomNavigationView.selectedItemId)?.let { loadFragment(it) }
                 }
             }
     }
 
-    private fun signOutBlockedUser(status: AccountStatus) {
-        val message = if (status == AccountStatus.DELETED) "Hesabınız silinmiştir." else "Hesabınız dondurulmuştur."
+    private fun signOutBlockedUser(status: AccountStatus, suspendedBySelf: Boolean) {
+        val message = when {
+            status == AccountStatus.DELETED -> "Hesabınız silinmiştir."
+            suspendedBySelf -> "Hesabınız askıya alındı. Tekrar giriş yaparak yeniden etkinleştirebilirsiniz."
+            else -> "Hesabınız dondurulmuştur."
+        }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         userListener?.remove()
         FirebaseAuth.getInstance().signOut()

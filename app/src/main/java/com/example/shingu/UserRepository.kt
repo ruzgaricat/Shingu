@@ -4,6 +4,8 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
@@ -19,13 +21,19 @@ enum class AccountStatus(val code: String, val label: String) {
     }
 }
 
+// Hesabı kimin dondurduğu (users/{uid}.suspendedBy). Kullanıcı kendi hesabını askıya aldıysa tekrar giriş
+// yapınca yeniden etkinleştirebilir (geçici pasifleştirme); admin dondurduysa sadece admin açabilir.
+const val SUSPENDED_BY_USER = "user"
+const val SUSPENDED_BY_ADMIN = "admin"
+
 // Admin kullanıcı listesi için kullanıcı bilgisi
 data class UserInfo(
     val uid: String,
     val fullName: String,
     val email: String,
     val role: String,
-    val status: AccountStatus
+    val status: AccountStatus,
+    val suspendedBySelf: Boolean = false
 ) {
     val isAdmin: Boolean get() = role == "admin"
 }
@@ -48,7 +56,8 @@ object UserRepository {
                     fullName = doc.getString("fullName") ?: "",
                     email = doc.getString("email") ?: "",
                     role = doc.getString("role") ?: "user",
-                    status = AccountStatus.fromCode(doc.getString("status"))
+                    status = AccountStatus.fromCode(doc.getString("status")),
+                    suspendedBySelf = doc.getString("suspendedBy") == SUSPENDED_BY_USER
                 )
             } ?: emptyList()
             onChange(users.sortedBy { it.fullName.lowercase() })
@@ -64,13 +73,40 @@ object UserRepository {
             .addOnFailureListener(onFailure)
     }
 
-    // Dondurma/aktifleştirme: dondurulan kullanıcı giriş yapamaz, açık oturumu da kapatılır
+    // Admin dondurma/aktifleştirme: dondurulan kullanıcı giriş yapamaz, açık oturumu da kapatılır.
+    // Admin'in dondurduğu hesabı kullanıcı kendisi açamaz (suspendedBy = "admin").
     fun setStatus(uid: String, status: AccountStatus, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         db.collection("users").document(uid)
-            .update(mapOf("status" to status.code, "statusUpdatedAt" to System.currentTimeMillis()))
+            .update(
+                mapOf(
+                    "status" to status.code,
+                    "suspendedBy" to if (status == AccountStatus.SUSPENDED) SUSPENDED_BY_ADMIN else FieldValue.delete(),
+                    "statusUpdatedAt" to System.currentTimeMillis()
+                )
+            )
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener(onFailure)
     }
+
+    // Üyeliği geçici olarak pasifleştirme: kullanıcı kendi hesabını askıya alır (oturumu kapatılır)
+    fun suspendOwnAccount(uid: String): Task<Void> =
+        db.collection("users").document(uid).update(
+            mapOf(
+                "status" to AccountStatus.SUSPENDED.code,
+                "suspendedBy" to SUSPENDED_BY_USER,
+                "statusUpdatedAt" to System.currentTimeMillis()
+            )
+        )
+
+    // Kendi askıya aldığı hesabı tekrar giriş yapınca yeniden etkinleştirme
+    fun reactivateOwnAccount(userRef: DocumentReference): Task<Void> =
+        userRef.update(
+            mapOf(
+                "status" to AccountStatus.ACTIVE.code,
+                "suspendedBy" to FieldValue.delete(),
+                "statusUpdatedAt" to System.currentTimeMillis()
+            )
+        )
 
     // Hesap silme: kullanıcı "deleted" olarak işaretlenir ve kişisel verileri (sepet, favoriler,
     // adresler, yorumlar) silinir. Siparişler kayıt amacıyla korunur.

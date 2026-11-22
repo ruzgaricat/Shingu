@@ -12,7 +12,10 @@ flowchart TD
     E --> G[/E-posta + şifre veya Google ile giriş/]
     G --> F
     F --> H{status?}
-    H -- dondurulmuş veya silinmiş --> I[Uyarı göster, oturumu kapat] --> E
+    H -- yönetici dondurdu veya silinmiş --> I[Uyarı göster, oturumu kapat] --> E
+    H -- kullanıcı kendisi askıya aldı --> R{Yeniden etkinleştirilsin mi?}
+    R -- Evet --> S[status = active] --> J
+    R -- Hayır --> I
     H -- active --> J[Ana ekran]
     J --> K{role == admin?}
     K -- Evet --> L[Yönetici menüleri görünür, Sepet sekmesi = Siparişler]

@@ -71,8 +71,19 @@ class PricingAndValidationTest {
     }
 
     @Test
-    fun couponCodeIsNormalizedToTurkishUppercase() {
-        assertEquals("İNDİRİM10", Coupon.normalize("  indirim10 "))
+    fun couponCodeIsNormalizedToUppercase() {
+        assertEquals("INDIRIM10", Coupon.normalize("  indirim10 "))
+        assertEquals("ÇİÇEK".let { Coupon.normalize(it) }, "ÇIÇEK")
+    }
+
+    // Türkçe klavyede "i" küçük yazılınca "İ", İngilizce klavyede büyük "I" yazılır; ikisi aynı kupona gitmeli
+    @Test
+    fun couponCodeIgnoresDottedAndDotlessI() {
+        val expected = Coupon.normalize("HOSGELDIN10")
+        assertEquals(expected, Coupon.normalize("hosgeldin10"))
+        assertEquals(expected, Coupon.normalize("HOSGELDİN10"))
+        assertEquals(expected, Coupon.normalize("hosgeldın10"))
+        assertEquals("KIŞ20", Coupon.normalize("kış20"))
     }
 
     // ---------- Kart doğrulama ----------

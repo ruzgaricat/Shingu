@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.ListenerRegistration
-import java.util.Locale
 
 // Ödeme ekranı (TEST MODU): ödeme yöntemi sadece online kart. Kart bilgileri doğrulanır ve kısa bir
 // "banka onayı" beklemesi taklit edilir; gerçek ödeme alınmaz. Onaylanınca sipariş verilir ve siparişe
@@ -257,7 +256,7 @@ class PaymentFragment : Fragment() {
         else btnPay.text = "${formatPrice(pricing.total)} Öde"
     }
 
-    private fun formatPrice(value: Double) = String.format(Locale("tr", "TR"), "%.2f TL", value)
+    private fun formatPrice(value: Double) = String.format(TR_LOCALE, "%.2f TL", value)
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 // Ürün sayfası: görsel, fiyat (hava indirimi dahil), açıklama, stok, favori, sepete ekleme ve yorumlar
 class ProductDetailFragment : Fragment() {
@@ -199,7 +198,7 @@ class ProductDetailFragment : Fragment() {
                 tvRatingSummary.text = if (reviews.isEmpty()) {
                     "Henüz değerlendirme yok"
                 } else {
-                    String.format(Locale("tr", "TR"), "★ %.1f (%d değerlendirme)", reviews.map { it.rating }.average(), reviews.size)
+                    String.format(TR_LOCALE, "★ %.1f (%d değerlendirme)", reviews.map { it.rating }.average(), reviews.size)
                 }
 
                 // Kullanıcının zaten yorumu varsa form "güncelle" moduna geçer
@@ -294,7 +293,7 @@ class ReviewAdapter(
 ) : RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
 
     private var reviews: List<Review> = emptyList()
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", TR_LOCALE)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvUser: TextView = view.findViewById(R.id.tvReviewUser)

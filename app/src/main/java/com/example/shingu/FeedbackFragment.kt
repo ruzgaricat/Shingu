@@ -23,7 +23,6 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 // Kullanıcı geri bildirimi (Firestore: feedback/{id})
 data class Feedback(
@@ -135,7 +134,7 @@ class FeedbackFragment : Fragment() {
 class AdminFeedbackFragment : Fragment() {
 
     private var listener: ListenerRegistration? = null
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("tr", "TR"))
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", TR_LOCALE)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -193,7 +192,7 @@ class FeedbackAdapter(
 ) : RecyclerView.Adapter<FeedbackAdapter.ViewHolder>() {
 
     private var items: List<Feedback> = emptyList()
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", TR_LOCALE)
 
     // Ürün yönetimindeki satır tasarımı (item_admin_product) yeniden kullanılır
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -186,7 +186,10 @@ class ProfileFragment : Fragment() {
     private fun showSuspendDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Hesabı Askıya Al")
-            .setMessage("Hesabınızı askıya almak istediğinizden emin misiniz?")
+            .setMessage(
+                "Hesabınız geçici olarak devre dışı bırakılacak ve oturumunuz kapanacak.\n\n" +
+                    "Verileriniz silinmez. Tekrar giriş yaptığınızda hesabınızı yeniden etkinleştirebilirsiniz."
+            )
             .setPositiveButton("Evet, Askıya Al") { _, _ -> suspendUserAccount() }
             .setNegativeButton("Vazgeç", null)
             .show()
@@ -260,17 +263,20 @@ class ProfileFragment : Fragment() {
             .show()
     }
 
+    // Kullanıcı kendi hesabını askıya alır ("suspendedBy: user"); tekrar girişte yeniden etkinleştirebilir
     private fun suspendUserAccount() {
-        val uid = auth.currentUser?.uid
-        if (uid != null) {
-            db.collection("users").document(uid)
-                .update("status", "suspended")
-                // MainActivity durumu canlı dinlediği için genelde oturumu o kapatır; ekran hâlâ açıksa burada kapatılır
-                .addOnSuccessListener { if (isAdded) performLogout() }
-        }
+        val uid = auth.currentUser?.uid ?: return
+        UserRepository.suspendOwnAccount(uid)
+            // MainActivity durumu canlı dinlediği için genelde oturumu o kapatır; ekran hâlâ açıksa burada kapatılır
+            .addOnSuccessListener { if (isAdded) performLogout() }
+            .addOnFailureListener { e ->
+                if (isAdded) Toast.makeText(requireContext(), "Hesap askıya alınamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
     }
 
     private fun performLogout() {
+        // MainActivity hesap durumunu dinlediği için oturumu zaten kapatmış olabilir; ikinci kez açılmasın
+        if (requireActivity().isFinishing) return
         auth.signOut()
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

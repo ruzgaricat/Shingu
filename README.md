@@ -4,6 +4,8 @@ Kotlin ve Firebase ile geliştirilmiş, ev eşyası satan bir mobil e-ticaret uy
 Kocaeli Üniversitesi Teknoloji Fakültesi Bilişim Sistemleri Mühendisliği, **TBL223 Mobil Uygulama Geliştirme**
 dersi (2026-2027 Güz) projesidir.
 
+- **Proje raporu:** [docs/Shingu_Proje_Raporu.docx](docs/Shingu_Proje_Raporu.docx)
+- **İndirilebilir teslim paketi (kaynak kod + veritabanı yedeği + rapor):** https://drive.google.com/drive/folders/1XF5nAKfwrtWSgKBvW5A3FZUYwsy7D0c5?usp=sharing
 - **Gizlilik politikası:** https://ruzgaricat.github.io/Shingu/gizlilik-politikasi.html
 - **Veritabanı şeması (ERD):** [docs/ERD.md](docs/ERD.md)
 - **Akış diyagramları:** [docs/AKIS_DIYAGRAMLARI.md](docs/AKIS_DIYAGRAMLARI.md)
@@ -13,7 +15,7 @@ dersi (2026-2027 Güz) projesidir.
 
 ### Kullanıcı
 - E-posta/şifre veya Google ile kayıt ve giriş, "Beni hatırla", şifre sıfırlama (e-posta ile)
-- Profil güncelleme (ad-soyad, e-posta doğrulamalı değişim, şifre), hesabı dondurma, **hesabı kalıcı silme**
+- Profil güncelleme (ad-soyad, e-posta doğrulamalı değişim, şifre), hesabı geçici askıya alma (tekrar girişte yeniden etkinleştirme), **hesabı kalıcı silme**
 - Ana sayfa: kampanya slaytı, kategori kısayolları, **ürün arama, sıralama, filtre ve fiyat aralığı**
 - Ürün sayfası: çoklu görsel galerisi, stok durumu, puanlı yorumlar (kendi yorumunu silme), favoriler
 - Sepet: güncel fiyat ve stok kontrolü, **kupon kodu**, kargo ücreti / bedava kargo eşiği, döviz karşılığı
@@ -66,7 +68,7 @@ app/src/main/java/com/example/shingu/
 ├── DeliveryArea.kt         Kargo (dağıtım) alanı kontrolü
 └── api/                    Retrofit servisleri (döviz, hava, adres, görsel yükleme)
 firebase-scripts/           Firebase Admin SDK ile yönetim scriptleri (yedek, test verisi, test hesapları)
-docs/                       ERD, akış diyagramları, gizlilik politikası, anonim veritabanı yedeği
+docs/                       Proje raporu, ERD, akış diyagramları, gizlilik politikası, anonim veritabanı yedeği
 firestore.rules             Firestore güvenlik kuralları
 ```
 
@@ -91,6 +93,7 @@ npm install
 npm run seed-home-categories     # 5 oda kategorisi
 npm run seed-home-products       # 15 ürün
 npm run seed-test-accounts       # 4 yönetici + 6 kullanıcı test hesabı
+npm run seed-demo-data           # örnek siparişler, kuponlar, kampanyalar, yorumlar
 npm run backup                   # veritabanı yedeği
 ```
 
@@ -102,8 +105,8 @@ Her komutun sonuna `:dry` eklenirse (ör. `npm run seed-home-products:dry`) hiç
 ./gradlew :app:testDebugUnitTest
 ```
 
-Kargo eşiği, kupon hesabı ve kuralları, kart doğrulama (Luhn, kart türü, SKT, CVV) ve kargo alanı kontrolü için
-16 birim testi.
+Kargo eşiği, kupon hesabı ve kuralları (kod biçimi dahil), kart doğrulama (Luhn, kart türü, SKT, CVV) ve kargo
+alanı kontrolü için 17 birim testi.
 
 ## Bilinen kısıtlar
 

@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.Tasks
 import com.example.shingu.api.WeatherCondition
 import com.example.shingu.api.WeatherDiscount
 import android.graphics.Paint
-import java.util.Locale
 
 
 data class Product(
@@ -80,7 +79,7 @@ data class Product(
 // Ürün fiyatını yazar: hava durumu etiketi şu anki havaya uyuyorsa eski fiyat üstü çizili,
 // yeni fiyat kırmızı ve indirim rozeti görünür. Ürün kartı ve ürün detay ekranı ortak kullanır.
 fun bindProductPrice(product: Product, tvPrice: TextView, tvOldPrice: TextView, tvWeatherBadge: TextView) {
-    val locale = Locale("tr", "TR")
+    val locale = TR_LOCALE
     val condition = WeatherCondition.fromCode(product.weatherTag)
 
     if (WeatherDiscount.isActive(product.weatherTag, product.weatherDiscount) && condition != null) {
@@ -132,15 +131,36 @@ class ProductSliderAdapter(
         val btnFavorite: ImageButton = view.findViewById(R.id.btnItemFavorite)
         val tvRating: TextView = view.findViewById(R.id.tvItemRating)
 
-        var handler: Handler? = null
-        var runnable: Runnable? = null
+        // Birden fazla görseli olan üründe görseller sırayla değişir (karttaki slayt)
+        var imageUrls: List<String> = emptyList()
+        var imageIndex = 0
+        lateinit var rotateImage: Runnable
     }
+
+    // Tüm kartların görsel döngüsü tek bir zamanlayıcıyla yürür
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_product_slider, parent, false)
-        return ProductViewHolder(view)
+        val holder = ProductViewHolder(view)
+        holder.rotateImage = Runnable {
+            // Kart artık ekranda değilse (sayfa kapandı, uygulamadan çıkıldı) döngü durur. Eskiden döngü
+            // sayfa kapandıktan sonra da sürüyor, kapanmış ekrana görsel yüklemeye çalışıp uygulamayı çökertiyordu.
+            if (!holder.itemView.isAttachedToWindow || holder.imageUrls.size < 2) return@Runnable
+            holder.imageIndex = (holder.imageIndex + 1) % holder.imageUrls.size
+            Glide.with(holder.ivProduct).load(holder.imageUrls[holder.imageIndex]).into(holder.ivProduct)
+            handler.postDelayed(holder.rotateImage, IMAGE_ROTATE_MS)
+        }
+        return holder
     }
+
+    private fun startImageRotation(holder: ProductViewHolder) {
+        handler.removeCallbacks(holder.rotateImage)
+        if (holder.imageUrls.size > 1) handler.postDelayed(holder.rotateImage, IMAGE_ROTATE_MS)
+    }
+
+    private fun stopImageRotation(holder: ProductViewHolder) = handler.removeCallbacks(holder.rotateImage)
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
@@ -151,7 +171,7 @@ class ProductSliderAdapter(
 
         val rating = ratings[product.id]
         holder.tvRating.visibility = if (rating != null) View.VISIBLE else View.GONE
-        rating?.let { holder.tvRating.text = String.format(Locale("tr", "TR"), "★ %.1f (%d)", it.average, it.count) }
+        rating?.let { holder.tvRating.text = String.format(TR_LOCALE, "★ %.1f (%d)", it.average, it.count) }
 
         if (onFavoriteToggle != null) {
             val isFavorite = product.id in favoriteIds
@@ -175,32 +195,32 @@ class ProductSliderAdapter(
             holder.btnAddToCart.visibility = View.GONE
         }
 
-        if (product.imageUrls.isEmpty()) {
-            // Görseli kaldırılmış ürün: geri dönüştürülen karttaki eski görsel kalmasın
-            Glide.with(holder.itemView.context).load(R.drawable.ic_placeholder_sakura).into(holder.ivProduct)
-        } else {
-            var currentIndex = 0
-            // İlk görseli yükle
-            Glide.with(holder.itemView.context).load(product.imageUrls[currentIndex]).into(holder.ivProduct)
+        // İlk görsel yüklenir; birden fazla görsel varsa 3 saniyede bir sıradakine geçilir.
+        // Görseli olmayan üründe yer tutucu gösterilir (geri dönüştürülen karttaki eski görsel kalmasın).
+        stopImageRotation(holder)
+        holder.imageUrls = product.imageUrls
+        holder.imageIndex = 0
+        Glide.with(holder.ivProduct)
+            .load(product.imageUrls.firstOrNull() ?: R.drawable.ic_placeholder_sakura)
+            .placeholder(R.drawable.ic_placeholder_sakura)
+            .into(holder.ivProduct)
+        startImageRotation(holder)
+    }
 
-            // Eğer birden fazla görsel varsa 3 saniyede bir değiştir
-            if (product.imageUrls.size > 1) {
-                holder.handler = Handler(Looper.getMainLooper())
-                holder.runnable = object : Runnable {
-                    override fun run() {
-                        currentIndex = (currentIndex + 1) % product.imageUrls.size
-                        Glide.with(holder.itemView.context).load(product.imageUrls[currentIndex]).into(holder.ivProduct)
-                        holder.handler?.postDelayed(this, 3000)
-                    }
-                }
-                holder.handler?.postDelayed(holder.runnable!!, 3000)
-            }
-        }
+    // Kart ekrana girince slayt başlar, ekrandan çıkınca / geri dönüştürülünce durur
+    override fun onViewAttachedToWindow(holder: ProductViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        startImageRotation(holder)
+    }
+
+    override fun onViewDetachedFromWindow(holder: ProductViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        stopImageRotation(holder)
     }
 
     override fun onViewRecycled(holder: ProductViewHolder) {
         super.onViewRecycled(holder)
-        holder.runnable?.let { holder.handler?.removeCallbacks(it) }
+        stopImageRotation(holder)
     }
 
     // Arama/filtre sonucu değişince liste yenilenir
@@ -210,4 +230,8 @@ class ProductSliderAdapter(
     }
 
     override fun getItemCount() = productList.size
+
+    companion object {
+        private const val IMAGE_ROTATE_MS = 3000L
+    }
 }

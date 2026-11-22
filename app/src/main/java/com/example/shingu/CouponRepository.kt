@@ -49,7 +49,9 @@ data class Coupon(
         const val TYPE_PERCENT = "percent"
         const val TYPE_AMOUNT = "amount"
 
-        fun normalize(code: String) = code.trim().uppercase(Locale("tr", "TR"))
+        // Kod büyük harfe çevrilir. Türkçe büyük harf dönüşümünde "i" -> "İ" olduğu için "hosgeldin" ile
+        // "HOSGELDIN" farklı kodlara dönüşüyordu; i/İ/ı/I hepsi "I" sayılır, dönüşüm dilden bağımsız yapılır.
+        fun normalize(code: String) = code.trim().replace('ı', 'i').replace('İ', 'I').uppercase(Locale.ROOT)
 
         fun fromDocument(doc: DocumentSnapshot) = Coupon(
             code = doc.id,

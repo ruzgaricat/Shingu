@@ -335,7 +335,7 @@ class CartFragment : Fragment() {
             .commit()
     }
 
-    private fun formatPrice(value: Double) = String.format(Locale("tr", "TR"), "%.2f TL", value)
+    private fun formatPrice(value: Double) = String.format(TR_LOCALE, "%.2f TL", value)
 
     override fun onDestroyView() {
         super.onDestroyView()

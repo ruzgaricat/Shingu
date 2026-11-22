@@ -20,6 +20,8 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -183,6 +185,11 @@ class LoginActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@LoginActivity, "Google ile giriş yapılamadı: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                // Örn. Google kimlik bilgisi çözülemedi; yakalanmazsa uygulama çökerdi
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginActivity, "Google ile giriş yapılamadı: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -214,51 +221,77 @@ class LoginActivity : BaseActivity() {
                     "role" to "user",
                     "status" to "active"
                 )
-                userRef.set(newUser).addOnSuccessListener {
-                    navigateToMain()
-                }
+                userRef.set(newUser)
+                    .addOnSuccessListener { navigateToMain() }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Profil oluşturulamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                        auth.signOut()
+                    }
             } else {
-                // Zaten kayıtlı: Hesap dondurulmuş veya silinmiş mi kontrol et
-                val blockedMessage = blockedMessage(document.getString("status"))
-                if (blockedMessage != null) {
-                    Toast.makeText(this, blockedMessage, Toast.LENGTH_LONG).show()
-                    auth.signOut()
-                } else {
-                    navigateToMain()
-                }
+                // Zaten kayıtlı: hesap dondurulmuş, askıya alınmış veya silinmiş mi kontrol et
+                handleAccountStatus(document)
             }
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Giriş yapılırken hata oluştu: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Dondurulmuş veya silinmiş hesap giriş yapamaz; engel yoksa null döner
-    private fun blockedMessage(status: String?): String? = when (AccountStatus.fromCode(status)) {
-        AccountStatus.SUSPENDED -> "Bu hesap dondurulmuştur."
-        AccountStatus.DELETED -> "Bu hesap silinmiştir."
-        AccountStatus.ACTIVE -> null
+    private fun checkUserStatusAndNavigate(uid: String) {
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { document ->
+                if (isFinishing) return@addOnSuccessListener
+                if (document.exists()) handleAccountStatus(document) else navigateToMain()
+            }
+            .addOnFailureListener { e ->
+                // Örn. internet yoksa giriş ekranında sessizce takılı kalınmasın, sebep gösterilsin
+                Toast.makeText(this, "Hesap bilgileri alınamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
     }
 
-    private fun checkUserStatusAndNavigate(uid: String) {
-        val userRef = db.collection("users").document(uid)
-        userRef.get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                val blockedMessage = blockedMessage(document.getString("status"))
-                if (blockedMessage != null) {
-                    Toast.makeText(this, blockedMessage, Toast.LENGTH_LONG).show()
-                    auth.signOut()
-                } else {
-                    // Profilden değiştirilip doğrulanan e-posta Firestore'a da yansıtılır
-                    val authEmail = auth.currentUser?.email
-                    if (authEmail != null && authEmail != document.getString("email")) {
-                        userRef.update("email", authEmail)
-                    }
-                    navigateToMain()
+    // Hesap durumuna göre giriş:
+    //  - aktif: ana ekrana geçilir
+    //  - kullanıcının kendi askıya aldığı hesap: yeniden etkinleştirme sorulur (üyeliği geçici pasifleştirme)
+    //  - admin'in dondurduğu veya silinmiş hesap: giriş engellenir
+    private fun handleAccountStatus(document: DocumentSnapshot) {
+        val status = AccountStatus.fromCode(document.getString("status"))
+        when {
+            status == AccountStatus.ACTIVE -> {
+                // Profilden değiştirilip doğrulanan e-posta Firestore'a da yansıtılır
+                val authEmail = auth.currentUser?.email
+                if (authEmail != null && authEmail != document.getString("email")) {
+                    document.reference.update("email", authEmail)
                 }
-            } else {
                 navigateToMain()
             }
+            status == AccountStatus.SUSPENDED && document.getString("suspendedBy") == SUSPENDED_BY_USER ->
+                showReactivateDialog(document.reference)
+            else -> {
+                val message = if (status == AccountStatus.DELETED) "Bu hesap silinmiştir." else "Bu hesap yönetici tarafından dondurulmuştur."
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                auth.signOut()
+            }
         }
+    }
+
+    private fun showReactivateDialog(userRef: DocumentReference) {
+        if (isFinishing || isDestroyed) return
+        AlertDialog.Builder(this)
+            .setTitle("Hesabınız Askıda")
+            .setMessage("Hesabınızı daha önce askıya almıştınız. Yeniden etkinleştirip devam etmek ister misiniz?")
+            .setCancelable(false)
+            .setPositiveButton("Hesabımı Etkinleştir") { _, _ ->
+                UserRepository.reactivateOwnAccount(userRef)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Hesabınız yeniden etkinleştirildi. Tekrar hoş geldiniz!", Toast.LENGTH_SHORT).show()
+                        navigateToMain()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Hesap etkinleştirilemedi: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                        auth.signOut()
+                    }
+            }
+            .setNegativeButton("Vazgeç") { _, _ -> auth.signOut() }
+            .show()
     }
 
     private fun navigateToMain() {

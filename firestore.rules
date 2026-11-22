@@ -21,6 +21,27 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
+    // Giriş yapan kullanıcının hesabı aktif mi? Dondurulmuş/askıdaki/silinmiş hesap sipariş veremez ve yorum
+    // yazamaz (uygulama bu hesapların oturumunu zaten kapatır; bu kural doğrudan veritabanı isteklerini de engeller)
+    function isActiveUser() {
+      return isSignedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('status', 'active') == 'active';
+    }
+
+    // Kullanıcının kendi hesap durumunda yapabileceği değişiklikler (üyeliği geçici pasifleştirme):
+    //  - durumu değiştirmeden diğer bilgilerini güncellemek
+    //  - aktif hesabını askıya almak (suspendedBy: "user")
+    //  - KENDİ askıya aldığı hesabı yeniden etkinleştirmek; admin'in dondurduğu hesabı kendisi açamaz
+    function isAllowedOwnStatusChange() {
+      let before = resource.data.get('status', 'active');
+      let after = request.resource.data.get('status', 'active');
+      let byBefore = resource.data.get('suspendedBy', null);
+      let byAfter = request.resource.data.get('suspendedBy', null);
+      return (after == before && byAfter == byBefore)
+        || (before == 'active' && after == 'suspended' && byAfter == 'user')
+        || (before == 'suspended' && byBefore == 'user' && after == 'active' && byAfter == null);
+    }
+
     // İptal stok iadesi: ürüne yazılan lastRestockOrderId'deki sipariş
     //  - işlemden önce bu kullanıcıya ait ve "Beklemede" (get), işlemden sonra "İptal edildi" (getAfter) olmalı
     //  - stok tam olarak o siparişteki adet kadar artmalı
@@ -51,13 +72,15 @@ service cloud.firestore {
       allow create: if isOwner(uid)
         && request.resource.data.role == 'user'
         && request.resource.data.get('status', 'active') == 'active';
-      // Kullanıcı kendi bilgilerini (ad, e-posta) güncelleyebilir ama rolünü değiştiremez.
-      // Durumu sadece "dondur" yönünde değiştirebilir; dondurulmuş/silinmiş hesabını kendisi açamaz.
+      // Kullanıcı sadece adını, e-postasını ve (yukarıdaki kurallarla) hesap durumunu değiştirebilir; rolünü değiştiremez.
+      // E-posta alanı, giriş hesabının doğrulanmış e-postasından farklı bir değere çevrilemez.
       allow update: if isAdmin()
         || (isOwner(uid)
-            && request.resource.data.get('role', 'user') == resource.data.get('role', 'user')
-            && (request.resource.data.get('status', 'active') == resource.data.get('status', 'active')
-                || request.resource.data.status == 'suspended'));
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['fullName', 'email', 'status', 'suspendedBy', 'statusUpdatedAt'])
+            && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['email'])
+                || request.resource.data.email == request.auth.token.email)
+            && isAllowedOwnStatusChange());
       // Admin herkesi silebilir; kullanıcı kendi profilini "Hesabımı Sil" ile silebilir (KVKK / Google Play)
       allow delete: if isAdmin() || isOwner(uid);
 
@@ -113,6 +136,7 @@ service cloud.firestore {
       match /reviews/{userId} {
         allow read: if isSignedIn();
         allow create, update: if isOwner(userId)
+          && isActiveUser()
           && request.resource.data.rating is int
           && request.resource.data.rating >= 1
           && request.resource.data.rating <= 5
@@ -128,7 +152,7 @@ service cloud.firestore {
       allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
       // Sipariş kendi adına, "Beklemede" durumunda ve ödemesi alınmış (test) olarak oluşturulabilir.
       // Ödeme alanı sadece özet içerebilir: kart numarasının tamamı veya CVV veritabanına yazılamaz.
-      allow create: if isSignedIn()
+      allow create: if isActiveUser()
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.status == 'pending'
         && request.resource.data.payment.status == 'paid'

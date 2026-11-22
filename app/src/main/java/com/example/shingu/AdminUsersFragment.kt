@@ -228,7 +228,9 @@ class AdminUserAdapter(
 
         val roleText = if (user.isAdmin) "Admin" else "Kullanıcı"
         holder.tvStatus.visibility = View.VISIBLE
-        holder.tvStatus.text = "$roleText  ·  ${user.status.label}"
+        // Kullanıcı hesabını kendisi askıya aldıysa ayrıca belirtilir (tekrar girişte kendisi açabilir)
+        val statusText = if (user.status == AccountStatus.SUSPENDED && user.suspendedBySelf) "Askıda (kendisi)" else user.status.label
+        holder.tvStatus.text = "$roleText  ·  $statusText"
         holder.tvStatus.setTextColor(
             Color.parseColor(if (user.status == AccountStatus.SUSPENDED) "#FF4F8B" else "#2FAE80")
         )

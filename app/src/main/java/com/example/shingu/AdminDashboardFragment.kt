@@ -20,14 +20,13 @@ import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 // Admin satış özeti: siparişlerden ciro, sipariş durumları ve en çok satan ürünler hesaplanır.
 // Siparişler canlı dinlendiği için yeni sipariş gelince ekran kendiliğinden güncellenir.
 class AdminDashboardFragment : Fragment() {
 
     private var ordersListener: ListenerRegistration? = null
-    private val locale = Locale("tr", "TR")
+    private val locale = TR_LOCALE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

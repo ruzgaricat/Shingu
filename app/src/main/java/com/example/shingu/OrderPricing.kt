@@ -2,6 +2,9 @@ package com.example.shingu
 
 import java.util.Locale
 
+// Tutar ve tarih biçimleri için Türkçe yerel ayarı (ondalık ayırıcı virgül: 1299,90 TL)
+val TR_LOCALE: Locale = Locale.forLanguageTag("tr-TR")
+
 // Mağaza ayarları
 object ShopConfig {
     const val SHIPPING_FEE = 39.90             // Standart kargo ücreti (TL)
@@ -35,6 +38,6 @@ data class OrderPricing(
             )
         }
 
-        fun format(value: Double) = String.format(Locale("tr", "TR"), "%.2f TL", value)
+        fun format(value: Double) = String.format(TR_LOCALE, "%.2f TL", value)
     }
 }

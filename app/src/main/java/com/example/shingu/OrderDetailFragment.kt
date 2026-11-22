@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 // Sipariş detayı: durum geçmişi, ürünler, tutar dökümü (ara toplam, kupon, kargo), ödeme, adres ve iptal.
 // Hem kullanıcı (Siparişlerim) hem admin (sipariş yönetimi) bu ekranı kullanır.
@@ -25,7 +24,7 @@ class OrderDetailFragment : Fragment() {
 
     private val orderId: String get() = requireArguments().getString(ARG_ORDER_ID)!!
     private var orderListener: ListenerRegistration? = null
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("tr", "TR"))
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", TR_LOCALE)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +51,7 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun showOrder(view: View, order: Order) {
-        view.findViewById<TextView>(R.id.tvDetailOrderNo).text = "Sipariş #${order.id.take(6).uppercase(Locale("tr", "TR"))}"
+        view.findViewById<TextView>(R.id.tvDetailOrderNo).text = "Sipariş #${order.id.take(6).uppercase(TR_LOCALE)}"
         view.findViewById<TextView>(R.id.tvDetailOrderMeta).text =
             dateFormat.format(Date(order.createdAt)) + if (UserSession.isAdmin) "  ·  ${order.userEmail}" else ""
         view.findViewById<TextView>(R.id.tvDetailStatus).apply {
@@ -161,7 +160,7 @@ fun Fragment.confirmCancelOrder(order: Order, byAdmin: Boolean) {
     AlertDialog.Builder(requireContext())
         .setTitle("Siparişi İptal Et")
         .setMessage(
-            "Sipariş #${order.id.take(6).uppercase(Locale("tr", "TR"))} iptal edilecek.\n\n" +
+            "Sipariş #${order.id.take(6).uppercase(TR_LOCALE)} iptal edilecek.\n\n" +
                 "Ürünler stoğa geri eklenir. Bu işlem geri alınamaz."
         )
         .setPositiveButton("İptal Et") { _, _ ->

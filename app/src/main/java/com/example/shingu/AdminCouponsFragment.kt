@@ -19,7 +19,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 // Admin kupon yönetimi: kuponları listeler; yeni kupon ekler, düzenler, siler.
@@ -124,7 +123,7 @@ class AdminCouponsFragment : Fragment() {
                 val days = etDays.text.toString().toLongOrNull()
                 val isPercent = rbPercent.isChecked
 
-                if (!code.matches(Regex("^[A-Z0-9ÇĞİÖŞÜ]{3,20}$"))) {
+                if (!code.matches(Regex("^[A-Z0-9ÇĞÖŞÜ]{3,20}$"))) {
                     etCode.error = "3-20 karakter; sadece harf ve rakam"
                     return@setOnClickListener
                 }
@@ -186,7 +185,7 @@ class CouponAdapter(
 ) : RecyclerView.Adapter<CouponAdapter.ViewHolder>() {
 
     private var coupons: List<Coupon> = emptyList()
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", TR_LOCALE)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivIcon: ImageView = view.findViewById(R.id.ivAdminProductImage)

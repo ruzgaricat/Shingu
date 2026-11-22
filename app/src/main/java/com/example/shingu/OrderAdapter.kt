@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 // Sipariş durumunun rengi (liste ve detay ekranı ortak kullanır)
 fun OrderStatus.color(): Int = Color.parseColor(
@@ -31,7 +30,7 @@ class OrderAdapter(
     private val onChangeStatus: ((Order) -> Unit)? = null
 ) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    private val locale = Locale("tr", "TR")
+    private val locale = TR_LOCALE
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", locale)
 
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {

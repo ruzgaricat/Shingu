@@ -49,6 +49,9 @@ class AdminAddProductFragment : Fragment() {
     // Seçilen hava durumu etiketi (null = indirim yok)
     private var selectedWeather: WeatherCondition? = null
 
+    // Düzenleme modunda ürünün form açıldığı andaki stoğu (adet değiştirilmediyse stok yazılmaz)
+    private var loadedStock: Long? = null
+
     // "Galeriden Seç": yüklenen görsel listeye eklenir
     private val imagePicker = ImagePickerHelper(this, "shingu/products") { url -> addImage(url) }
 
@@ -160,6 +163,10 @@ class AdminAddProductFragment : Fragment() {
             "updatedAt" to System.currentTimeMillis()
         )
 
+        // Adet değiştirilmediyse stok yazılmaz: form açıkken verilen siparişlerin düştüğü stok,
+        // formdaki eski değerle ezilmesin (eskiden kaydedince stok form açıldığı andaki değere dönüyordu)
+        if (isEditMode && stock == loadedStock) productMap.remove("stock")
+
         btnSave.isEnabled = false
         val task = if (isEditMode) {
             db.collection("products").document(productId!!).update(productMap)
@@ -203,7 +210,8 @@ class AdminAddProductFragment : Fragment() {
         etName.setText(doc.getString("name"))
         etDescription.setText(doc.getString("description"))
         etPrice.setText(doc.getDouble("price")?.toString())
-        etStock.setText(doc.getLong("stock")?.toString())
+        loadedStock = doc.getLong("stock")
+        etStock.setText(loadedStock?.toString())
         switchOnSale.isChecked = doc.getBoolean("onSale") ?: true
         imageUrls.clear()
         imageUrls.addAll(Product.fromDocument(doc).imageUrls)

@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.util.Locale
 
 class CartAdapter(
     private var items: List<CartItem>,
@@ -44,7 +43,7 @@ class CartAdapter(
         holder.tvPrice.text = when {
             !item.available -> "Satışta değil, lütfen sepetten çıkarın"
             item.exceedsStock -> "Stokta sadece ${item.stock} adet var"
-            else -> String.format(Locale("tr", "TR"), "%.2f TL", item.lineTotal) +
+            else -> String.format(TR_LOCALE, "%.2f TL", item.lineTotal) +
                 if (item.hasWeatherDiscount) "  (hava indirimi %${item.weatherDiscount})" else ""
         }
         holder.btnIncrease.isEnabled = item.available

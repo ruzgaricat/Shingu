@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import java.util.Locale
 
 // Admin ürün yönetimi: tüm ürünleri listeler, dokununca düzenleme formu açılır
 class AdminProductsFragment : Fragment() {
@@ -94,7 +93,7 @@ class AdminProductAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = products[position]
         holder.tvName.text = product.name
-        holder.tvPrice.text = String.format(Locale("tr", "TR"), "%.2f TL", product.price)
+        holder.tvPrice.text = String.format(TR_LOCALE, "%.2f TL", product.price)
 
         val stockText = product.stock?.let { "Stok: $it" } ?: "Stok girilmemiş"
         val (saleText, color) = when {
